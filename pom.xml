@@ -106,6 +106,14 @@
 			<artifactId>spark-sql_2.12</artifactId>
 			<version>2.4.5</version>
 		</dependency>
+
+		<!-- JUnit Testing dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
