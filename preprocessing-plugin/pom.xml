@@ -71,11 +71,6 @@
 			<artifactId>zkspring-core</artifactId>
 			<version>4.0.0</version>
 		</dependency>
-		<dependency>
-			<groupId>org.zkoss.zk</groupId>
-			<artifactId>zkspring-security</artifactId>
-			<version>4.0.0</version>
-		</dependency>
 		
 		<dependency>
 			<groupId>commons-io</groupId>
