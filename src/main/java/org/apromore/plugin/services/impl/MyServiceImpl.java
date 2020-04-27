@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 @Scope(value = "singleton", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class MyServiceImpl implements MyService {
 
-	public String ask(String question) {
-		return DateFormat.getDateInstance().format(new Date());
-	}
+    public String ask(String question) {
+        return DateFormat.getDateInstance().format(new Date());
+    }
 
 }

@@ -9,23 +9,22 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class MyViewModel {
+    @WireVariable
+    private MyService myService;
+    private String answer;
 
-	@WireVariable
-	private MyService myService;
-	private String answer;
+    @Init
+    public void init() {
+        answer = "?";
+    }
 
-	@Init
-	public void init() {
-		answer = "?";
-	}
+    @Command
+    @NotifyChange("answer")
+    public void cmd() {
+        answer = myService.ask("What day is today?");
+    }
 
-	@Command
-	@NotifyChange("answer")
-	public void cmd() {
-		answer = myService.ask("What day is today?");
-	}
-
-	public String getAnswer() {
-		return answer;
-	}
+    public String getAnswer() {
+        return answer;
+    }
 }
