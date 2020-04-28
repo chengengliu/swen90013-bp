@@ -33,7 +33,7 @@ jobs:
           coverageCommand: mvn -B package --file pom.xml
           coverageLocations: ${{ github.workspace }}/target/site/jacoco/jacoco.xml:jacoco 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: target
           path: target
