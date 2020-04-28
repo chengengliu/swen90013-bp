@@ -28,7 +28,7 @@
         <module name="EmptyLineSeparator">
             <property name="allowMultipleEmptyLines" value="false" />
             <property name="allowMultipleEmptyLinesInsideClassMembers" value="false" />
-            <property name="tokens" value="PACKAGE_DEF, IMPORT, STATIC_IMPORT, CLASS_DEF, INTERFACE_DEF, ENUM_DEF, STATIC_INIT, INSTANCE_INIT, METHOD_DEF, CTOR_DEF"/>
+            <property name="tokens" value="PACKAGE_DEF, IMPORT, STATIC_IMPORT, CLASS_DEF, INTERFACE_DEF, ENUM_DEF, STATIC_INIT, INSTANCE_INIT, METHOD_DEF, CTOR_DEF" />
         </module>
         <module name="EmptyStatement" />
         <module name="EqualsHashCode" />
@@ -68,6 +68,11 @@
         <module name="ParameterName" />
         <module name="ParenPad" />
         <module name="RedundantModifier" />
+        <module name="Regexp">
+            <property name="format" value="[ \t]+$" />
+            <property name="illegalPattern" value="true" />
+            <property name="message" value="Trailing whitespace" />
+        </module>
         <module name="RequireThis" />
         <module name="RightCurly" />
         <module name="SeparatorWrap" />
