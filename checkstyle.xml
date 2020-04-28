@@ -3,6 +3,8 @@
 
 <module name="Checker">
     <property name="charset" value="UTF-8" />
+    <property name="fileExtensions" value="java, properties, xml"/>
+
     <module name="FileTabCharacter">
         <property name="eachLine" value="true" />
     </module>
