@@ -3,7 +3,7 @@
 
 <module name="Checker">
     <property name="charset" value="UTF-8" />
-    <property name="fileExtensions" value="java, properties, xml"/>
+    <property name="fileExtensions" value="java, properties, xml" />
 
     <module name="FileTabCharacter">
         <property name="eachLine" value="true" />
@@ -44,6 +44,7 @@
         <module name="JavadocMethod" />
         <module name="JavadocParagraph" />
         <module name="JavadocTagContinuationIndentation" />
+        <module name="JavadocType" />
         <module name="LambdaParameterName" />
         <module name="LeftCurly" />
         <module name="LocalVariableName" />
@@ -52,6 +53,8 @@
         <module name="MethodParamPad" />
         <module name="MethodTypeParameterName" />
         <module name="MissingJavadocMethod" />
+        <module name="MissingJavadocPackage" />
+        <module name="MissingJavadocType" />
         <module name="MissingSwitchDefault" />
         <module name="ModifierOrder" />
         <module name="MultipleVariableDeclarations" />
