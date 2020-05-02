@@ -31,7 +31,7 @@ jobs:
           JACOCO_SOURCE_PATH: "${{ github.workspace }}/src/main/java"
         with:
           coverageCommand: mvn -B -T 1C package --file pom.xml
-          coverageLocations: ${{ github.workspace }}/target/site/jacoco/jacoco.xml:jacoco 
+          coverageLocations: ${{ github.workspace }}/target/site/jacoco/jacoco.xml:jacoco
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
