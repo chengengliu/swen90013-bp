@@ -14,4 +14,6 @@ FROM jetty:9-jre8-alpine
 
 COPY --from=build /app/target/preprocessing-plugin.war /var/lib/jetty/webapps/
 
-CMD java -jar $JETTY_HOME/start.jar -Djetty.http.port=$PORT
+EXPOSE 8080
+
+CMD java -jar $JETTY_HOME/start.jar
