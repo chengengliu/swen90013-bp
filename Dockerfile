@@ -4,11 +4,11 @@ WORKDIR /app
 
 COPY pom.xml ./
 
-RUN mvn dependency:go-offline
+RUN mvn -T 1C dependency:go-offline
 
 COPY src ./src
 
-RUN mvn package -DskipTests
+RUN mvn -T 1C package -DskipTests
 
 FROM jetty:9-jre8-alpine 
 
