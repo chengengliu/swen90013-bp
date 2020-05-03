@@ -1,8 +1,8 @@
 <zk>
-	<window apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm')@init('org.apromore.plugin.MyViewModel')"
-		validationMessages="@id('vmsgs')">
-		<hlayout>today is <label value="@load(vm.answer)" /></hlayout>
-		<button label="ask" onClick="@command('cmd')"/>
-	</window>
+    <window apply="org.zkoss.bind.BindComposer"
+        viewModel="@id('vm')@init('org.apromore.plugin.MyViewModel')"
+        validationMessages="@id('vmsgs')">
+        <hlayout>today is <label value="@load(vm.answer)" /></hlayout>
+        <button label="ask" onClick="@command('cmd')" />
+    </window>
 </zk>
