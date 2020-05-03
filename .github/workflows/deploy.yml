@@ -10,6 +10,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - run: |
+          git fetch --prune --unshallow
       - name: Deploy to Dokku
         uses: vitalyliber/dokku-github-action@v4.0
         env:
