@@ -7,7 +7,8 @@
 <!--	</window>-->
 <!--</zk>-->
 <zk>
-	<window apply="org.zkoss.bind.BindComposer"
+<!--	TODO: Need to figure out how to use 'apply' in ZK. -->
+	<window apply="org.apromore.plugin.services.impl.FileHandlerImpl"
 			viewModel="@id('viewmodel')@init('org.apromore.plugin.MyViewModel')"
 			validationMessages="@id('viewmodelsgs')">
 		<button label="Upload Image" upload="true,maxsize=3000">
@@ -31,5 +32,12 @@
 
 			</attribute>
 		</button>
+		<separator />
+
+		<button id="uploadBtn" label="Upload file" />
+			<separator />
+		<image id="img" />
+			<separator />
+		<label id="msgLb" />
 	</window>
 </zk>
