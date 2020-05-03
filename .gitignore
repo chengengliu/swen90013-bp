@@ -260,3 +260,7 @@ $RECYCLE.BIN/
 *.lnk
 
 target/
+.idea/
+.vscode/
+*.iml
+logs/
