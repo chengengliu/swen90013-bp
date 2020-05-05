@@ -80,7 +80,14 @@
         </module>
         <module name="RequireThis" />
         <module name="RightCurly" />
-        <module name="SeparatorWrap" />
+        <module name="SeparatorWrap">
+            <property name="tokens" value="COMMA" />
+            <property name="option" value="eol" />
+        </module>
+        <module name="SeparatorWrap">
+            <property name="tokens" value="DOT" />
+            <property name="option" value="nl" />
+        </module>
         <module name="SimplifyBooleanExpression" />
         <module name="SimplifyBooleanReturn" />
         <module name="SummaryJavadocCheck" />
