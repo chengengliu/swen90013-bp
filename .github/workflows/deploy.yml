@@ -12,6 +12,13 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           git fetch --prune --unshallow
+      - name: Start deployment
+        uses: bobheadxi/deployments@master
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: master
       - name: Deploy to Dokku
         uses: vitalyliber/dokku-github-action@v4.0
         env:
@@ -20,3 +27,11 @@ jobs:
           HOST: ${{ secrets.DOKKU_HOST }}
           PROJECT: ${{ secrets.DOKKU_PROJECT }}
           FORCE_DEPLOY: "true"
+      - name: Update deployment status
+        uses: bobheadxi/deployments@master
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
