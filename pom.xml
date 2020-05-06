@@ -4,7 +4,7 @@
     <artifactId>preprocessing-plugin</artifactId>
     <version>1.0</version>
     <properties>
-        <zk.version>9.0.0-Eval</zk.version>
+        <zk.version>9.0.0</zk.version>
         <spring.version>5.2.6.RELEASE</spring.version>
         <commons-io>2.6</commons-io>
         <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
@@ -26,11 +26,6 @@
             <name>ZK CE Repository</name>
             <url>https://mavensync.zkoss.org/maven2</url>
         </repository>
-        <repository>
-            <id>ZK EVAL</id>
-            <name>ZK Evaluation Repository</name>
-            <url>https://mavensync.zkoss.org/eval</url>
-        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
@@ -43,16 +38,6 @@
         <dependency>
             <groupId>org.zkoss.zk</groupId>
             <artifactId>zkbind</artifactId>
-            <version>${zk.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.zkoss.zk</groupId>
-            <artifactId>zkmax</artifactId>
-            <version>${zk.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.zkoss.zk</groupId>
-            <artifactId>zuti</artifactId>
             <version>${zk.version}</version>
         </dependency>
         <dependency>
