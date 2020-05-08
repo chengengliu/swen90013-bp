@@ -1,20 +1,16 @@
 package org.apromore.plugin.services.impl;
 
+import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-
-
-import java.util.concurrent.TimeUnit;
-import java.text.DateFormat;
-import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.BeforeClass;
 import org.junit.AfterClass;
 import org.junit.Test;
 
-public class IndexTest {
+public class IndexIntegrationTest {
   private static WebDriver driver;
 
   @BeforeClass
@@ -31,12 +27,8 @@ public class IndexTest {
 
   @Test
   public void shouldFindAskButton () {
-    driver.get("http://localhost:8080/preprocessing-plugin/");
+    driver.get("https://bp.omjad.as/preprocessing-plugin/");
 
-    assertEquals("?", driver.findElement(By.className("date")).getText());
-    driver.findElement(By.className("ask")).click();
-    
-    String dateString = DateFormat.getDateInstance().format(new Date());
-    assertEquals(dateString, driver.findElement(By.className("date")).getText());
+    assertEquals("ask", driver.findElement(By.cssSelector("button")).getText());
   }
 }
