@@ -44,16 +44,16 @@ public class FileUploadViewModel  {
             fileHandleService.writeFiles(media);
         }
     }
-    
+
     /**
-     * Describes the actions taken when a file is downloaded. 
+     * Describes the actions taken when a file is downloaded.
      */
     @Command("onFileDownload")
     public void onFileDownload() {
         File file = fileHandleService.outputFiles();
         try {
             Filedownload.save(file,null);
-        } catch (FileNotFoundException e) { 
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
