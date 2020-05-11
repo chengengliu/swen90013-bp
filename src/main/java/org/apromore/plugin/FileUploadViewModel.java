@@ -16,7 +16,7 @@ import java.io.FileNotFoundException;
  * Model for the upload view.
  */
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class FileUploadViewModel  {
+public class FileUploadViewModel {
 
     @WireVariable
     private FileHandleService fileHandleService;
@@ -52,7 +52,7 @@ public class FileUploadViewModel  {
     public void onFileDownload() {
         File file = fileHandleService.outputFiles();
         try {
-            Filedownload.save(file,null);
+            Filedownload.save(file, null);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

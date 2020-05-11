@@ -16,12 +16,12 @@ import java.util.logging.FileHandler;
 public class FileHandlerImpl implements FileHandleService {
     private static final Logger logger = LogManager
             .getLogger(FileHandler.class);
-    private static final int FILE_SIZE = 100;// 100k
-    private String temporalDir = null;
+    private static final int FILE_SIZE = 100; // 100k
+    private String tempDir = null;
 
     /**
-    * Constructor.
-    */
+     * Constructor.
+     */
     public FileHandlerImpl() {
     }
 
@@ -45,8 +45,8 @@ public class FileHandlerImpl implements FileHandleService {
         File dir = new File(this.temporalDir);
         File[] directoryListing = dir.listFiles();
         if (directoryListing != null) {
-            //Select one file and return it. This is for demo purposes.
-            for (File f: directoryListing) {
+            // Select one file and return it. This is for demo purposes.
+            for (File f : directoryListing) {
                 return f;
             }
         }
@@ -55,19 +55,18 @@ public class FileHandlerImpl implements FileHandleService {
 
     /**
      * Writes the input file to an output buffer.
-     * @param media - The input file.
+     * @param media the input file.
      */
     public void writeFiles(Media media) {
         generateDirectory();
-        BufferedInputStream in = null;
+        InputStream fIn = media.getStreamData();
+        BufferedInputStream in = new BufferedInputStream(fIn);
         BufferedOutputStream out = null;
+
         try {
-            System.out.println(this.temporalDir);
-            InputStream fin = media.getStreamData();
-            in = new BufferedInputStream(fin);
             File file = new File(this.temporalDir + media.getName());
-            OutputStream fout = new FileOutputStream(file);
-            out = new BufferedOutputStream(fout);
+            OutputStream fOut = new FileOutputStream(file);
+            out = new BufferedOutputStream(fOut);
             byte buffer[] = new byte[1024];
             int ch = in.read(buffer);
             while (ch != -1) {
@@ -82,11 +81,9 @@ public class FileHandlerImpl implements FileHandleService {
             throw new RuntimeException(e);
         } finally {
             try {
+                in.close()
                 if (out != null) {
                     out.close();
-                }
-                if (in != null) {
-                    in.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
