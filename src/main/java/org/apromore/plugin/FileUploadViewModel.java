@@ -1,6 +1,6 @@
 package org.apromore.plugin;
 
-import org.apromore.plugin.services.FileHandleService;
+import org.apromore.plugin.services.FileHandlerService;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.util.media.Media;
@@ -8,6 +8,7 @@ import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Fileupload;
+import org.zkoss.zul.Messagebox;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,13 +20,7 @@ import java.io.FileNotFoundException;
 public class FileUploadViewModel {
 
     @WireVariable
-    private FileHandleService fileHandleService;
-
-    /**
-     * Constructor.
-     */
-    public FileUploadViewModel() {
-    }
+    private FileHandlerService fileHandlerService;
 
     /**
      * Initialise.
@@ -40,9 +35,11 @@ public class FileUploadViewModel {
     @Command("onFileUpload")
     public void onFileUpload() {
         Media media = Fileupload.get();
+        String returnMessage = null;
         if (media != null) {
-            fileHandleService.writeFiles(media);
+            returnMessage = fileHandlerService.writeFiles(media);
         }
+        Messagebox.show(returnMessage);
     }
 
     /**
@@ -50,7 +47,7 @@ public class FileUploadViewModel {
      */
     @Command("onFileDownload")
     public void onFileDownload() {
-        File file = fileHandleService.outputFiles();
+        File file = fileHandlerService.outputFiles();
         try {
             Filedownload.save(file, null);
         } catch (FileNotFoundException e) {

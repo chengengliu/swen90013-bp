@@ -7,13 +7,14 @@ import java.io.File;
 /**
  *Interface for creating file services.
  */
-public interface FileHandleService {
+public interface FileHandlerService {
 
     /**
      * Writes the input file to an output stream.
      * @param media the input file.
+     * @return return the message to show on client side.
      */
-    void writeFiles(Media media);
+    String writeFiles(Media media);
 
     /**
      * Output the file.
