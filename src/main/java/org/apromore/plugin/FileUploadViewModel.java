@@ -12,32 +12,48 @@ import org.zkoss.zul.Fileupload;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+/**
+ * Model for the upload view.
+ */
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class FileUploadViewModel  {
 
     @WireVariable
     private FileHandleService fileHandleService;
 
-    public FileUploadViewModel(){
+    /**
+     * Constructor.
+     */
+    public FileUploadViewModel() {
     }
 
+    /**
+     * Initialise.
+     */
     @Init
-    public void init(){
+    public void init() {
     }
 
+    /**
+     * Describes the actions taken when a file is uploaded.
+     */
     @Command("onFileUpload")
     public void onFileUpload() {
         Media media = Fileupload.get();
-        if(media!=null){
+        if (media != null) {
             fileHandleService.writeFiles(media);
         }
     }
+    
+    /**
+     * Describes the actions taken when a file is downloaded. 
+     */
     @Command("onFileDownload")
-    public void onFileDownload(){
+    public void onFileDownload() {
         File file = fileHandleService.outputFiles();
-        try{
+        try {
             Filedownload.save(file,null);
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) { 
             e.printStackTrace();
         }
     }

@@ -34,9 +34,12 @@ public class MyServiceImpl implements MyService {
         return DateFormat.getDateInstance().format(new Date());
     }
 
+    /**
+     * Get a file based on the request.
+     */
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	@ResponseBody
-	public String getFileInquiry(HttpServletRequest request){
-		return null;
-	}
+    public String getFileInquiry(HttpServletRequest request){
+        return null;
+    }
 }
