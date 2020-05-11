@@ -18,6 +18,8 @@ import java.io.FileNotFoundException;
  */
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class FileUploadViewModel {
+    private static final String NULL_UPLOAD_MESSAGE = "No file is selected";
+    private static final String ERROR = "Error";
 
     @WireVariable
     private FileHandlerService fileHandlerService;
@@ -35,11 +37,14 @@ public class FileUploadViewModel {
     @Command("onFileUpload")
     public void onFileUpload() {
         Media media = Fileupload.get();
-        String returnMessage = null;
         if (media != null) {
+            String returnMessage;
             returnMessage = fileHandlerService.writeFiles(media);
+            Messagebox.show(returnMessage);
+        } else {
+            Messagebox.show(NULL_UPLOAD_MESSAGE,ERROR,
+                    Messagebox.OK, Messagebox.ERROR);
         }
-        Messagebox.show(returnMessage);
     }
 
     /**
