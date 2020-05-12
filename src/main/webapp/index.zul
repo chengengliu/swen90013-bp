@@ -1,8 +1,19 @@
 <zk>
+<<<<<<< HEAD
     <window apply="org.zkoss.bind.BindComposer"
         viewModel="@id('vm')@init('org.apromore.plugin.MyViewModel')"
         validationMessages="@id('vmsgs')">
         <hlayout>today is <label value="@load(vm.answer)" class="date"/></hlayout>
         <button label="ask" onClick="@command('cmd')" class="ask"/>
     </window>
+=======
+	<window border="normal" title="hello" apply="org.zkoss.bind.BindComposer"
+			viewModel="@id('vm') @init('org.apromore.plugin.FileUploadViewModel')">
+		<button id="btnUpload" label="Upload"
+				onClick="@command('onFileUpload')"
+				mold="trendy" />
+		<button id="btnDownload" label="Donwload"
+				onClick="@command('onFileDownload')"/>
+	</window>
+>>>>>>> master
 </zk>
