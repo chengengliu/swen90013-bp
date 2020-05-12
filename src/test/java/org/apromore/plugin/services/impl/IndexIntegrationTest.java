@@ -13,9 +13,12 @@ import org.junit.Test;
 public class IndexIntegrationTest {
   private static WebDriver driver;
 
+  /**
+   * Setup selenium
+   * @see swen90013-bp.atlassian.net/wiki/spaces/BPM/pages/129269866/Integration+Test#Run-the-Tests
+   */
   @BeforeClass
   public static void setup () {
-    System.setProperty("webdriver.chrome.driver", "/Users/fenprace/Binaries/Selenium/chromedriver");
     driver = new ChromeDriver();
     driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
   }
@@ -26,9 +29,9 @@ public class IndexIntegrationTest {
   }
 
   @Test
-  public void shouldFindAskButton () {
+  public void shouldFindUploadButton () {
     driver.get("https://bp.omjad.as/preprocessing-plugin/");
 
-    assertEquals("ask", driver.findElement(By.cssSelector("button")).getText());
+    assertEquals("Upload", driver.findElement(By.cssSelector("button")).getText());
   }
 }
