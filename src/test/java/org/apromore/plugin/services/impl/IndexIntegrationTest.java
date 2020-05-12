@@ -12,13 +12,13 @@ import org.junit.AfterClass;
 import org.junit.Test;
 
 /**
- * Integration Test for the index page
+ * Integration Test for the index page.
  */
 public class IndexIntegrationTest {
     private static WebDriver driver;
 
     /**
-     * Setup Selenium
+     * Setup Selenium.
      */
     @BeforeClass
     public static void setup() {
@@ -27,7 +27,7 @@ public class IndexIntegrationTest {
     }
 
     /**
-     * Quit Selenium WebDriver
+     * Quit Selenium WebDriver.
      */
     @AfterClass
     public static void clean() {
@@ -35,7 +35,7 @@ public class IndexIntegrationTest {
     }
 
     /**
-     * Test that there should be an upload button on index page
+     * Test that there should be an upload button on index page.
      */
     @Test
     public void shouldFindUploadButton() {
