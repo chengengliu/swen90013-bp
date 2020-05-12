@@ -42,8 +42,12 @@ public class FileUploadViewModel {
             returnMessage = fileHandlerService.writeFiles(media);
             Messagebox.show(returnMessage);
         } else {
-            Messagebox.show(NULL_UPLOAD_MESSAGE,ERROR,
-                    Messagebox.OK, Messagebox.ERROR);
+            Messagebox.show(
+                NULL_UPLOAD_MESSAGE,
+                ERROR,
+                Messagebox.OK,
+                Messagebox.ERROR
+            );
         }
     }
 

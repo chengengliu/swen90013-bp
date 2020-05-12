@@ -85,7 +85,7 @@ public class FileHandlerImpl implements FileHandlerService {
                 return UPLOAD_SUCCESS;
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new RuntimeException(e);
+                return UPLOAD_FAILED;
             }
         }
     }
