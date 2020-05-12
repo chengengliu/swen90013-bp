@@ -1,12 +1,12 @@
 package org.apromore.plugin.services.impl;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 import org.apromore.plugin.services.MyService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
-
-import java.text.DateFormat;
-import java.util.Date;
 
 /**
  * Service implementation.
