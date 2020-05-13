@@ -39,7 +39,7 @@ public class IndexIntegrationTest {
      */
     @Test
     public void shouldFindUploadButton() {
-        driver.get("https://bp.omjad.as/preprocessing-plugin/");
+        driver.get("http://localhost:8080/preprocessing-plugin/");
 
         WebElement button = driver.findElement(By.cssSelector("button"));
         assertEquals("Upload", button.getText());

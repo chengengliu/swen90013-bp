@@ -190,7 +190,25 @@
                         <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
                     </webApp>
                     <scanIntervalSeconds>5</scanIntervalSeconds>
+                    <stopPort>8080</stopPort>
+                    <stopKey>stop</stopKey>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>start-jetty</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop-jetty</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <!-- Compile java -->
             <plugin>
