@@ -1,13 +1,19 @@
 package org.apromore.plugin.services.impl;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.logging.FileHandler;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apromore.plugin.services.FileHandlerService;
 import org.springframework.stereotype.Service;
 import org.zkoss.util.media.Media;
-
-import java.io.*;
-import java.util.logging.FileHandler;
 
 /**
  * Implement the file handle service.
