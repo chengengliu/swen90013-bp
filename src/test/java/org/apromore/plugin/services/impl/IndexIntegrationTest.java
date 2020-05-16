@@ -1,12 +1,12 @@
 package org.apromore.plugin.services.impl;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.concurrent.TimeUnit;
 
+import static org.junit.Assert.assertEquals;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -40,7 +40,7 @@ public class IndexIntegrationTest {
      */
     @Test
     public void shouldFindUploadButton() {
-        driver.get("http://localhost:3000/preprocessing-plugin/");
+        driver.get("http://localhost:8080/preprocessing-plugin/");
 
         WebElement button = driver.findElement(By.cssSelector("button"));
         assertEquals("Upload", button.getText());

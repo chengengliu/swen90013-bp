@@ -190,7 +190,7 @@
                         <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
                     </webApp>
                     <scanIntervalSeconds>5</scanIntervalSeconds>
-                    <stopPort>3000</stopPort>
+                    <stopPort>8081</stopPort>
                     <stopKey>stop</stopKey>
                 </configuration>
                 <executions>
