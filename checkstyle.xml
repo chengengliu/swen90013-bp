@@ -37,6 +37,10 @@
         <module name="FallThrough" />
         <module name="GenericWhitespace" />
         <module name="IllegalImport" />
+        <module name="ImportOrder">
+            <property name="groups" value="/^java\./,javax,com,org" />
+            <property name="separated" value="true" />
+        </module>
         <module name="Indentation" />
         <module name="InterfaceTypeParameterName" />
         <module name="InvalidJavadocPosition" />
