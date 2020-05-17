@@ -2,20 +2,21 @@ package org.apromore.plugin.services.impl;
 
 import org.apromore.plugin.PluginConfig;
 import org.junit.*;
+import java.io.*;
 import  static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.zkoss.util.media.Media;
-import java.io.*;
+
 
 /**
  * Unit test class for FileHandlerImpl. Mainly test on directory creation
  * and files saving.
  */
+@ContextConfiguration(classes = PluginConfig.class)
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes=PluginConfig.class)
 public class FileHandlerImplTest {
     private File directory;
     private Media media;
@@ -23,6 +24,9 @@ public class FileHandlerImplTest {
     @Autowired
     FileHandlerImpl handler;
 
+    /**
+     * Preparation for test.
+     */
     @Before
     public void before() {
         directory = new File(new File("").getAbsolutePath() + "/files/");
@@ -80,7 +84,7 @@ public class FileHandlerImplTest {
     }
 
     /**
-     * Test the effect of the private method that has the correct behaviour
+     * Test the effect of the private method that has the correct behaviour.
      */
     @Test
     public void testGenerateDirectory() {
@@ -91,7 +95,7 @@ public class FileHandlerImplTest {
      * Test that the file is properly saved.
      */
     @Test
-    public void testWriteFiles(){
+    public void testWriteFiles() {
         handler.writeFiles(media);
         File f = new File(directory.toString());
         String name = "test";
@@ -100,6 +104,6 @@ public class FileHandlerImplTest {
                 return name.startsWith("test");
             }
         });
-        assertTrue(matches.length>= 1);
+        assertTrue(matches.length >= 1);
     }
 }
