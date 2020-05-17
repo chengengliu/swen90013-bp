@@ -8,20 +8,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.zkoss.util.media.Media;
-
 import java.io.*;
 
+/**
+ * Unit test class for FileHandlerImpl. Mainly test on directory creation
+ * and files saving.
+ */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes= PluginConfig.class)
+@ContextConfiguration(classes=PluginConfig.class)
 public class FileHandlerImplTest {
     private File directory;
     private Media media;
+
     @Autowired
     FileHandlerImpl handler;
 
     @Before
-    public void before(){
-        directory = new File(new File("").getAbsolutePath()+"/files/");
+    public void before() {
+        directory = new File(new File("").getAbsolutePath() + "/files/");
         media = new Media() {
             @Override
             public boolean isBinary() {
@@ -73,14 +77,19 @@ public class FileHandlerImplTest {
                 return false;
             }
         };
-
     }
 
+    /**
+     * Test the effect of the private method that has the correct behaviour
+     */
     @Test
-    public void testGenerateDirectory(){
+    public void testGenerateDirectory() {
         assertTrue(directory.exists());
     }
 
+    /**
+     * Test that the file is properly saved.
+     */
     @Test
     public void testWriteFiles(){
         handler.writeFiles(media);
@@ -91,6 +100,6 @@ public class FileHandlerImplTest {
                 return name.startsWith("test");
             }
         });
-        assertTrue(matches.length>=1);
+        assertTrue(matches.length>= 1);
     }
 }
