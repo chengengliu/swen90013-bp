@@ -1,14 +1,17 @@
 package org.apromore.plugin.services.impl;
 
+import java.io.*;
+
 import org.apromore.plugin.PluginConfig;
 import org.junit.*;
-import java.io.*;
-import  static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.zkoss.util.media.Media;
+
+import  static org.junit.Assert.*;
+
 
 
 /**
