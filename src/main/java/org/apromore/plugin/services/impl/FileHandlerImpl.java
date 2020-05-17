@@ -1,12 +1,6 @@
 package org.apromore.plugin.services.impl;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.logging.FileHandler;
 
 import org.apache.log4j.LogManager;
@@ -62,7 +56,12 @@ public class FileHandlerImpl implements FileHandlerService {
      */
     public String writeFiles(Media media) {
         generateDirectory();
-        InputStream fIn = media.getStreamData();
+        InputStream fIn;
+        if (media.isBinary()) {
+            fIn = media.getStreamData();
+        } else {
+            fIn = new ByteArrayInputStream(media.getStringData().getBytes());
+        }
         BufferedInputStream in = new BufferedInputStream(fIn);
         BufferedOutputStream out = null;
 
