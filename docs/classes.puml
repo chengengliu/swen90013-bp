@@ -1,0 +1,60 @@
+@startuml classes
+
+namespace org {
+    namespace apromore {
+        namespace service {
+            namespace FileImporterLogic {
+                namespace impl {
+                    class FileImporterLogicImpl {
+                    }
+
+                    FileImporterLogicImpl ..|> org.apromore.service.FileImporterLogic.FileImporterLogic
+                }
+
+                interface FileImporterLogic {
+                    + String[][] getSnippet(String[] files, String[] operations, int rows)
+                    + void importFiles(Strign[] files, String[] operations)
+                }
+            }
+        }
+
+        namespace plugin {
+            namespace portal {
+                namespace FileImporterPortal {
+                    namespace impl {
+                        class FileUploadServiceImpl {
+                        }
+
+                        class FileImporterServiceImpl {
+                        }
+
+                        FileUploadServiceImpl ..|> org.apromore.plugin.portal.FileImporterPortal.FileUploadService
+                        FileImporterServiceImpl ..|> org.apromore.plugin.portal.FileImporterPortal.FileImporterService
+                        FileImporterServiceImpl --* "1" org.apromore.service.FileImporterLogic.FileImporterLogic : - fileImporterLogic
+                    }
+
+                    class FileUploadViewModel {
+                        + void onFileUpload()
+                    }
+
+                    interface FileUploadService {
+                        + void writeFiles(Media[] media)
+                    }
+
+                    class FileImporterViewModel {
+                        + void onFileImport()
+                    }
+
+                    interface FileImporterService {
+                        + void importFiles(Media[] media, String[] operations)
+                    }
+
+                    FileUploadViewModel --* "1" FileUploadService : - fileUploadService
+                    FileImporterViewModel --* "1" FileImporterService : - fileImporterService
+                }
+            }
+        }
+    }
+}
+
+@enduml
