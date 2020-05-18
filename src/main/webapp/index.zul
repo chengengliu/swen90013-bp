@@ -1,10 +1,48 @@
 <zk>
-	<window border="normal" title="hello" apply="org.zkoss.bind.BindComposer"
+	<window border="none" title="Apromore" apply="org.zkoss.bind.BindComposer"
 			viewModel="@id('vm') @init('org.apromore.plugin.FileUploadViewModel')">
-		<button id="btnUpload" label="Upload"
-				onClick="@command('onFileUpload')"
-				mold="trendy" />
-		<button id="btnDownload" label="Donwload"
-				onClick="@command('onFileDownload')"/>
+			
+		<hlayout spacing="0">
+			<vlayout style="background:#D7D7D7">
+				<div height="500px" style="padding:10px; text-align: center">
+				
+					<hlayout style="padding-bottom:40px">
+						<button id="btnUpload" label="Upload"
+								onClick="@command('onFileUpload')"
+								mold="trendy" />
+						<button id="btnDownload" label="Download"
+								onClick="@command('onFileDownload')"/>
+					</hlayout>	
+					
+					<label style="font-size:18pt" value="Tables" />
+					<!-- Add list of input tables here -->
+					
+					<hlayout>
+						<button iconSclass="z-icon-table" />
+						<label value="someInputData.csv" />
+						<button iconSclass="z-icon-eye" />
+					</hlayout>
+					
+				</div>
+			</vlayout>
+			<vlayout>
+				<borderlayout height="500px" width="900px">
+					<north size="40%" border="none" style="background:#F2F2F2; text-align: center">
+						
+						<div>
+							Add input tables to join here
+						</div>
+						
+					</north>
+					<center border="none" style="background:#FFFFFF; text-align: center">
+						
+						<div>
+							Insert Join Table here
+						</div>
+						
+					</center>
+				</borderlayout>
+			</vlayout>
+		</hlayout>
 	</window>
 </zk>
