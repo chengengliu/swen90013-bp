@@ -4,7 +4,7 @@
     <artifactId>preprocessing-plugin</artifactId>
     <version>1.0</version>
     <properties>
-        <zk.version>9.0.0</zk.version>
+        <zk.version>9.0.0.1</zk.version>
         <spring.version>5.2.6.RELEASE</spring.version>
         <commons-io>2.6</commons-io>
         <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
