@@ -1,9 +1,11 @@
 package org.apromore.plugin.services.impl;
 
-import org.apromore.plugin.PluginConfig;
-import org.apromore.plugin.services.FileHandlerService;
 import java.io.InputStream;
 import java.io.IOException;
+
+import org.apromore.plugin.PluginConfig;
+import org.apromore.plugin.services.FileHandlerService;
+
 import org.easymock.EasyMock;
 import org.junit.*;
 import org.junit.runner.RunWith;
