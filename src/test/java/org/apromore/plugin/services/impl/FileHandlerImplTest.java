@@ -2,6 +2,8 @@ package org.apromore.plugin.services.impl;
 
 import org.apromore.plugin.PluginConfig;
 import org.apromore.plugin.services.FileHandlerService;
+import java.io.InputStream;
+import java.io.IOException;
 import org.easymock.EasyMock;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -10,8 +12,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.zkoss.util.media.Media;
 
-import java.io.InputStream;
-import java.io.IOException;
 
 
 /**
