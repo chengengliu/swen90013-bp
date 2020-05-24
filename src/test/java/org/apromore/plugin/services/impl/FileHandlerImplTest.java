@@ -1,6 +1,5 @@
 package org.apromore.plugin.services.impl;
 
-import com.esotericsoftware.kryo.io.Input;
 import org.apromore.plugin.PluginConfig;
 import org.apromore.plugin.services.FileHandlerService;
 import org.easymock.EasyMock;
@@ -11,8 +10,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.zkoss.util.media.Media;
 
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 
 
 /**
@@ -33,8 +32,8 @@ public class FileHandlerImplTest {
      */
     @Before
     public void setup() {
-       service = EasyMock.createMock(FileHandlerService.class);
-       media = EasyMock.createMock(Media.class);
+        service = EasyMock.createMock(FileHandlerService.class);
+        media = EasyMock.createMock(Media.class);
     }
 
     /**
