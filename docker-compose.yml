@@ -9,7 +9,7 @@ services:
     depends_on:
       - apacheimpala
     volumes:
-      - preprocess-data:/preprocess_data
+      - preprocess-data:~/preprocess_data
     ports:
       - 8080:8080
     networks:

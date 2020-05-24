@@ -26,6 +26,26 @@
             <name>ZK CE Repository</name>
             <url>https://mavensync.zkoss.org/maven2</url>
         </repository>
+
+        <!-- YOUR LOCAL REPO -->
+        <repository>
+            <id>nexus.local</id>
+            <url>http://115.146.93.36:8081/repository/maven-releases</url>
+            <name>Nexus Local</name>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>cdh.repo</id>
+            <url>https://repository.cloudera.com/artifactory/cloudera-repos</url>
+            <name>Cloudera Repositories</name>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+
     </repositories>
     <pluginRepositories>
         <pluginRepository>
@@ -122,6 +142,54 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>3.141.59</version>
+        </dependency>
+        <!-- These dependencies provided by your local repo -->
+
+        <dependency>
+            <groupId>com.cloudera.impala.jdbc</groupId>
+            <artifactId>hive_metastore</artifactId>
+            <version>2.5.30</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cloudera.impala.jdbc</groupId>
+            <artifactId>hive_service</artifactId>
+            <version>2.5.30</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cloudera.impala.jdbc</groupId>
+            <artifactId>ImpalaJDBC41</artifactId>
+            <version>2.5.30</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cloudera.impala.jdbc</groupId>
+            <artifactId>ql</artifactId>
+            <version>2.5.30</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cloudera.impala.jdbc</groupId>
+            <artifactId>TCLIServiceClient</artifactId>
+            <version>2.5.30</version>
+        </dependency>
+        <!-- End of dependencies provided by your local repo -->
+
+        <dependency>
+            <groupId>org.apache.thrift</groupId>
+            <artifactId>libfb303</artifactId>
+            <version>0.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.thrift</groupId>
+            <artifactId>libthrift</artifactId>
+            <version>0.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>3.4.6</version>
         </dependency>
     </dependencies>
     <build>

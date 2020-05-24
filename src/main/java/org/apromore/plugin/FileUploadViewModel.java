@@ -2,16 +2,16 @@ package org.apromore.plugin;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 
 import org.apromore.plugin.services.FileHandlerService;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
-import org.zkoss.zul.Filedownload;
-import org.zkoss.zul.Fileupload;
-import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.*;
 
 /**
  * Model for the upload view.
@@ -24,11 +24,19 @@ public class FileUploadViewModel {
     @WireVariable
     private FileHandlerService fileHandlerService;
 
+    @Wire
+    Grid outputTable;
+
     /**
      * Initialise.
      */
     @Init
     public void init() {
+    }
+
+    public void createTableOutput(List<String> tableVal){
+
+
     }
 
     /**
