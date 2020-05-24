@@ -1,111 +1,74 @@
 package org.apromore.plugin.services.impl;
 
-import java.io.*;
-
+import com.esotericsoftware.kryo.io.Input;
 import org.apromore.plugin.PluginConfig;
+import org.apromore.plugin.services.FileHandlerService;
+import org.easymock.EasyMock;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.zkoss.util.media.Media;
-import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.io.InputStream;
 
 
 /**
- * Unit test class for FileHandlerImpl. Mainly test on directory creation
- * and files saving.
+ * Unit test class for FileHandlerImpl. Test includes file saving test
+ * and directory test.
  */
 @ContextConfiguration(classes = PluginConfig.class)
 @RunWith(SpringRunner.class)
 public class FileHandlerImplTest {
-    private File directory;
-    private Media media;
+    private static final String UPLOAD_FAILED = "Upload Failed";
+    private static final String UPLOAD_SUCCESS = "Upload Success";
 
-    @Autowired
-    FileHandlerImpl handler;
+    FileHandlerService service;
+    Media media;
 
     /**
      * Preparation for test.
      */
     @Before
-    public void before() {
-        directory = new File(new File("").getAbsolutePath() + "/files/");
-        media = new Media() {
-            @Override
-            public boolean isBinary() {
-                return true;
-            }
-
-            @Override
-            public boolean inMemory() {
-                return false;
-            }
-
-            @Override
-            public byte[] getByteData() {
-                return new byte[0];
-            }
-
-            @Override
-            public String getStringData() {
-                return "test";
-            }
-
-            @Override
-            public InputStream getStreamData() {
-                return null;
-            }
-
-            @Override
-            public Reader getReaderData() {
-                return null;
-            }
-
-            @Override
-            public String getName() {
-                return "test.txt";
-            }
-
-            @Override
-            public String getFormat() {
-                return null;
-            }
-
-            @Override
-            public String getContentType() {
-                return null;
-            }
-
-            @Override
-            public boolean isContentDisposition() {
-                return false;
-            }
-        };
+    public void setup() {
+       service = EasyMock.createMock(FileHandlerService.class);
+       media = EasyMock.createMock(Media.class);
     }
 
     /**
-     * Test the effect of the private method that has the correct behaviour.
+     *  Test if string file is successfully saved.
      */
     @Test
-    public void testGenerateDirectory() {
-        assertTrue(directory.exists());
+    public void writeStringFilesTest() {
+        String mockString = "test";
+        EasyMock.expect(media.isBinary()).andReturn(false);
+        EasyMock.expect(media.getStringData()).andReturn(mockString);
+        EasyMock.expect(service.writeFiles(media)).andReturn(UPLOAD_SUCCESS);
+        EasyMock.replay(service, media);
     }
 
     /**
-     * Test that the file is properly saved.
+     * Test if stream file is successfully saved.
      */
     @Test
-    public void testWriteFiles() {
-        handler.writeFiles(media);
-        File f = new File(directory.toString());
-        String name = "test";
-        File[] matches = f.listFiles(new FilenameFilter() {
-            public boolean accept(File pathname, String name) {
-                return name.startsWith("test");
-            }
-        });
-        assertTrue(matches.length >= 1);
+    public void writeStreamFilesTest() throws IOException {
+        InputStream inputStream = EasyMock.createMock(InputStream.class);
+        EasyMock.expect(inputStream.read()).andReturn(1);
+        EasyMock.expect(media.isBinary()).andReturn(true);
+        EasyMock.expect(media.getStreamData()).andReturn(inputStream);
+        EasyMock.expect(service.writeFiles(media)).andReturn(UPLOAD_SUCCESS);
+        EasyMock.replay(service, media, inputStream);
+    }
+
+    /**
+     * Test if fail message is correctly returned.
+     */
+    @Test
+    public void writeFileFailTest() {
+        Media media = null;
+        EasyMock.expect(service.writeFiles(media)).andReturn(UPLOAD_FAILED);
+        EasyMock.replay(service);
     }
 }
