@@ -5,16 +5,41 @@ namespace org {
         namespace service {
             namespace FileImporterLogic {
                 namespace impl {
-                    class FileImporterLogicImpl {
-                    }
+                    class FileImporterLogicImpl
+                    class JoinImpl
+                    class OperationImpl
 
                     FileImporterLogicImpl ..|> org.apromore.service.FileImporterLogic.FileImporterLogic
+                    JoinImpl ..|> org.apromore.service.FileImporterLogic.Join
+                    OperationImpl ..|> org.apromore.service.FileImporterLogic.Operation
+                }
+
+                enum OperationType {
+                    SELECT
+                    CONCATENATE
+                    MIN
+                    MAX
+                    MEDIAN
+                    MEAN
+                    ORDER
+                }
+
+                enum JoinType {
+                    LEFT
+                    INNER
+                    RIGHT
+                    FULL_OUTER
                 }
 
                 interface FileImporterLogic {
                     + String[][] getSnippet(String[] files, String[] operations, int rows)
-                    + void importFiles(Strign[] files, String[] operations)
+                    + void exportFiles(String[] files)
+                    + void joinFiles(String[] files, Join[] joins)
+                    + void applyOperations(Sring[] files, Operation[] operations)
                 }
+
+                Operation --* "1" OperationType : + operationType
+                Join --* "1..*" JoinType : + joinTypes
             }
         }
 
@@ -22,11 +47,8 @@ namespace org {
             namespace portal {
                 namespace FileImporterPortal {
                     namespace impl {
-                        class FileUploadServiceImpl {
-                        }
-
-                        class FileImporterServiceImpl {
-                        }
+                        class FileUploadServiceImpl
+                        class FileImporterServiceImpl
 
                         FileUploadServiceImpl ..|> org.apromore.plugin.portal.FileImporterPortal.FileUploadService
                         FileImporterServiceImpl ..|> org.apromore.plugin.portal.FileImporterPortal.FileImporterService
@@ -34,6 +56,7 @@ namespace org {
                     }
 
                     class FileUploadViewModel {
+                        + void init()
                         + void onFileUpload()
                     }
 
@@ -42,11 +65,13 @@ namespace org {
                     }
 
                     class FileImporterViewModel {
+                        + void init()
                         + void onFileImport()
                     }
 
                     interface FileImporterService {
-                        + void importFiles(Media[] media, String[] operations)
+                        + void getSnippet(Operation[] operations)
+                        + void importFiles(Media[] media, Operation[] operations)
                     }
 
                     FileUploadViewModel --* "1" FileUploadService : - fileUploadService
