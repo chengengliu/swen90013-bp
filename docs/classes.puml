@@ -59,15 +59,6 @@ namespace org {
                     Order --* "1" org.apromore.service.FileImporterLogic.Direction : - direction
                 }
 
-                enum StatementType {
-                    SELECT
-                    CONCATENATE
-                    IF
-                    JOIN
-                    WHERE
-                    ORDER
-                }
-
                 interface Statement {
                     + String toString()
                 }
@@ -110,7 +101,6 @@ namespace org {
                     + void exportFiles(Transaction transaction)
                 }
 
-                Statement --* "1" StatementType : + statementType
                 Transaction --* "*" "Statement" : + statements
             }
         }
