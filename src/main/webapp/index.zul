@@ -5,6 +5,7 @@
 		<hlayout spacing="0">
 			<vlayout style="background:#D7D7D7">
 				<div height="500px" style="padding:10px; text-align: center">
+					<!-- Left panel section -->
 				
 					<hlayout style="padding-bottom:40px">
 						<button id="btnUpload" label="Upload"
@@ -30,6 +31,7 @@
 					<north size="40%" border="none" style="background:#F2F2F2; text-align: center">
 						
 						<div>
+						    <!-- Top panel section -->
 							Add input tables to join here
 						</div>
 						
@@ -37,6 +39,7 @@
 					<center border="none" style="background:#FFFFFF; text-align: center">
 						
 						<div>
+							<!-- Bottom panel section -->
 							Insert Join Table here
 						</div>
 						
