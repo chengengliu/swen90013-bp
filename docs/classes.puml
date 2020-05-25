@@ -6,22 +6,70 @@ namespace org {
             namespace FileImporterLogic {
                 namespace impl {
                     class FileImporterLogicImpl
-                    class JoinImpl
-                    class OperationImpl
+                    class TransactionImpl
+
+                    class Select {
+                        - String column
+                        - String as
+                        + Select(String column)
+                        + Select(String column, String as)
+                    }
+
+                    class Concatenate {
+                        - String[] columns
+                        - String delimiter
+                        - String newColumnName
+                        + Concatenate(String[] columns, String delimiter, String newColumnName)
+                    }
+
+                    class If {
+                        - String condition
+                        - String true
+                        - String false
+                        + If(String condition, String true, String false)
+                    }
+
+                    class Join {
+                        - String file
+                        + Join(JoinType joinType, String file)
+                    }
+
+                    class Where {
+                        - String column
+                        - String value
+                        + Where(String column, Comparison comparison, String value)
+                    }
+
+                    class Order {
+                        - String column
+                        + Order(String column, Direction direction)
+                    }
 
                     FileImporterLogicImpl ..|> org.apromore.service.FileImporterLogic.FileImporterLogic
-                    JoinImpl ..|> org.apromore.service.FileImporterLogic.Join
-                    OperationImpl ..|> org.apromore.service.FileImporterLogic.Operation
+                    TransactionImpl ..|> org.apromore.service.FileImporterLogic.Transaction
+
+                    Select ..|> org.apromore.service.FileImporterLogic.Statement
+                    Concatenate ..|> org.apromore.service.FileImporterLogic.Statement
+                    If ..|> org.apromore.service.FileImporterLogic.Statement
+                    Join ..|> org.apromore.service.FileImporterLogic.Statement
+                    Join --* "1" org.apromore.service.FileImporterLogic.JoinType : - joinType
+                    Where ..|> org.apromore.service.FileImporterLogic.Statement
+                    Where --* "1" org.apromore.service.FileImporterLogic.Comparison : - comparison
+                    Order ..|> org.apromore.service.FileImporterLogic.Statement
+                    Order --* "1" org.apromore.service.FileImporterLogic.Direction : - direction
                 }
 
-                enum OperationType {
+                enum StatementType {
                     SELECT
                     CONCATENATE
-                    MIN
-                    MAX
-                    MEDIAN
-                    MEAN
+                    IF
+                    JOIN
+                    WHERE
                     ORDER
+                }
+
+                interface Statement {
+                    + String toString()
                 }
 
                 enum JoinType {
@@ -31,15 +79,39 @@ namespace org {
                     FULL_OUTER
                 }
 
-                interface FileImporterLogic {
-                    + String[][] getSnippet(String[] files, String[] operations, int rows)
-                    + void exportFiles(String[] files)
-                    + void joinFiles(String[] files, Join[] joins)
-                    + void applyOperations(Sring[] files, Operation[] operations)
+                enum Comparison {
+                    EQUALS
+                    GREATER_THAN
+                    LESS_THAN
+                    GREATER_THAN_OR_EQUALS
+                    LESS_THAN_OR_EQUALS
                 }
 
-                Operation --* "1" OperationType : + operationType
-                Join --* "1..*" JoinType : + joinTypes
+                enum Direction {
+                    ASC
+                    DESC
+                }
+
+                interface Transaction {
+                    - String file
+                    - String[] selectedColumns
+                    + Transaction(String file)
+                    + Transaction join(JoinType joinType, String file)
+                    + Transaction select(String column)
+                    + Transaction select(String column, String as)
+                    + Transaction order(String[] columns)
+                    + Transaction where()
+                    + Transaction operate(Operation operation)
+                    + ResultSet execute()
+                }
+
+                interface FileImporterLogic {
+                    + String[][] getSnippet(Transaction transaction, int rows)
+                    + void exportFiles(Transaction transaction)
+                }
+
+                Statement --* "1" StatementType : + statementType
+                Transaction --* "*" "Statement" : + statements
             }
         }
 
