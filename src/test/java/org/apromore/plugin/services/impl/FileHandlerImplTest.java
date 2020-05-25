@@ -1,12 +1,13 @@
 package org.apromore.plugin.services.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 import org.apromore.plugin.PluginConfig;
 import org.apromore.plugin.services.FileHandlerService;
 import org.easymock.EasyMock;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -25,28 +26,49 @@ public class FileHandlerImplTest {
     private static final String UPLOAD_FAILED = "Upload Failed";
     private static final String UPLOAD_SUCCESS = "Upload Success";
 
+    // Inject dependencies managed by Spring.
+    @Autowired
     FileHandlerService service;
+
     Media media;
+    InputStream inputStream;
+    BufferedInputStream bufferedInputStream;
+    ByteArrayInputStream byteArrayInputStream;
 
     /**
      * Preparation for test.
      */
     @Before
     public void setup() {
-        service = EasyMock.createMock(FileHandlerService.class);
         media = EasyMock.createMock(Media.class);
+        inputStream = EasyMock.createMock(InputStream.class);
     }
 
     /**
      *  Test if string file is successfully saved.
      */
     @Test
-    public void writeStringFilesTest() {
+    public void writeStringFilesTest() throws IOException{
         String mockString = "test";
+        byteArrayInputStream = EasyMock.createMockBuilder(ByteArrayInputStream.class)
+                .withConstructor(byte[].class)
+                .withArgs((Object)mockString.getBytes())
+                .createMock();
+        inputStream = byteArrayInputStream;
+        BufferedInputStream buffer = EasyMock.createMockBuilder(BufferedInputStream.class)
+                .withConstructor(InputStream.class)
+                .withArgs(inputStream)
+                .createMock();
+
         EasyMock.expect(media.isBinary()).andReturn(false);
         EasyMock.expect(media.getStringData()).andReturn(mockString);
-        EasyMock.expect(service.writeFiles(media)).andReturn(UPLOAD_SUCCESS);
-        EasyMock.replay(service, media);
+
+        EasyMock.replay(byteArrayInputStream);
+        EasyMock.replay(buffer);
+        EasyMock.replay(media);
+
+        Assert.assertTrue(service.writeFiles(media).equals(UPLOAD_SUCCESS));
+        EasyMock.verify(media);
     }
 
     /**
@@ -54,18 +76,30 @@ public class FileHandlerImplTest {
      */
     @Test
     public void writeStreamFilesTest() throws IOException {
-        InputStream inputStream = EasyMock.createMock(InputStream.class);
-        EasyMock.expect(inputStream.read()).andReturn(1);
+        bufferedInputStream = EasyMock.createMockBuilder(
+                BufferedInputStream.class)
+                .withConstructor(InputStream.class)
+                .withArgs(inputStream)
+                .createMock();
+
         EasyMock.expect(media.isBinary()).andReturn(true);
         EasyMock.expect(media.getStreamData()).andReturn(inputStream);
-        EasyMock.expect(service.writeFiles(media)).andReturn(UPLOAD_SUCCESS);
-        EasyMock.replay(service, media, inputStream);
+
+        bufferedInputStream.close();
+        EasyMock.expectLastCall();
+
+        EasyMock.replay(inputStream);
+        EasyMock.replay(bufferedInputStream);
+        EasyMock.replay(media);
+
+        Assert.assertTrue(service.writeFiles(media).equals(UPLOAD_SUCCESS));
+        EasyMock.verify(media);
     }
 
     /**
-     * Test if fail message is correctly returned.
+     * Test if exception properly catched.
      */
-    @Test
+    @Test(expected = NullPointerException.class)
     public void writeFileFailTest() {
         Media media = null;
         EasyMock.expect(service.writeFiles(media)).andReturn(UPLOAD_FAILED);
