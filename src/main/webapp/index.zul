@@ -7,6 +7,7 @@
 				<div height="500px" style="padding:10px; text-align: center">
 					<!-- Left panel section -->
 				
+					<!-- Upload and Download buttons -->
 					<hlayout style="padding-bottom:40px">
 						<button id="btnUpload" label="Upload"
 								onClick="@command('onFileUpload')"
@@ -15,7 +16,7 @@
 								onClick="@command('onFileDownload')"/>
 					</hlayout>	
 					
-					<label style="font-size:18pt" value="Tables" />
+					<label style="font-size:18pt" value="Tables"/>
 					<!-- Add list of input tables here -->
 					
 					<hlayout>
@@ -30,7 +31,7 @@
 							</div>
 						</popup>
 						<space spacing="3px" />
-						<div popup="table1, type=toggle">
+						<div id="view-input-snippet" popup="table1, type=toggle">
 							<n:i class="z-icon-eye" xmlns:n="native" />
 						</div>
 					</hlayout>
@@ -38,24 +39,19 @@
 				</div>
 			</vlayout>
 			<vlayout>
-				<borderlayout height="500px" width="900px">
-					<north size="40%" border="none" style="background:#F2F2F2; text-align: center">
+
 						
-						<div>
-						    <!-- Top panel section -->
-							Add input tables to join here
-						</div>
-						
-					</north>
-					<center border="none" style="background:#FFFFFF; text-align: center">
-						
-						<div>
-							<!-- Bottom panel section -->
-							Insert Join Table here
-						</div>
-						
-					</center>
-				</borderlayout>
+				<div height="200px" width="900px" style="background:#F2F2F2; text-align: center">
+				    <!-- Top panel section -->
+					Add input tables to join here
+				</div>
+				
+					
+				<div height="300px" width="900px" style="background:#FFFFFF; text-align: center">
+					<!-- Bottom panel section -->
+					Insert Join Table here
+				</div>
+
 			</vlayout>
 		</hlayout>
 	</window>
