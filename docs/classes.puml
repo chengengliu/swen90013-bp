@@ -31,7 +31,9 @@ namespace org {
 
                     class Join {
                         - String file
-                        + Join(JoinType joinType, String file)
+                        - String joinKey1
+                        - String joinKey2
+                        + Join(JoinType joinType, String file, String joinKey1, String joinKey2)
                     }
 
                     class Where {
@@ -91,8 +93,9 @@ namespace org {
                     + Transaction select(String column)
                     + Transaction select(String column, String as)
                     + Transaction order(String[] columns)
-                    + Transaction where()
-                    + Transaction operate(Operation operation)
+                    + Transaction if(String condition, String true, String false)
+                    + Transaction concatenate(String[] columns, String delimiter, String newColumnName)
+                    + Transaction where(String column, Comparison comparison, String value)
                     + ResultSet execute()
                 }
 
