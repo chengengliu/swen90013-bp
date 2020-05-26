@@ -19,9 +19,20 @@
 					<!-- Add list of input tables here -->
 					
 					<hlayout>
-						<button iconSclass="z-icon-table" />
+						<n:i class="z-icon-table" xmlns:n="native"/>
 						<label value="someInputData.csv" />
-						<button iconSclass="z-icon-eye" />
+						<popup id="table1">
+						    <div width="700px" height="300px" style="border:1px solid black;overflow:auto;">
+							    <grid id="grid">
+									<columns>
+									</columns>
+								</grid>
+							</div>
+						</popup>
+						<space spacing="3px" />
+						<div popup="table1, type=toggle">
+							<n:i class="z-icon-eye" xmlns:n="native" />
+						</div>
 					</hlayout>
 					
 				</div>
@@ -48,4 +59,5 @@
 			</vlayout>
 		</hlayout>
 	</window>
+	
 </zk>
