@@ -63,7 +63,7 @@ public class FileHandlerImplTest {
         EasyMock.replay(byteArrayInputStream);
         EasyMock.replay(media);
 
-        Assert.assertTrue(service.writeFiles(media).equals(UPLOAD_SUCCESS));
+        Assert.assertEquals(service.writeFiles(media), UPLOAD_SUCCESS);
         EasyMock.verify(media);
     }
 
@@ -88,17 +88,25 @@ public class FileHandlerImplTest {
         EasyMock.replay(bufferedInputStream);
         EasyMock.replay(media);
 
-        Assert.assertTrue(service.writeFiles(media).equals(UPLOAD_SUCCESS));
+        Assert.assertEquals(service.writeFiles(media), UPLOAD_SUCCESS);
         EasyMock.verify(media);
     }
 
     /**
-     * Test if exception properly catched.
+     * Test if null content is properly caught.
      */
     @Test(expected = NullPointerException.class)
     public void writeFileFailTest() {
-        Media media = null;
-        EasyMock.expect(service.writeFiles(media)).andReturn(UPLOAD_FAILED);
-        EasyMock.replay(service);
+        bufferedInputStream = EasyMock.createMockBuilder(
+                BufferedInputStream.class)
+                .withConstructor(InputStream.class)
+                .withArgs(null)
+                .createMock();
+
+        EasyMock.expect(media.isBinary()).andReturn(true);
+        EasyMock.expect(media.getStreamData()).andReturn(null);
+        EasyMock.replay(media);
+        service.writeFiles(media);
+        EasyMock.verify(media);
     }
 }
