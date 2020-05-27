@@ -15,8 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.zkoss.util.media.Media;
 import static org.easymock.EasyMock.*;
 
-
-
 /**
  * Unit test class for FileHandlerImpl. Tests include file saving test
  * and directory test.
