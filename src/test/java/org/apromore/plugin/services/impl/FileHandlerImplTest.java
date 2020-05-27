@@ -48,22 +48,16 @@ public class FileHandlerImplTest {
      * Test if string file is successfully saved.
      */
     @Test
-    public void writeStringFilesTest() throws IOException {
+    public void writeStringFilesTest() {
         String mockString = "test";
-        byteArrayInputStream = EasyMock.createMockBuilder(
-                ByteArrayInputStream.class)
-                .withConstructor(byte[].class)
-                .withArgs((Object) mockString.getBytes())
-                .createMock();
-        inputStream = byteArrayInputStream;
 
         EasyMock.expect(media.isBinary()).andReturn(false);
         EasyMock.expect(media.getStringData()).andReturn(mockString);
 
-        EasyMock.replay(byteArrayInputStream);
         EasyMock.replay(media);
 
         Assert.assertEquals(service.writeFiles(media), UPLOAD_SUCCESS);
+
         EasyMock.verify(media);
     }
 
@@ -89,6 +83,9 @@ public class FileHandlerImplTest {
         EasyMock.replay(media);
 
         Assert.assertEquals(service.writeFiles(media), UPLOAD_SUCCESS);
+
+        EasyMock.verify(bufferedInputStream);
+        EasyMock.verify(inputStream);
         EasyMock.verify(media);
     }
 
@@ -105,9 +102,13 @@ public class FileHandlerImplTest {
 
         EasyMock.expect(media.isBinary()).andReturn(true);
         EasyMock.expect(media.getStreamData()).andReturn(null);
+
+        EasyMock.replay(bufferedInputStream);
         EasyMock.replay(media);
 
         service.writeFiles(media);
+
+        EasyMock.verify(bufferedInputStream);
         EasyMock.verify(media);
     }
 }
