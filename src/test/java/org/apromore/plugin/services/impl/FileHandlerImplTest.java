@@ -45,7 +45,7 @@ public class FileHandlerImplTest {
     }
 
     /**
-     *  Test if string file is successfully saved.
+     * Test if string file is successfully saved.
      */
     @Test
     public void writeStringFilesTest() throws IOException {
