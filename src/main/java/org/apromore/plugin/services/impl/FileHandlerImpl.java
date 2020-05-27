@@ -75,12 +75,6 @@ public class FileHandlerImpl implements FileHandlerService {
                 out.write(buffer, 0, ch);
                 ch = in.read(buffer);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return UPLOAD_FAILED;
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            return UPLOAD_FAILED;
         } catch (Exception e) {
             e.printStackTrace();
             return UPLOAD_FAILED;
