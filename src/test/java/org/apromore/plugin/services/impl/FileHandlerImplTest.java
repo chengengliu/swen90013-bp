@@ -17,7 +17,7 @@ import org.zkoss.util.media.Media;
 
 
 /**
- * Unit test class for FileHandlerImpl. Test includes file saving test
+ * Unit test class for FileHandlerImpl. Tests include file saving test
  * and directory test.
  */
 @ContextConfiguration(classes = PluginConfig.class)
