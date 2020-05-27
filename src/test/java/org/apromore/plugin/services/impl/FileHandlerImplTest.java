@@ -2,10 +2,11 @@ package org.apromore.plugin.services.impl;
 
 import java.io.*;
 
+import static org.easymock.EasyMock.*;
+
 import org.apromore.plugin.PluginConfig;
 import org.apromore.plugin.services.FileHandlerService;
 import org.easymock.EasyMockSupport;
-import static org.easymock.EasyMock.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
