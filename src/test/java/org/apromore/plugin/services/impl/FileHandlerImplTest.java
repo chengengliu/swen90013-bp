@@ -5,7 +5,6 @@ import java.io.*;
 import org.apromore.plugin.PluginConfig;
 import org.apromore.plugin.services.FileHandlerService;
 import org.easymock.EasyMockSupport;
-import static org.easymock.EasyMock.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.zkoss.util.media.Media;
+import static org.easymock.EasyMock.*;
 
 
 
