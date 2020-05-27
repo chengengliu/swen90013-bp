@@ -7,9 +7,4 @@
 		<button id="btnDownload" label="Donwload"
 				onClick="@command('onFileDownload')"/>
 	</window>
-
-<!--	<window apply="org.apromore.plugin.FileUploadViewModel">-->
-<!--		<grid id="outputTable"/>-->
-<!--	</window>-->
-
 </zk>

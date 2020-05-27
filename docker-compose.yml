@@ -20,7 +20,7 @@ services:
     image: apache/kudu:impala-latest
     container_name: apacheimpala
     volumes:
-      - preprocess-data:/home/impala/preprocess_data
+      - preprocess-data:/preprocess_data
     ports:
       - 21050:21050
     networks:

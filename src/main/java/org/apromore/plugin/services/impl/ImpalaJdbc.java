@@ -1,16 +1,12 @@
 package org.apromore.plugin.services.impl;
 
-import org.springframework.stereotype.Service;
-
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//@Service("impalaJdbc")
 public class ImpalaJdbc {
-    private static final String connectionUrl = "jdbc:impala://localhost:21050";
-    private static final String jdbcDriverName = "com.cloudera.impala.jdbc41.Driver";
+    private static final String connectionUrl = "jdbc:hive2://localhost:21050/;auth=noSasl";
+    private static final String jdbcDriverName = "org.apache.hive.jdbc.HiveDriver";
     private static final String sqlStatementInvalidate = "INVALIDATE METADATA";
     private Connection con = null;
     private Statement stmt;
@@ -40,9 +36,9 @@ public class ImpalaJdbc {
         String sqlStatementDrop = "DROP TABLE IF EXISTS " + tableName;
 
         String query = "CREATE EXTERNAL TABLE %s " +
-                        "LIKE PARQUET '/home/impala/preprocess_data/%s' " +
+                        "LIKE PARQUET '/preprocess_data/%s' " +
                         "STORED AS PARQUET " +
-                        "LOCATION '/home/impala/preprocess_data'";
+                        "LOCATION '/preprocess_data'";
 
         query = String.format(query, tableName, fileName);
         boolean status = true;
@@ -53,9 +49,8 @@ public class ImpalaJdbc {
             System.out.println(query);
 
             // Import files
-            stmt.execute(sqlStatementInvalidate);
-//            stmt.execute(sqlStatementDrop);
-            stmt.execute(query);
+            stmt.execute(sqlStatementDrop);
+            status = stmt.execute(query);
 
             if (status){
                 System.out.println("Table added!!");
@@ -77,13 +72,11 @@ public class ImpalaJdbc {
         System.out.println("Using Connection URL: " + connectionUrl);
         System.out.println("Running Query: " + sqlStatement);
 
-
         List<String> resultList = new ArrayList<>();
 
         try {
 
             System.out.println("\n== Begin Query Results ======================");
-            stmt.execute(sqlStatementInvalidate);
             ResultSet resultSet = stmt.executeQuery(sqlStatement);
             ResultSetMetaData rsmd = resultSet.getMetaData();
 

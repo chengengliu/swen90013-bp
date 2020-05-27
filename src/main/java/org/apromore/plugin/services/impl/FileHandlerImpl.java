@@ -7,15 +7,20 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.*;
+import java.nio.file.attribute.*;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.FileHandler;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apromore.plugin.services.FileHandlerService;
 import org.springframework.stereotype.Service;
 import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+
+import static java.nio.file.attribute.PosixFilePermission.*;
 
 /**
  * Implement the file handle service.
@@ -28,9 +33,7 @@ public class FileHandlerImpl implements FileHandlerService {
     private static final Logger logger = LogManager
             .getLogger(FileHandler.class);
     private String tempDir = null;
-
-//    @WireVariable
-//    private ImpalaJdbc impalaJdbc;
+    private ImpalaJdbc impalaJdbc;
 
     /**
      * Create a directory to save the output files to.
@@ -60,26 +63,6 @@ public class FileHandlerImpl implements FileHandlerService {
         return null;
     }
 
-    private List <String> addTableGetSnippet(String fileName){
-        List<String> resultsList = null;
-        ImpalaJdbc impalaJdbc = new ImpalaJdbc();
-
-        String tableName = fileName.split("\\.")[0];
-
-        System.out.println("Adding To Table: " + tableName + " | "+ fileName);
-
-//        boolean isTableAdded =  impalaJdbc.addTable(tableName, fileName);
-        boolean isTableAdded =  true;
-
-        if(isTableAdded){
-            System.out.println("Table sucessfully Added!!");
-            resultsList = impalaJdbc.executeQuery("SELECT * FROM "
-                                                + tableName + " LIMIT 10");
-        }
-
-        return resultsList;
-    }
-
     /**
      * Writes the input file to an output buffer.
      * @param media the input file.
@@ -102,10 +85,16 @@ public class FileHandlerImpl implements FileHandlerService {
             int ch = in.read(buffer);
             while (ch != -1) {
                 out.write(buffer, 0, ch);
+
                 ch = in.read(buffer);
             }
 
-            List <String> resultsList = addTableGetSnippet(media.getName());
+            in.close();
+            if (out != null) {
+                out.close();
+            }
+
+            changeFilePermission(this.tempDir + media.getName());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -114,16 +103,55 @@ public class FileHandlerImpl implements FileHandlerService {
             e.printStackTrace();
             return UPLOAD_FAILED;
         } finally {
-            try {
-                in.close();
-                if (out != null) {
-                    out.close();
-                }
-                return UPLOAD_SUCCESS;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return UPLOAD_FAILED;
-            }
+            return UPLOAD_SUCCESS;
         }
+    }
+
+    /**
+     * Add the file to the Impala and get a snippet
+     * @param fileName File Name
+     * @param limit  Limit of the rows
+     * @return return the snippet of the table.
+     */
+    public List<String> addTableGetSnippet(String fileName, int limit) {
+
+        List<String> resultsList = null;
+        impalaJdbc = new ImpalaJdbc();
+
+        String tableName = fileName.split("\\.")[0];
+
+        System.out.println("Adding To Table: " + tableName + " | "+ fileName);
+
+        boolean isTableAdded =  impalaJdbc.addTable(tableName, fileName);
+
+        if(isTableAdded){
+            System.out.println("Table sucessfully Added!!");
+            resultsList = impalaJdbc.executeQuery("SELECT * FROM "
+                                            + tableName + " LIMIT " + limit);
+        }
+
+        impalaJdbc = null;
+
+        return resultsList;
+    }
+
+    private void changeFilePermission(String filePath) throws Exception {
+        Path path = Paths.get(filePath);
+
+        PosixFileAttributeView posixView = Files.getFileAttributeView(path,
+                PosixFileAttributeView.class);
+        if (posixView == null) {
+            System.out.format("POSIX attribute view  is not  supported%n.");
+            return;
+        }
+        updatePermissions(posixView);
+    }
+
+    private void updatePermissions(PosixFileAttributeView posixView)
+            throws Exception {
+        Set<PosixFilePermission> permissions = EnumSet.of(OWNER_READ, OWNER_WRITE,
+                                                GROUP_READ, OTHERS_READ);
+        posixView.setPermissions(permissions);
+        System.out.println("Permissions set successfully to rw-r--r--.");
     }
 }
