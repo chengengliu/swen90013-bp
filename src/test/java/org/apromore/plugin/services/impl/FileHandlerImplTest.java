@@ -106,6 +106,7 @@ public class FileHandlerImplTest {
         EasyMock.expect(media.isBinary()).andReturn(true);
         EasyMock.expect(media.getStreamData()).andReturn(null);
         EasyMock.replay(media);
+
         service.writeFiles(media);
         EasyMock.verify(media);
     }
