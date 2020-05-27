@@ -4,7 +4,8 @@ import java.io.*;
 
 import org.apromore.plugin.PluginConfig;
 import org.apromore.plugin.services.FileHandlerService;
-import org.easymock.EasyMock;
+import static org.easymock.EasyMock.*;
+import org.easymock.EasyMockSupport;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +23,7 @@ import org.zkoss.util.media.Media;
  */
 @ContextConfiguration(classes = PluginConfig.class)
 @RunWith(SpringRunner.class)
-public class FileHandlerImplTest {
+public class FileHandlerImplTest extends EasyMockSupport {
     private static final String UPLOAD_FAILED = "Upload Failed";
     private static final String UPLOAD_SUCCESS = "Upload Success";
 
@@ -40,8 +41,8 @@ public class FileHandlerImplTest {
      */
     @Before
     public void setup() {
-        media = EasyMock.createMock(Media.class);
-        inputStream = EasyMock.createMock(InputStream.class);
+        media = createMock(Media.class);
+        inputStream = createMock(InputStream.class);
     }
 
     /**
@@ -51,14 +52,14 @@ public class FileHandlerImplTest {
     public void writeStringFilesTest() {
         String mockString = "test";
 
-        EasyMock.expect(media.isBinary()).andReturn(false);
-        EasyMock.expect(media.getStringData()).andReturn(mockString);
+        expect(media.isBinary()).andReturn(false);
+        expect(media.getStringData()).andReturn(mockString);
 
-        EasyMock.replay(media);
+        replayAll();
 
         Assert.assertEquals(service.writeFiles(media), UPLOAD_SUCCESS);
 
-        EasyMock.verify(media);
+        verifyAll();
     }
 
     /**
@@ -66,27 +67,23 @@ public class FileHandlerImplTest {
      */
     @Test
     public void writeStreamFilesTest() throws IOException {
-        bufferedInputStream = EasyMock.createMockBuilder(
+        bufferedInputStream = createMockBuilder(
                 BufferedInputStream.class)
                 .withConstructor(InputStream.class)
                 .withArgs(inputStream)
                 .createMock();
 
-        EasyMock.expect(media.isBinary()).andReturn(true);
-        EasyMock.expect(media.getStreamData()).andReturn(inputStream);
+        expect(media.isBinary()).andReturn(true);
+        expect(media.getStreamData()).andReturn(inputStream);
 
         bufferedInputStream.close();
-        EasyMock.expectLastCall();
+        expectLastCall();
 
-        EasyMock.replay(inputStream);
-        EasyMock.replay(bufferedInputStream);
-        EasyMock.replay(media);
+        replayAll();
 
         Assert.assertEquals(service.writeFiles(media), UPLOAD_SUCCESS);
 
-        EasyMock.verify(bufferedInputStream);
-        EasyMock.verify(inputStream);
-        EasyMock.verify(media);
+        verifyAll();
     }
 
     /**
@@ -94,21 +91,20 @@ public class FileHandlerImplTest {
      */
     @Test(expected = NullPointerException.class)
     public void writeFileFailTest() {
-        bufferedInputStream = EasyMock.createMockBuilder(
+        bufferedInputStream = createMockBuilder(
                 BufferedInputStream.class)
                 .withConstructor(InputStream.class)
                 .withArgs(null)
                 .createMock();
 
-        EasyMock.expect(media.isBinary()).andReturn(true);
-        EasyMock.expect(media.getStreamData()).andReturn(null);
+        expect(media.isBinary()).andReturn(true);
+        expect(media.getStreamData()).andReturn(null);
 
-        EasyMock.replay(bufferedInputStream);
-        EasyMock.replay(media);
+
+        replayAll();
 
         service.writeFiles(media);
 
-        EasyMock.verify(bufferedInputStream);
-        EasyMock.verify(media);
+        verifyAll();
     }
 }
