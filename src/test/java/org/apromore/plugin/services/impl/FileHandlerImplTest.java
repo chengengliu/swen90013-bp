@@ -4,8 +4,8 @@ import java.io.*;
 
 import org.apromore.plugin.PluginConfig;
 import org.apromore.plugin.services.FileHandlerService;
-import static org.easymock.EasyMock.*;
 import org.easymock.EasyMockSupport;
+import static org.easymock.EasyMock.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -99,7 +99,6 @@ public class FileHandlerImplTest extends EasyMockSupport {
 
         expect(media.isBinary()).andReturn(true);
         expect(media.getStreamData()).andReturn(null);
-
 
         replayAll();
 
