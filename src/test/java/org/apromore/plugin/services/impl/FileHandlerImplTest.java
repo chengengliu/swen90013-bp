@@ -53,7 +53,7 @@ public class FileHandlerImplTest {
         byteArrayInputStream = EasyMock.createMockBuilder(
                 ByteArrayInputStream.class)
                 .withConstructor(byte[].class)
-                .withArgs((Object)mockString.getBytes())
+                .withArgs((Object) mockString.getBytes())
                 .createMock();
         inputStream = byteArrayInputStream;
 
