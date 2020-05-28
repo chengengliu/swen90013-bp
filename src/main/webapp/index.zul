@@ -1,64 +1,62 @@
+<?link rel="stylesheet" type="text/css" href="/css/multi-event-log-plugin.css"?>
 <zk>
 	<window border="none" apply="org.zkoss.bind.BindComposer"
 			viewModel="@id('vm') @init('org.apromore.plugin.FileUploadViewModel')">
 			
 		<vlayout>
 			<!-- Apromore banner -->
-			<div style="background-image:url('https://apromore.org/wp-content/uploads/2019/10/cropped-main-banner-img.png')"
-				height="40px" width="1120px">
-				<image src="https://apromore.org/wp-content/uploads/2019/10/Logo-white@2x.png"
-					height="40px" width="150px" style="padding:10px"/>
+			<div sclass="banner">
+				<image src="https://apromore.org/wp-content/uploads/2019/10/Logo-white@2x.png" 
+					sclass = "banner-logo"/>
 			</div>
 			<hlayout spacing="0">
-				<vlayout style="background:#D7D7D7">
-					<div height="500px" style="padding:10px; text-align: center">
-						<!-- Left panel section -->
+				<vlayout sclass="left-panel">
+					<!-- Left panel section -->
 					
-						<!-- Upload and Download buttons -->
-						<hlayout style="padding-bottom:40px">
-							<button id="btnUpload" label="Upload"
-									onClick="@command('onFileUpload')"
-									mold="trendy" />
-							<button id="btnDownload" label="Download"
-									onClick="@command('onFileDownload')"/>
-						</hlayout>	
-						
-						<label style="font-size:18pt" value="Tables"/>
-						<!-- Add list of input tables here -->
-						
-						<hlayout>
-							<n:i class="z-icon-table" xmlns:n="native"/>
-							<label value="someInputData.csv" />
-							<popup id="table1">
-							    <div width="700px" height="300px" style="border:1px solid black;overflow:auto;">
-								    <grid id="grid">
-										<columns>
-										</columns>
-									</grid>
-								</div>
-							</popup>
-							<space spacing="3px" />
-							<div id="view-input-snippet" popup="table1, type=toggle">
-								<n:i class="z-icon-eye" xmlns:n="native" />
+					<!-- Upload and Download buttons -->
+					<hlayout sclass="button-area">
+						<button id="btnUpload" label="Upload"
+								onClick="@command('onFileUpload')"
+								mold="trendy" />
+						<button id="btnDownload" label="Download"
+								onClick="@command('onFileDownload')"/>
+					</hlayout>	
+					
+					<label sclass="heading" value="Tables"/>
+					<!-- Add list of input tables here -->
+					
+					<hlayout>
+						<n:i class="z-icon-table" xmlns:n="native"/>
+						<label value="someInputData.csv" />
+						<popup id="table1">
+						    <div sclass = "input-table-scroll-area">
+							    <grid id="grid">
+									<columns>
+									</columns>
+								</grid>
 							</div>
-						</hlayout>
+						</popup>
+						<space spacing="3px" />
+						<div id="view-input-snippet" popup="table1, type=toggle">
+							<n:i class="z-icon-eye" xmlns:n="native" />
+						</div>
+					</hlayout>
 						
-					</div>
 				</vlayout>
 				<vlayout>
 	
 							
-					<div height="200px" width="900px" style="background:#F2F2F2; text-align: center">
+					<div sclass="top-right-panel">
 					    <!-- Top panel section -->
-					    <div style="padding:70px">
+					    <div sclass="top-right-panel-center">
 							Add input tables to join here
 						</div>
 					</div>
 					
 						
-					<div height="300px" width="900px" style="background:#FFFFFF; text-align: center">
+					<div sclass="bottom-right-panel">
 						<!-- Bottom panel section -->
-						<div style="padding:100px">
+						<div sclass="bottom-right-panel-center">
 							Insert Join Table here
 						</div>
 					</div>
