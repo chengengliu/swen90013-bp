@@ -35,6 +35,7 @@ public class FileHandlerImpl implements FileHandlerService {
 
     /**
      * Output the files to the user who request download.
+     *
      * @return a file
      */
     public File outputFiles() {
@@ -51,6 +52,7 @@ public class FileHandlerImpl implements FileHandlerService {
 
     /**
      * Writes the input file to an output buffer.
+     *
      * @param media the input file.
      * @return return the message to show on client side.
      */
@@ -62,33 +64,28 @@ public class FileHandlerImpl implements FileHandlerService {
         } else {
             fIn = new ByteArrayInputStream(media.getStringData().getBytes());
         }
-        BufferedInputStream in = new BufferedInputStream(fIn);
-        BufferedOutputStream out = null;
 
         try {
             File file = new File(this.tempDir + media.getName());
             OutputStream fOut = new FileOutputStream(file);
-            out = new BufferedOutputStream(fOut);
-            byte buffer[] = new byte[BUFFER_SIZE];
-            int ch = in.read(buffer);
-            while (ch != -1) {
-                out.write(buffer, 0, ch);
-                ch = in.read(buffer);
+
+            try (
+                BufferedInputStream in = new BufferedInputStream(fIn);
+                BufferedOutputStream out = new BufferedOutputStream(fOut);
+            ) {
+                byte buffer[] = new byte[BUFFER_SIZE];
+                int ch = in.read(buffer);
+                while (ch != -1) {
+                    out.write(buffer, 0, ch);
+                    ch = in.read(buffer);
+                }
+            } catch (Exception e) {
+                throw e;
             }
         } catch (Exception e) {
-            e.printStackTrace();
             return UPLOAD_FAILED;
-        } finally {
-            try {
-                in.close();
-                if (out != null) {
-                    out.close();
-                }
-                return UPLOAD_SUCCESS;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return UPLOAD_FAILED;
-            }
         }
+
+        return UPLOAD_SUCCESS;
     }
 }
