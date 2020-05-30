@@ -1,10 +1,36 @@
+<?link rel="stylesheet" type="text/css" href="/css/multi-event-log-plugin.css"?>
 <zk>
-	<window border="normal" title="hello" apply="org.zkoss.bind.BindComposer"
-			viewModel="@id('vm') @init('org.apromore.plugin.FileUploadViewModel')">
-		<button id="btnUpload" label="Upload"
-				onClick="@command('onFileUpload')"
-				mold="trendy" />
-		<button id="btnDownload" label="Donwload"
-				onClick="@command('onFileDownload')"/>
+	<window border="none">
+			
+		<vlayout>
+			<!-- Apromore banner -->
+			<div sclass="banner">
+				<image src="https://apromore.org/wp-content/uploads/2019/10/Logo-white@2x.png" 
+					sclass = "banner-logo"/>
+			</div>
+			<hlayout spacing="0">
+				<include src="/import-panel.zul" />
+				<vlayout>
+	
+							
+					<div sclass="top-right-panel">
+					    <!-- Top panel section -->
+					    <div sclass="top-right-panel-center">
+							Add input tables to join here
+						</div>
+					</div>
+					
+						
+					<div sclass="bottom-right-panel">
+						<!-- Bottom panel section -->
+						<div sclass="bottom-right-panel-center">
+							Insert Join Table here
+						</div>
+					</div>
+	
+				</vlayout>
+			</hlayout>
+		</vlayout>
 	</window>
+	
 </zk>

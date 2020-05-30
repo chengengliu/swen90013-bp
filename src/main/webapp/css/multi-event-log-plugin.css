@@ -1,0 +1,58 @@
+@charset "ISO-8859-1";
+
+.banner{
+	background-image:url('https://apromore.org/wp-content/uploads/2019/10/cropped-main-banner-img.png');
+	height: 40px;
+	width: 1120px;
+}
+
+.banner-logo{
+	height: 40px;
+	width: 150px;
+	padding: 10px;
+}
+
+.left-panel{
+	background:#D7D7D7;
+	height: 500px; 
+	padding: 10px; 
+	text-align: center;
+}
+
+.top-right-panel{
+	height: 200px;
+	width: 900px;
+	background: #F2F2F2;
+	text-align: center;
+}
+
+.top-right-panel-center{
+	padding: 70px;
+}
+
+.bottom-right-panel{
+	height: 300px;
+	width: 900px;
+	background: #FFFFFF;
+	text-align: center;
+}
+
+.bottom-right-panel-center{
+	padding: 120px;
+}
+
+.button-area{
+	padding-bottom:40px;
+}
+
+.heading{
+	font-size:18pt;
+}
+
+.input-table-scroll-area{
+	width: 700px;
+	height: 300px; 
+	border: 1px solid black;
+	overflow: auto;
+}
+
