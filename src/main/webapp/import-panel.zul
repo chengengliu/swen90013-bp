@@ -17,14 +17,12 @@
 		<label sclass="heading" value="Tables"/>
 		<!-- Add list of input tables here -->
 		
-		<hlayout>
+		<hlayout apply="org.apromore.plugin.composers.TableComposer">
 			<n:i class="z-icon-table" xmlns:n="native"/>
 			<label value="someInputData.csv" />
 			<popup id="table1">
 			    <div sclass = "input-table-scroll-area">
-				    <grid id="grid">
-						<columns>
-						</columns>
+				    <grid id="inputGrid">
 					</grid>
 				</div>
 			</popup>
