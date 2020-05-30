@@ -69,7 +69,6 @@ public class FileUploadViewModel {
                 e.printStackTrace();
             }
 
-
         } else {
             Messagebox.show(
                 NULL_UPLOAD_MESSAGE,

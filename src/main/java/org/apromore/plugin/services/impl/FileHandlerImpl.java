@@ -1,5 +1,4 @@
 package org.apromore.plugin.services.impl;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -12,14 +11,9 @@ import java.nio.file.attribute.*;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.FileHandler;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.apromore.plugin.services.FileHandlerService;
 import org.springframework.stereotype.Service;
 import org.zkoss.util.media.Media;
-import org.zkoss.zk.ui.select.annotation.WireVariable;
-
 import static java.nio.file.attribute.PosixFilePermission.*;
 
 /**
@@ -30,8 +24,6 @@ public class FileHandlerImpl implements FileHandlerService {
     private static final int BUFFER_SIZE = 1024;
     private static final String UPLOAD_FAILED = "Upload Failed";
     private static final String UPLOAD_SUCCESS = "Upload Success";
-    private static final Logger logger = LogManager
-            .getLogger(FileHandler.class);
     private String tempDir = null;
     private ImpalaJdbc impalaJdbc;
 
@@ -122,6 +114,7 @@ public class FileHandlerImpl implements FileHandlerService {
 
         System.out.println("Adding To Table: " + tableName + " | "+ fileName);
 
+        // Adding the file into the Impala as a table
         boolean isTableAdded =  impalaJdbc.addTable(tableName, fileName);
 
         if(isTableAdded){

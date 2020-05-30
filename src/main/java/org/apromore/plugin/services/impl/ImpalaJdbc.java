@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImpalaJdbc {
-    private static final String connectionUrl = "jdbc:hive2://localhost:21050/;auth=noSasl";
-    private static final String jdbcDriverName = "org.apache.hive.jdbc.HiveDriver";
+//    private static final String connectionUrl = "jdbc:hive2://localhost:21050/;auth=noSasl";
+//    private static final String jdbcDriverName = "org.apache.hive.jdbc.HiveDriver";
+    private static final String connectionUrl = "jdbc:impala://localhost:21050";
+    private static final String jdbcDriverName = "com.cloudera.impala.jdbc41.Driver";
     private static final String sqlStatementInvalidate = "INVALIDATE METADATA";
     private Connection con = null;
     private Statement stmt;
@@ -41,7 +43,7 @@ public class ImpalaJdbc {
                         "LOCATION '/preprocess_data'";
 
         query = String.format(query, tableName, fileName);
-        boolean status = true;
+        boolean status = false;
 
         try {
 
@@ -50,17 +52,16 @@ public class ImpalaJdbc {
 
             // Import files
             stmt.execute(sqlStatementDrop);
-            status = stmt.execute(query);
+            stmt.execute(query);
 
-            if (status){
-                System.out.println("Table added!!");
-            }else {
-                System.out.println("Failed to add Table!!");
-            }
+            status = true;
+            System.out.println("Table added!!");
 
         } catch (SQLException e) {
+            System.out.println("Failed to add Table!!");
             e.printStackTrace();
         } catch (Exception e) {
+            System.out.println("Failed to add Table!!");
             e.printStackTrace();
         }
         return status;
