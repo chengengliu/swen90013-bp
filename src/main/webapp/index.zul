@@ -1,36 +1,32 @@
 <?link rel="stylesheet" type="text/css" href="/css/multi-event-log-plugin.css"?>
 <zk>
-	<window border="none">
-			
-		<vlayout>
+    <window sclass="main-window">
+		<vlayout sclass="main-window">
 			<!-- Apromore banner -->
 			<div sclass="banner">
-				<image src="https://apromore.org/wp-content/uploads/2019/10/Logo-white@2x.png" 
-					sclass = "banner-logo"/>
-			</div>
-			<hlayout spacing="0">
+                <image src="https://apromore.org/wp-content/uploads/2019/10/Logo-white@2x.png"
+                    sclass = "banner-logo"/>
+            </div>
+			<hlayout spacing="0.4em" width="100%">
 				<include src="/import-panel.zul" />
-				<vlayout>
-	
-							
-					<div sclass="top-right-panel">
+				<vlayout spacing="0.4em" width="60%">
+
+					<window sclass="card">
 					    <!-- Top panel section -->
 					    <div sclass="top-right-panel-center">
 							Add input tables to join here
 						</div>
-					</div>
-					
-						
-					<div sclass="bottom-right-panel">
+					</window>
+
+					<window sclass="card">
 						<!-- Bottom panel section -->
 						<div sclass="bottom-right-panel-center">
 							Insert Join Table here
 						</div>
-					</div>
+					</window>
 	
 				</vlayout>
 			</hlayout>
 		</vlayout>
 	</window>
-	
 </zk>
