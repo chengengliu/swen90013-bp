@@ -1,0 +1,150 @@
+@startuml classes
+
+namespace org {
+    namespace apromore {
+        namespace service {
+            namespace FileImporterLogic {
+                namespace impl {
+                    class FileImporterLogicImpl
+                    class TransactionImpl
+
+                    class Select {
+                        - String column
+                        - String as
+                        + Select(String column)
+                        + Select(String column, String as)
+                    }
+
+                    class Concatenate {
+                        - String[] columns
+                        - String delimiter
+                        - String newColumnName
+                        + Concatenate(String[] columns, String delimiter, String newColumnName)
+                    }
+
+                    class If {
+                        - String condition
+                        - String true
+                        - String false
+                        + If(String condition, String true, String false)
+                    }
+
+                    class Join {
+                        - String file
+                        - String joinKey1
+                        - String joinKey2
+                        + Join(JoinType joinType, String file, String joinKey1, String joinKey2)
+                    }
+
+                    class Where {
+                        - String column
+                        - String value
+                        + Where(String column, Comparison comparison, String value)
+                    }
+
+                    class Order {
+                        - String column
+                        + Order(String column, Direction direction)
+                    }
+
+                    FileImporterLogicImpl ..|> org.apromore.service.FileImporterLogic.FileImporterLogic
+                    TransactionImpl ..|> org.apromore.service.FileImporterLogic.Transaction
+
+                    Select ..|> org.apromore.service.FileImporterLogic.Statement
+                    Concatenate ..|> org.apromore.service.FileImporterLogic.Statement
+                    If ..|> org.apromore.service.FileImporterLogic.Statement
+                    Join ..|> org.apromore.service.FileImporterLogic.Statement
+                    Join --* "1" org.apromore.service.FileImporterLogic.JoinType : - joinType
+                    Where ..|> org.apromore.service.FileImporterLogic.Statement
+                    Where --* "1" org.apromore.service.FileImporterLogic.Comparison : - comparison
+                    Order ..|> org.apromore.service.FileImporterLogic.Statement
+                    Order --* "1" org.apromore.service.FileImporterLogic.Direction : - direction
+                }
+
+                interface Statement {
+                    + String toString()
+                }
+
+                enum JoinType {
+                    LEFT
+                    INNER
+                    RIGHT
+                    FULL_OUTER
+                }
+
+                enum Comparison {
+                    EQUALS
+                    GREATER_THAN
+                    LESS_THAN
+                    GREATER_THAN_OR_EQUALS
+                    LESS_THAN_OR_EQUALS
+                }
+
+                enum Direction {
+                    ASC
+                    DESC
+                }
+
+                interface Transaction {
+                    - String file
+                    - String[] selectedColumns
+                    + Transaction(String file)
+                    + Transaction join(JoinType joinType, String file)
+                    + Transaction select(String column)
+                    + Transaction select(String column, String as)
+                    + Transaction order(String[] columns)
+                    + Transaction if(String condition, String true, String false)
+                    + Transaction concatenate(String[] columns, String delimiter, String newColumnName)
+                    + Transaction where(String column, Comparison comparison, String value)
+                    + ResultSet execute()
+                }
+
+                interface FileImporterLogic {
+                    + String[][] getSnippet(Transaction transaction, int rows)
+                    + void exportFiles(Transaction transaction)
+                }
+
+                Transaction --* "*" "Statement" : + statements
+            }
+        }
+
+        namespace plugin {
+            namespace portal {
+                namespace FileImporterPortal {
+                    namespace impl {
+                        class FileUploadServiceImpl
+                        class FileImporterServiceImpl
+
+                        FileUploadServiceImpl ..|> org.apromore.plugin.portal.FileImporterPortal.FileUploadService
+                        FileImporterServiceImpl ..|> org.apromore.plugin.portal.FileImporterPortal.FileImporterService
+                        FileImporterServiceImpl --* "1" org.apromore.service.FileImporterLogic.FileImporterLogic : - fileImporterLogic
+                    }
+
+                    class FileUploadViewModel {
+                        + void init()
+                        + void onFileUpload()
+                    }
+
+                    interface FileUploadService {
+                        + void writeFiles(Media[] media)
+                    }
+
+                    class FileImporterViewModel {
+                        + void init()
+                        + void onFileImport()
+                    }
+
+                    interface FileImporterService {
+                        + void getSnippet(Operation[] operations)
+                        + void importFiles(Media[] media, Operation[] operations)
+                    }
+
+                    FileUploadViewModel --* "1" FileUploadService : - fileUploadService
+                    FileImporterViewModel --* "1" FileImporterService : - fileImporterService
+                }
+            }
+        }
+    }
+}
+
+@enduml
