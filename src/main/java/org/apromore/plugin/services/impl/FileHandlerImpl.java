@@ -85,22 +85,23 @@ public class FileHandlerImpl implements FileHandlerService {
                 ch = in.read(buffer);
             }
 
-            in.close();
-            if (out != null) {
-                out.close();
-            }
-
             changeFilePermission(this.tempDir + media.getName());
 
         } catch (IOException e) {
             e.printStackTrace();
             return UPLOAD_FAILED;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return UPLOAD_FAILED;
+        } finally {
+            try {
+                in.close();
+                if (out != null) {
+                    out.close();
+                }
+                return UPLOAD_SUCCESS;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return UPLOAD_FAILED;
+            }
         }
-
-        return UPLOAD_SUCCESS;
     }
 
     /**
