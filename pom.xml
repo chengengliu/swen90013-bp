@@ -7,7 +7,8 @@
     <properties>
         <zk.version>9.0.0.1</zk.version>
         <spring.version>5.2.6.RELEASE</spring.version>
-        <commons-io>2.6</commons-io>
+        <commons-io>2.7</commons-io>
+        <easymock.version>3.1</easymock.version>
         <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
         <packname>-${project.version}-FL-${maven.build.timestamp}</packname>
     </properties>
@@ -117,6 +118,20 @@
             <version>3.3.0</version>
         </dependency>
 
+        <!--easy mock dependencies-->
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>${easymock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymockclassextension</artifactId>
+            <version>${easymock.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- JUnit Testing dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -202,6 +217,12 @@
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>
             <version>3.4.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>17.0.0</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>

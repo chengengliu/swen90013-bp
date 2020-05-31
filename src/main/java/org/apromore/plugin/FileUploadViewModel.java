@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+
 import org.apromore.plugin.services.FileHandlerService;
+import org.jetbrains.annotations.NotNull;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.util.media.Media;
@@ -33,15 +35,16 @@ public class FileUploadViewModel {
     }
 
     /**
-     * Convert the list result into String
-     * @param tableVal
-     * @return
+     * Convert the list result into String.
+     *
+     * @param tableVal snippet list values
+     * @return converted string
      */
-    private String createTableOutput(List<List<String>> tableVal){
+    private String createTableOutput(@NotNull List<List<String>> tableVal) {
 
         String text = "";
-        for(List<String> rowList: tableVal) {
-            for (String rowVal: rowList){
+        for (List<String> rowList: tableVal) {
+            for (String rowVal: rowList) {
                 text += rowVal + ", ";
             }
             text += "\n";
@@ -64,7 +67,7 @@ public class FileUploadViewModel {
                 returnMessage = fileHandlerService.writeFiles(media);
 
                 // If the file was written then load in impala and get snippet
-                if(returnMessage.equals("Upload Success")){
+                if (returnMessage.equals("Upload Success")) {
                     List<List<String>> resultsList;
 
                     // Add the table and get snippet from impala

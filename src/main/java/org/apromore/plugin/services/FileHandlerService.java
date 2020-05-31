@@ -19,7 +19,7 @@ public interface FileHandlerService {
     String writeFiles(Media media) throws IOException;
 
     /**
-     * Add the file to the Impala and get a snippet
+     * Add the file to the Impala and get a snippet.
      * @param fileName File Name
      * @param limit  Limit of the rows
      * @return return the snippet of the table.

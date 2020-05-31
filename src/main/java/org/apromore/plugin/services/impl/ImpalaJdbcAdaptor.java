@@ -1,20 +1,25 @@
 package org.apromore.plugin.services.impl;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Impala JDBC Adaptor class to to execute
+ * Impala JDBC Adaptor class to connect and execute queries.
  */
 public class ImpalaJdbcAdaptor {
     // Impala connection info
-    private static final String connectionUrl = "jdbc:impala://apacheimpala:21050";
-    private static final String jdbcDriverName = "com.cloudera.impala.jdbc41.Driver";
+    private final String connectionUrl = "jdbc:impala://apacheimpala:21050";
+    private final String jdbcDriverName = "com.cloudera.impala.jdbc41.Driver";
     private Connection con = null;
     private Statement stmt;
 
-    public ImpalaJdbcAdaptor(){
+    /**
+     * Constructing the JDBC connection.
+     */
+    public ImpalaJdbcAdaptor() {
         try {
             //
             Class.forName(jdbcDriverName);
@@ -35,13 +40,13 @@ public class ImpalaJdbcAdaptor {
     }
 
     /**
-     * Add the table in the impala
+     * Add the table in the impala.
      *
-     * @param tableName
-     * @param fileName
-     * @return
+     * @param tableName Name of the table to add
+     * @param fileName File name
+     * @return If the file was added
      */
-    public boolean addTable(String tableName, String fileName){
+    public boolean addTable(@NotNull String tableName, String fileName) {
 
         String sqlStatementDrop = "DROP TABLE IF EXISTS " + tableName;
 
@@ -74,11 +79,11 @@ public class ImpalaJdbcAdaptor {
     }
 
     /**
-     * Create query to get snippet from impala
+     * Create query to get snippet from impala.
      *
-     * @param tableName
-     * @param limit
-     * @return
+     * @param tableName Name of the table to execute query on
+     * @param limit Limit of the rows results
+     * @return List of the result rows
      */
     public List<List<String>> getSnippet(String tableName, int limit) {
         return executeQuery("SELECT * FROM "
@@ -88,10 +93,10 @@ public class ImpalaJdbcAdaptor {
     /**
      * Execute SQL query on the impala tables.
      *
-     * @param sqlStatement
-     * @return
+     * @param sqlStatement Sql string
+     * @return List of the result rows
      */
-    private List<List<String>> executeQuery(String sqlStatement) {
+    private List<List<String>> executeQuery(@NotNull String sqlStatement) {
 
         List<List<String>> resultList = new ArrayList<>();
 
@@ -135,11 +140,6 @@ public class ImpalaJdbcAdaptor {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-            } catch (Exception e) {
-                System.out.println(e);
-            }
         }
 
         return resultList;

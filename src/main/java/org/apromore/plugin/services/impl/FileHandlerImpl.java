@@ -2,6 +2,7 @@ package org.apromore.plugin.services.impl;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import static java.nio.file.attribute.PosixFilePermission.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,10 +13,10 @@ import java.nio.file.attribute.*;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+
 import org.apromore.plugin.services.FileHandlerService;
 import org.springframework.stereotype.Service;
 import org.zkoss.util.media.Media;
-import static java.nio.file.attribute.PosixFilePermission.*;
 
 /**
  * Implement the file handle service.
@@ -58,6 +59,7 @@ public class FileHandlerImpl implements FileHandlerService {
 
     /**
      * Writes the input file to an output buffer.
+     *
      * @param media the input file.
      * @return return the message to show on client side.
      */
@@ -76,6 +78,7 @@ public class FileHandlerImpl implements FileHandlerService {
             out = new BufferedOutputStream(fOut);
             byte buffer[] = new byte[BUFFER_SIZE];
             int ch = in.read(buffer);
+
             while (ch != -1) {
                 out.write(buffer, 0, ch);
 
@@ -101,7 +104,7 @@ public class FileHandlerImpl implements FileHandlerService {
     }
 
     /**
-     * Add the file to the Impala and get a snippet
+     * Add the file to the Impala and get a snippet.
      *
      * @param fileName File Name
      * @param limit  Limit of the rows
@@ -114,13 +117,13 @@ public class FileHandlerImpl implements FileHandlerService {
 
         String tableName = fileName.split("\\.")[0];
 
-        System.out.println("Adding: " + tableName + " | "+ fileName);
+        System.out.println("Adding: " + tableName + " | " + fileName);
 
         // Adding the file into the Impala as a table
         boolean isTableAdded =  impalaJdbc.addTable(tableName, fileName);
 
         // Get snippet
-        if(isTableAdded){
+        if (isTableAdded) {
             resultsList = impalaJdbc.getSnippet(tableName, limit);
         }
 
@@ -130,18 +133,22 @@ public class FileHandlerImpl implements FileHandlerService {
     }
 
     /**
-     * Change the File permission so that impala could read the files in the volume.
+     * Change the File permission so that impala could read the
+     * files in the volume.
      *
-     * @param filePath
-     * @throws Exception
+     * @param filePath Path of the file in the volume.
+     * @throws Exception for the file permission change failure.
      */
     private void changeFilePermission(String filePath) throws Exception {
         Path path = Paths.get(filePath);
-        Set<PosixFilePermission> permissions = EnumSet.of(OWNER_READ, OWNER_WRITE,
-                GROUP_READ, OTHERS_READ);
+        Set<PosixFilePermission> permissions = EnumSet.of(OWNER_READ,
+                                                          OWNER_WRITE,
+                                                          GROUP_READ,
+                                                          OTHERS_READ);
 
         PosixFileAttributeView posixView = Files.getFileAttributeView(path,
                 PosixFileAttributeView.class);
+
         if (posixView == null) {
             System.out.format("POSIX attribute view  is not  supported%n.");
             return;
