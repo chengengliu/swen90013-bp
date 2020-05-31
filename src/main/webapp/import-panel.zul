@@ -16,21 +16,22 @@
 		
 		<label sclass="heading" value="Tables"/>
 		<!-- Add list of input tables here -->
-		
-		<hlayout apply="org.apromore.plugin.composers.TableComposer">
-			<n:i class="z-icon-table" xmlns:n="native"/>
-			<label value="someInputData.csv" />
-			<popup id="table1">
-			    <div sclass = "input-table-scroll-area">
-				    <grid id="inputGrid">
-					</grid>
+		<div id="input-file-list">
+			<hlayout apply="org.apromore.plugin.composers.TableComposer">
+				<n:i class="z-icon-table" xmlns:n="native"/>
+				<label value="someInputData.csv" />
+				<popup id="table1">
+				    <div sclass = "input-table-scroll-area">
+					    <grid id="inputGrid">
+						</grid>
+					</div>
+				</popup>
+				<space spacing="3px" />
+				<div id="view-input-snippet" popup="table1, type=toggle">
+					<n:i class="z-icon-eye" xmlns:n="native" />
 				</div>
-			</popup>
-			<space spacing="3px" />
-			<div id="view-input-snippet" popup="table1, type=toggle">
-				<n:i class="z-icon-eye" xmlns:n="native" />
-			</div>
-		</hlayout>
+			</hlayout>
+		</div>
 			
 	</vlayout>
 		
