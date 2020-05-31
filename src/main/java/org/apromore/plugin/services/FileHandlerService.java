@@ -24,7 +24,7 @@ public interface FileHandlerService {
      * @param limit  Limit of the rows
      * @return return the snippet of the table.
      */
-    List<String> addTableGetSnippet(String fileName, int limit);
+    List<List<String>> addTableGetSnippet(String fileName, int limit);
 
     /**
      * Output the file.

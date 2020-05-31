@@ -1,4 +1,5 @@
 package org.apromore.plugin.services.impl;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -25,15 +26,15 @@ public class FileHandlerImpl implements FileHandlerService {
     private static final String UPLOAD_FAILED = "Upload Failed";
     private static final String UPLOAD_SUCCESS = "Upload Success";
     private String tempDir = null;
-    private ImpalaJdbc impalaJdbc;
+    private ImpalaJdbcAdaptor impalaJdbc;
 
     /**
      * Create a directory to save the output files to.
      */
     private void generateDirectory() {
         String temporalDir = new File("").getAbsolutePath();
-        File directory = new File(temporalDir + "/files/");
-        this.tempDir = temporalDir + "/files/";
+        File directory = new File(temporalDir + "/preprocess_data/");
+        this.tempDir = temporalDir + "/preprocess_data/";
         if (!directory.exists()) {
             directory.mkdir();
         }
@@ -101,26 +102,26 @@ public class FileHandlerImpl implements FileHandlerService {
 
     /**
      * Add the file to the Impala and get a snippet
+     *
      * @param fileName File Name
      * @param limit  Limit of the rows
      * @return return the snippet of the table.
      */
-    public List<String> addTableGetSnippet(String fileName, int limit) {
+    public List<List<String>> addTableGetSnippet(String fileName, int limit) {
 
-        List<String> resultsList = null;
-        impalaJdbc = new ImpalaJdbc();
+        List<List<String>> resultsList = null;
+        impalaJdbc = new ImpalaJdbcAdaptor();
 
         String tableName = fileName.split("\\.")[0];
 
-        System.out.println("Adding To Table: " + tableName + " | "+ fileName);
+        System.out.println("Adding: " + tableName + " | "+ fileName);
 
         // Adding the file into the Impala as a table
         boolean isTableAdded =  impalaJdbc.addTable(tableName, fileName);
 
+        // Get snippet
         if(isTableAdded){
-            System.out.println("Table sucessfully Added!!");
-            resultsList = impalaJdbc.executeQuery("SELECT * FROM "
-                                            + tableName + " LIMIT " + limit);
+            resultsList = impalaJdbc.getSnippet(tableName, limit);
         }
 
         impalaJdbc = null;
@@ -128,8 +129,16 @@ public class FileHandlerImpl implements FileHandlerService {
         return resultsList;
     }
 
+    /**
+     * Change the File permission so that impala could read the files in the volume.
+     *
+     * @param filePath
+     * @throws Exception
+     */
     private void changeFilePermission(String filePath) throws Exception {
         Path path = Paths.get(filePath);
+        Set<PosixFilePermission> permissions = EnumSet.of(OWNER_READ, OWNER_WRITE,
+                GROUP_READ, OTHERS_READ);
 
         PosixFileAttributeView posixView = Files.getFileAttributeView(path,
                 PosixFileAttributeView.class);
@@ -137,13 +146,7 @@ public class FileHandlerImpl implements FileHandlerService {
             System.out.format("POSIX attribute view  is not  supported%n.");
             return;
         }
-        updatePermissions(posixView);
-    }
 
-    private void updatePermissions(PosixFileAttributeView posixView)
-            throws Exception {
-        Set<PosixFilePermission> permissions = EnumSet.of(OWNER_READ, OWNER_WRITE,
-                                                GROUP_READ, OTHERS_READ);
         posixView.setPermissions(permissions);
         System.out.println("Permissions set successfully to rw-r--r--.");
     }

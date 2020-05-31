@@ -12,10 +12,15 @@ COPY src ./src
 RUN mvn -B -T 1C package -DskipTests
 
 # Deploy Server
-FROM tomcat:8.0-alpine
+FROM jetty:9-jre8-alpine
 
-COPY --from=build /app/target/preprocessing-plugin.war /usr/local/tomcat/webapps/
+COPY --from=build /app/target/preprocessing-plugin.war /var/lib/jetty/webapps/
+
+# Change Volume permissions from root to jetty
+RUN mkdir /var/lib/jetty/preprocess_data
+RUN chown jetty:jetty /var/lib/jetty/preprocess_data
+USER jetty
 
 EXPOSE 8080
 
-CMD ["catalina.sh", "run"]
+CMD java -jar $JETTY_HOME/start.jar

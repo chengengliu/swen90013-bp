@@ -4,16 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-
 import org.apromore.plugin.services.FileHandlerService;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
-import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.Media;
-import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
-import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.*;
 
@@ -37,10 +32,19 @@ public class FileUploadViewModel {
 
     }
 
-    private String createTableOutput(List<String> tableVal){
+    /**
+     * Convert the list result into String
+     * @param tableVal
+     * @return
+     */
+    private String createTableOutput(List<List<String>> tableVal){
+
         String text = "";
-        for(String row: tableVal) {
-            text += row + "\n";
+        for(List<String> rowList: tableVal) {
+            for (String rowVal: rowList){
+                text += rowVal + ", ";
+            }
+            text += "\n";
         }
 
         System.out.println(text);
@@ -61,9 +65,16 @@ public class FileUploadViewModel {
 
                 // If the file was written then load in impala and get snippet
                 if(returnMessage.equals("Upload Success")){
-                    List <String> resultsList = fileHandlerService.addTableGetSnippet(media.getName(), 10);
+                    List<List<String>> resultsList;
+
+                    // Add the table and get snippet from impala
+                    resultsList = fileHandlerService.addTableGetSnippet(
+                                                        media.getName(), 10);
+
+                    // Create result String
                     textTable = createTableOutput(resultsList);
                 }
+
                 Messagebox.show(returnMessage);
             } catch (IOException e) {
                 e.printStackTrace();
