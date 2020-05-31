@@ -98,9 +98,9 @@ public class FileHandlerImpl implements FileHandlerService {
         } catch (Exception e) {
             e.printStackTrace();
             return UPLOAD_FAILED;
-        } finally {
-            return UPLOAD_SUCCESS;
         }
+
+        return UPLOAD_SUCCESS;
     }
 
     /**
