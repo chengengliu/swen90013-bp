@@ -84,8 +84,8 @@ public class ImpalaJdbcAdaptor {
      * @return List of the result rows
      */
     public List<List<String>> getSnippet(String tableName, int limit) {
-        return executeQuery("SELECT * FROM "
-                            + tableName + " LIMIT " + limit);
+        return executeQuery("SELECT * FROM " +
+                            tableName + " LIMIT " + limit);
     }
 
     /**
