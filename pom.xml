@@ -28,6 +28,7 @@
             <name>ZK CE Repository</name>
             <url>https://mavensync.zkoss.org/maven2</url>
         </repository>
+
         <!-- YOUR LOCAL REPO -->
         <repository>
             <id>nexus.local</id>
@@ -36,9 +37,7 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-
         </repository>
-
         <repository>
             <id>cdh.repo</id>
             <url>https://repository.cloudera.com/artifactory/cloudera-repos</url>
@@ -155,7 +154,6 @@
         </dependency>
 
         <!-- Impala JDBC dependencies provided by your local repo -->
-
         <dependency>
             <groupId>com.cloudera.impala.jdbc</groupId>
             <artifactId>hive_metastore</artifactId>
@@ -186,8 +184,7 @@
             <version>2.5.30</version>
         </dependency>
 
-        <!-- End of dependencies provided by your local repo -->
-
+        <!-- JDBC Drivers provided by public repo -->
         <dependency>
             <groupId>org.apache.thrift</groupId>
             <artifactId>libfb303</artifactId>
@@ -218,13 +215,6 @@
             <artifactId>zookeeper</artifactId>
             <version>3.4.6</version>
         </dependency>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>17.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>
@@ -282,15 +272,38 @@
                 </executions>
             </plugin>
 
-            <!-- Run with Tomcat-->
+            <!-- Run with Jetty-->
             <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.4.29.v20200521</version>
                 <configuration>
-                    <port>8080</port>
-                    <path>/preprocessing-plugin</path>
+                    <webApp>
+                        <contextPath>/${project.artifactId}</contextPath>
+                        <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
+                    </webApp>
+                    <scanIntervalSeconds>5</scanIntervalSeconds>
+                    <stopPort>8081</stopPort>
+                    <stopKey>stop</stopKey>
                 </configuration>
+
+                <executions>
+                    <execution>
+                        <id>start-jetty</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop-jetty</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
             </plugin>
 
             <!-- Compile java -->

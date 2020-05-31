@@ -1,7 +1,5 @@
 package org.apromore.plugin.services.impl;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +44,7 @@ public class ImpalaJdbcAdaptor {
      * @param fileName File name
      * @return If the file was added
      */
-    public boolean addTable(@NotNull String tableName, String fileName) {
+    public boolean addTable(String tableName, String fileName) {
 
         String sqlStatementDrop = "DROP TABLE IF EXISTS " + tableName;
 
@@ -96,7 +94,7 @@ public class ImpalaJdbcAdaptor {
      * @param sqlStatement Sql string
      * @return List of the result rows
      */
-    private List<List<String>> executeQuery(@NotNull String sqlStatement) {
+    private List<List<String>> executeQuery(String sqlStatement) {
 
         List<List<String>> resultList = new ArrayList<>();
 

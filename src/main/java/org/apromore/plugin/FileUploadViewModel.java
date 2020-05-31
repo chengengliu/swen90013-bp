@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apromore.plugin.services.FileHandlerService;
-import org.jetbrains.annotations.NotNull;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.util.media.Media;
@@ -40,7 +39,7 @@ public class FileUploadViewModel {
      * @param tableVal snippet list values
      * @return converted string
      */
-    private String createTableOutput(@NotNull List<List<String>> tableVal) {
+    private String createTableOutput(List<List<String>> tableVal) {
 
         String text = "";
         for (List<String> rowList: tableVal) {
