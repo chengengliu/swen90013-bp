@@ -85,7 +85,7 @@ public class FileHandlerImplTest extends EasyMockSupport {
 
         Assert.assertEquals(service.writeFiles(media), UPLOAD_SUCCESS);
 
-        verifyAll();
+        verify();
     }
 
     /**
