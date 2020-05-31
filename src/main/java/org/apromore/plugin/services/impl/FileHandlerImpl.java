@@ -1,13 +1,9 @@
 package org.apromore.plugin.services.impl;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+import java.io.*;
+
 import static java.nio.file.attribute.PosixFilePermission.*;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+
 import java.nio.file.*;
 import java.nio.file.attribute.*;
 import java.util.EnumSet;
@@ -65,7 +61,12 @@ public class FileHandlerImpl implements FileHandlerService {
      */
     public String writeFiles(Media media) {
         generateDirectory();
-        InputStream fIn = media.getStreamData();
+        InputStream fIn;
+        if (media.isBinary()) {
+            fIn = media.getStreamData();
+        } else {
+            fIn = new ByteArrayInputStream(media.getStringData().getBytes());
+        }
         BufferedInputStream in = new BufferedInputStream(fIn);
         BufferedOutputStream out = null;
 
@@ -87,7 +88,7 @@ public class FileHandlerImpl implements FileHandlerService {
 
             changeFilePermission(this.tempDir + media.getName());
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return UPLOAD_FAILED;
         } finally {
