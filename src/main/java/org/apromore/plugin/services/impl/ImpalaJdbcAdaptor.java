@@ -4,38 +4,18 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Impala JDBC Adaptor class to connect and execute queries.
  */
+@Component
 public class ImpalaJdbcAdaptor {
     // Impala connection info
     private final String connectionUrl = "jdbc:impala://apacheimpala:21050";
     private final String jdbcDriverName = "com.cloudera.impala.jdbc41.Driver";
     private Connection con = null;
     private Statement stmt;
-
-    /**
-     * Constructing the JDBC connection.
-     */
-    public ImpalaJdbcAdaptor() {
-        try {
-            //
-            Class.forName(jdbcDriverName);
-            con = DriverManager.getConnection(connectionUrl);
-            stmt = con.createStatement();
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-        this.con.close();
-    }
 
     /**
      * Add the table in the impala.
@@ -59,6 +39,8 @@ public class ImpalaJdbcAdaptor {
 
         try {
 
+            initConnection();
+
             // Import table
             stmt.execute(sqlStatementDrop);
             stmt.execute(query);
@@ -66,26 +48,18 @@ public class ImpalaJdbcAdaptor {
             status = true;
             System.out.println("Table added!!");
 
+            exitConnection();
+
         } catch (SQLException e) {
             System.out.println("Failed to add Table!!");
             e.printStackTrace();
         } catch (Exception e) {
             System.out.println("Failed to add Table!!");
             e.printStackTrace();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
         return status;
-    }
-
-    /**
-     * Create query to get snippet from impala.
-     *
-     * @param tableName Name of the table to execute query on
-     * @param limit Limit of the rows results
-     * @return List of the result rows
-     */
-    public List<List<String>> getSnippet(String tableName, int limit) {
-        return executeQuery("SELECT * FROM " +
-                            tableName + " LIMIT " + limit);
     }
 
     /**
@@ -94,11 +68,13 @@ public class ImpalaJdbcAdaptor {
      * @param sqlStatement Sql string
      * @return List of the result rows
      */
-    private List<List<String>> executeQuery(String sqlStatement) {
+    public List<List<String>> executeQuery(String sqlStatement) {
 
         List<List<String>> resultList = new ArrayList<>();
 
         try {
+
+            initConnection();
 
             // Execute query
             ResultSet resultSet = stmt.executeQuery(sqlStatement);
@@ -133,13 +109,41 @@ public class ImpalaJdbcAdaptor {
             }
 
             System.out.println("Executed: " + sqlStatement);
+            exitConnection();
 
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
 
         return resultList;
+    }
+
+    /**
+     * Constructing the JDBC connection.
+     */
+    private void initConnection() {
+        try {
+            //
+            Class.forName(jdbcDriverName);
+            con = DriverManager.getConnection(connectionUrl);
+            stmt = con.createStatement();
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Exit the JDBC connection.
+     * @throws Throwable Close connection error.
+     */
+    private void exitConnection() throws Throwable {
+        this.con.close();
     }
 }

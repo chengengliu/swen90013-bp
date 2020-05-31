@@ -4,7 +4,6 @@ import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Set;
 import static java.nio.file.attribute.PosixFilePermission.*;
 
@@ -21,7 +20,6 @@ public class FileHandlerImpl implements FileHandlerService {
     private static final String UPLOAD_FAILED = "Upload Failed";
     private static final String UPLOAD_SUCCESS = "Upload Success";
     private String tempDir = null;
-    private ImpalaJdbcAdaptor impalaJdbc;
 
     /**
      * Create a directory to save the output files to.
@@ -101,35 +99,6 @@ public class FileHandlerImpl implements FileHandlerService {
                 return UPLOAD_FAILED;
             }
         }
-    }
-
-    /**
-     * Add the file to the Impala and get a snippet.
-     *
-     * @param fileName File Name
-     * @param limit  Limit of the rows
-     * @return return the snippet of the table.
-     */
-    public List<List<String>> addTableGetSnippet(String fileName, int limit) {
-
-        List<List<String>> resultsList = null;
-        impalaJdbc = new ImpalaJdbcAdaptor();
-
-        String tableName = fileName.split("\\.")[0];
-
-        System.out.println("Adding: " + tableName + " | " + fileName);
-
-        // Adding the file into the Impala as a table
-        boolean isTableAdded =  impalaJdbc.addTable(tableName, fileName);
-
-        // Get snippet
-        if (isTableAdded) {
-            resultsList = impalaJdbc.getSnippet(tableName, limit);
-        }
-
-        impalaJdbc = null;
-
-        return resultsList;
     }
 
     /**

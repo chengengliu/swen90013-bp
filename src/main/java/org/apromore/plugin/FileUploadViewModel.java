@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apromore.plugin.services.FileHandlerService;
+import org.apromore.plugin.services.Transaction;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.util.media.Media;
@@ -24,6 +25,9 @@ public class FileUploadViewModel {
 
     @WireVariable
     private FileHandlerService fileHandlerService;
+
+    @WireVariable
+    private Transaction transactionService;
 
     /**
      * Initialise.
@@ -70,8 +74,8 @@ public class FileUploadViewModel {
                     List<List<String>> resultsList;
 
                     // Add the table and get snippet from impala
-                    resultsList = fileHandlerService.addTableGetSnippet(
-                                                        media.getName(), 10);
+                    resultsList = transactionService.addTableGetSnippet(
+                                                media.getName(), 10);
 
                     // Create result String
                     textTable = createTableOutput(resultsList);
