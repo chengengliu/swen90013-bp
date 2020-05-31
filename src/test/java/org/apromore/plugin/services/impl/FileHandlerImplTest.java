@@ -78,11 +78,14 @@ public class FileHandlerImplTest extends EasyMockSupport {
         expect(media.isBinary()).andReturn(true);
         expect(media.getStreamData()).andReturn(inputStream);
 
+        bufferedInputStream.close();
+        expectLastCall();
+
         replayAll();
 
         Assert.assertEquals(service.writeFiles(media), UPLOAD_SUCCESS);
 
-        verifyAll();
+        verify();
     }
 
     /**

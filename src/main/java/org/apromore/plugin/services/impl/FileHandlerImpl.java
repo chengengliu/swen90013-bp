@@ -58,11 +58,13 @@ public class FileHandlerImpl implements FileHandlerService {
     public String writeFiles(Media media) {
         generateDirectory();
         InputStream fIn;
+
         if (media.isBinary()) {
             fIn = media.getStreamData();
         } else {
             fIn = new ByteArrayInputStream(media.getStringData().getBytes());
         }
+
         BufferedInputStream in = new BufferedInputStream(fIn);
         BufferedOutputStream out = null;
 
