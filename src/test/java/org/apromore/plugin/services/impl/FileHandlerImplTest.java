@@ -52,6 +52,7 @@ public class FileHandlerImplTest extends EasyMockSupport {
 
         expect(media.isBinary()).andReturn(false);
         expect(media.getStringData()).andReturn(mockString);
+        expect(media.getName()).andStubReturn("writeStringFilesTest.csv");
 
         replayAll();
 
@@ -77,6 +78,7 @@ public class FileHandlerImplTest extends EasyMockSupport {
 
         expect(media.isBinary()).andReturn(true);
         expect(media.getStreamData()).andReturn(inputStream);
+        expect(media.getName()).andStubReturn("writeStreamFilesTest.csv");
 
         bufferedInputStream.close();
         expectLastCall();
