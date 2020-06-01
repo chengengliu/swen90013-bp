@@ -29,8 +29,6 @@ public class TransactionImp implements Transaction {
 
         String tableName = fileName.split("\\.")[0];
 
-        System.out.println("Adding: " + tableName + " | " + fileName);
-
         // Adding the file into the Impala as a table
         boolean isTableAdded =  impalaJdbc.addTable(tableName, fileName);
 
