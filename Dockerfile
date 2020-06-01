@@ -16,12 +16,11 @@ FROM jetty:9-jre8-alpine
 
 COPY --from=build /app/target/preprocessing-plugin.war /var/lib/jetty/webapps/
 
-# Change Volume permissions from root to jetty
-RUN mkdir /var/lib/jetty/preprocess_data
-
-RUN chown jetty:jetty /var/lib/jetty/preprocess_data
-
 USER jetty
+
+# Change Volume permissions from root to jetty
+RUN mkdir /var/lib/jetty/preprocess_data && \
+    chown jetty:jetty /var/lib/jetty/preprocess_data
 
 EXPOSE 8080
 

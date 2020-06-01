@@ -6,6 +6,9 @@ services:
   apromorepreprocessing:
     build: .
     container_name: apromorepreprocessing
+    environment:
+      - IMPALA_LINK=${IMPALA_LINK}
+      - DATA_STORE=${DATA_STORE}
     depends_on:
       - apacheimpala
     volumes:
@@ -26,10 +29,6 @@ services:
     networks:
       - impala-net
     command: impala
-    deploy:
-      resources:
-        limits:
-          memory: "4096m"
 
 # Volume to store Log files
 volumes:

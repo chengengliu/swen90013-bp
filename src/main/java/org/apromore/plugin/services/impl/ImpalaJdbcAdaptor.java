@@ -11,11 +11,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ImpalaJdbcAdaptor {
+
     // Impala connection info
-    private final String connectionUrl = "jdbc:impala://apacheimpala:21050";
+    private final String connectionUrl = System.getenv("IMPALA_LINK");
     private final String jdbcDriverName = "com.cloudera.impala.jdbc41.Driver";
-    private Connection con = null;
-    private Statement stmt;
+    private final String dataPath = System.getenv("DATA_STORE");
+    private Statement statement;
 
     /**
      * Add the table in the impala.
@@ -30,25 +31,26 @@ public class ImpalaJdbcAdaptor {
 
         // Build String
         String query = "CREATE EXTERNAL TABLE %s " +
-                        "LIKE PARQUET '/preprocess_data/%s' " +
+                        "LIKE PARQUET '%s/%s' " +
                         "STORED AS PARQUET " +
-                        "LOCATION '/preprocess_data'";
+                        "LOCATION '%s'";
 
-        query = String.format(query, tableName, fileName);
+        query = String.format(query, tableName, dataPath, fileName, dataPath);
         boolean status = false;
 
-        try {
-
-            initConnection();
+        try (
+            Connection connection = DriverManager.getConnection(connectionUrl)
+        ) {
+            // Init connection
+            Class.forName(jdbcDriverName);
+            statement = connection.createStatement();
 
             // Import table
-            stmt.execute(sqlStatementDrop);
-            stmt.execute(query);
+            statement.execute(sqlStatementDrop);
+            statement.execute(query);
 
             status = true;
             System.out.println("Table added!!");
-
-            exitConnection();
 
         } catch (SQLException e) {
             System.out.println("Failed to add Table!!");
@@ -72,12 +74,15 @@ public class ImpalaJdbcAdaptor {
 
         List<List<String>> resultList = new ArrayList<>();
 
-        try {
-
-            initConnection();
+        try (
+            Connection connection = DriverManager.getConnection(connectionUrl)
+        ) {
+            // Init connection
+            Class.forName(jdbcDriverName);
+            statement = connection.createStatement();
 
             // Execute query
-            ResultSet resultSet = stmt.executeQuery(sqlStatement);
+            ResultSet resultSet = statement.executeQuery(sqlStatement);
             ResultSetMetaData rsmd = resultSet.getMetaData();
 
             int columnsNumber = rsmd.getColumnCount();
@@ -109,7 +114,6 @@ public class ImpalaJdbcAdaptor {
             }
 
             System.out.println("Executed: " + sqlStatement);
-            exitConnection();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -120,30 +124,5 @@ public class ImpalaJdbcAdaptor {
         }
 
         return resultList;
-    }
-
-    /**
-     * Constructing the JDBC connection.
-     */
-    private void initConnection() {
-        try {
-
-            Class.forName(jdbcDriverName);
-            con = DriverManager.getConnection(connectionUrl);
-            stmt = con.createStatement();
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Exit the JDBC connection.
-     * @throws Throwable Close connection error.
-     */
-    private void exitConnection() throws SQLException {
-        this.con.close();
     }
 }
