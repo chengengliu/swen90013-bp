@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
-import org.apromore.plugin.listeners.OnClickViewSnippetEventListener;
+import org.apromore.plugin.eventHandlers.EyeIconDiv;
 import org.apromore.plugin.services.FileHandlerService;
 import org.apromore.plugin.services.Transaction;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -16,7 +16,6 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlNativeComponent;
-import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -132,9 +131,11 @@ public class FileUploadViewModel {
 
     /**
      * Adds a file to the list in UI.
-     * @param filePath the path of the file to add to the UI.
+     * @param filename the name of the file to add to the UI.
+     * @param resultsList snippet data.
      */
-    private void addFileToUIList(String filename, List<List<String>> resultsList) {
+    private void addFileToUIList(String filename,
+            List<List<String>> resultsList) {
 
         Hlayout fileListRow = new Hlayout();
         inputFileList.appendChild(fileListRow);
@@ -167,12 +168,10 @@ public class FileUploadViewModel {
         fileListRow.appendChild(space);
 
         //Construct eye icon
-        Div eyeButton = new Div();
+        EyeIconDiv eyeButton = new EyeIconDiv(resultsList);
         eyeButton.setId("view" + filename + "Snippet");
         eyeButton.setPopupAttributes(popupBox, null, null, null, "toggle");
         fileListRow.appendChild(eyeButton);
-        eyeButton.addEventListener(Events.ON_CLICK,
-                new OnClickViewSnippetEventListener(resultsList));
 
         HtmlNativeComponent eyeIcon = new HtmlNativeComponent("i");
         eyeIcon.setDynamicProperty("class", "z-icon-eye");

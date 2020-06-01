@@ -9,7 +9,7 @@ import org.zkoss.zul.*;
 /**
  * The purpose of this class is to populate tables from the UI.
  */
-public class TableUtils{
+public class TableUtils {
 
     /**
      * Populates a grid with a list of lists.
@@ -102,8 +102,8 @@ public class TableUtils{
             List<String> row = new ArrayList<String>();
             exampleList.add(row);
             for (int j = 0; j < cols; j++) {
-                if(i == 0) {
-            	    row.add("Sample Data");
+                if (i == 0) {
+                    row.add("Sample Data");
                 } else {
                     row.add(Integer.toString(count++));
                 }

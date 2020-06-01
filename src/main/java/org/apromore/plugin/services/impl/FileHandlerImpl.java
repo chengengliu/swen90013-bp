@@ -1,14 +1,13 @@
 package org.apromore.plugin.services.impl;
 
 import java.io.*;
-
 import java.nio.file.*;
 import java.nio.file.attribute.*;
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 import static java.nio.file.attribute.PosixFilePermission.*;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apromore.plugin.services.FileHandlerService;
 import org.springframework.stereotype.Service;
