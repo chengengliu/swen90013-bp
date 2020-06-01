@@ -52,14 +52,9 @@ public class ImpalaJdbcAdaptor {
             status = true;
             System.out.println("Table added!!");
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             System.out.println("Failed to add Table!!");
             e.printStackTrace();
-        } catch (Exception e) {
-            System.out.println("Failed to add Table!!");
-            e.printStackTrace();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
         }
         return status;
     }
@@ -115,12 +110,8 @@ public class ImpalaJdbcAdaptor {
 
             System.out.println("Executed: " + sqlStatement);
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
         }
 
         return resultList;
