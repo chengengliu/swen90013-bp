@@ -23,4 +23,10 @@ public interface FileHandlerService {
      * @return returns a file.
      */
     File outputFiles();
+
+    /**
+     * Returns a list of file paths.
+     * @return a list of file paths.
+     */
+    List<String> getFilePathList();
 }

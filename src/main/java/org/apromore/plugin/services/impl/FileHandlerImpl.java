@@ -1,11 +1,14 @@
 package org.apromore.plugin.services.impl;
 
 import java.io.*;
+
 import java.nio.file.*;
 import java.nio.file.attribute.*;
 import java.util.EnumSet;
 import java.util.Set;
 import static java.nio.file.attribute.PosixFilePermission.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apromore.plugin.services.FileHandlerService;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,7 @@ public class FileHandlerImpl implements FileHandlerService {
     private static final String UPLOAD_FAILED = "Upload Failed";
     private static final String UPLOAD_SUCCESS = "Upload Success";
     private String tempDir = null;
+    private List<String> filePathList = new ArrayList<String>();
 
     /**
      * Create a directory to save the output files to.
@@ -95,6 +99,7 @@ public class FileHandlerImpl implements FileHandlerService {
                 if (out != null) {
                     out.close();
                 }
+                filePathList.add(this.tempDir + media.getName());
                 return UPLOAD_SUCCESS;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -127,5 +132,13 @@ public class FileHandlerImpl implements FileHandlerService {
 
         posixView.setPermissions(permissions);
         System.out.println("Permissions set successfully to rw-r--r--.");
+    }
+
+    /**
+     * Returns a list of file paths.
+     * @return a list of file paths.
+     */
+    public List<String> getFilePathList() {
+        return filePathList;
     }
 }

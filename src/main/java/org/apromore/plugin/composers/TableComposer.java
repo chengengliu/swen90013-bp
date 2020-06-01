@@ -6,14 +6,12 @@ import java.util.List;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
-//import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.*;
 
 /**
  * The purpose of this class is to populate tables from the UI.
  */
-//@VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class TableComposer extends SelectorComposer<Hlayout> {
 
     private static final long serialVersionUID = 1L;
@@ -21,28 +19,10 @@ public class TableComposer extends SelectorComposer<Hlayout> {
     Grid inputGrid;
 
     /**
-     * Retrieves table data when the eye icon is clicked.
+     * Constructor.
      */
-    @Listen("onClick = div#view-input-snippet")
-    public void getTableData() {
-        List<List<String>> exampleList = new ArrayList<List<String>>();
-        int count = 0;
+    public TableComposer() {
 
-        //Use a sample list of lists for now
-        for (int i = 0; i < 10; i++) {
-            List<String> row = new ArrayList<String>();
-            exampleList.add(row);
-            for (int j = 0; j < 30; j++) {
-                row.add(Integer.toString(count++));
-            }
-        }
-
-        if (inputGrid.getChildren().size() == 0) {
-            populateGrid(inputGrid, exampleList);
-        }
-        
-        System.out.println("File: "+getFilenameFromGrid(inputGrid));
-        
     }
 
     /**
@@ -53,6 +33,7 @@ public class TableComposer extends SelectorComposer<Hlayout> {
     public static void populateGrid(Grid g, List<List<String>> list) {
         boolean firstRow = true;
 
+        g.getChildren().clear();
         Columns cols = new Columns();
         Rows rows = new Rows();
         g.appendChild(cols);
@@ -86,34 +67,59 @@ public class TableComposer extends SelectorComposer<Hlayout> {
             }
         }
     }
-    
+
     /**
+     * Get the filename from the label in UI based on the position of the grid.
      * @param g A grid that shows input snippets.
      * @return the filename of the data shown in the grid.
      */
     public String getFilenameFromGrid(Grid g) {
-    	for(Component child: g.getParent().getParent().getParent().getChildren()) {
-        	if(child instanceof Label) {
-        		Label label = (Label)child;
-        		return label.getValue();
-        	}
+        for (Component child: g.getParent().getParent().getParent()
+                .getChildren()) {
+            if (child instanceof Label) {
+                Label label = (Label)child;
+                return label.getValue();
+            }
         }
-    	return null;
+        return null;
     }
-    
+
     /**
+     * Get the grid in UI based on the position of the eye icon div.
      * @param button The button used to show snippets.
      * @return a grid which shows snippets.
      */
     public Grid getGridFromButton(Div button) {
-    	for(Component child: button.getParent().getChildren()) {
-        	if(child instanceof Popup) {
-        		Component component = child.getFirstChild().getFirstChild();
-        		if(component instanceof Grid) {
-        			return (Grid)component;
-        		}
-        	}
+        for (Component child: button.getParent().getChildren()) {
+            if (child instanceof Popup) {
+                Component component = child.getFirstChild().getFirstChild();
+                if (component instanceof Grid) {
+                    return (Grid)component;
+                }
+            }
         }
-    	return null;
+        return null;
+    }
+
+    /**
+     * Returns a return list of lists for a grid.
+     * @param rows the number of rows in the grid.
+     * @param cols the number of columns in the grid.
+     * @return A list of lists to populate the grid with.
+     */
+    public List<List<String>> getRandomGridList(int rows, int cols) {
+        List<List<String>> exampleList = new ArrayList<List<String>>();
+        int count = 0;
+
+        //Use a sample list of lists for now
+        for (int i = 0; i < rows; i++) {
+            List<String> row = new ArrayList<String>();
+            exampleList.add(row);
+            for (int j = 0; j < cols; j++) {
+                row.add(Integer.toString(count++));
+            }
+        }
+
+        return exampleList;
     }
 }
