@@ -25,9 +25,10 @@ public class FileHandlerImpl implements FileHandlerService {
      * Create a directory to save the output files to.
      */
     private void generateDirectory() {
-        String temporalDir = new File("").getAbsolutePath();
-        File directory = new File(temporalDir + System.getenv("DATA_STORE"));
-        this.tempDir = temporalDir + System.getenv("DATA_STORE");
+        File directory = new File(System.getProperty("java.io.tmpdir") +
+            System.getenv("DATA_STORE"));
+        this.tempDir = System.getProperty("java.io.tmpdir") +
+            System.getenv("DATA_STORE");
         if (!directory.exists()) {
             directory.mkdir();
         }
@@ -58,30 +59,21 @@ public class FileHandlerImpl implements FileHandlerService {
      */
     public String writeFiles(Media media) {
         generateDirectory();
-        InputStream fIn;
+        File file = new File(this.tempDir + "/" + media.getName());
 
-        if (media.isBinary()) {
-            fIn = media.getStreamData();
-        } else {
-            fIn = new ByteArrayInputStream(media.getStringData().getBytes());
-        }
-
-        try {
-            File file = new File(this.tempDir + media.getName());
+        try (
+            InputStream fIn = (
+                media.isBinary() ?
+                media.getStreamData() :
+                new ByteArrayInputStream(media.getStringData().getBytes()));
             OutputStream fOut = new FileOutputStream(file);
-
-            try (
-                BufferedInputStream in = new BufferedInputStream(fIn);
-                BufferedOutputStream out = new BufferedOutputStream(fOut);
-            ) {
-                byte buffer[] = new byte[BUFFER_SIZE];
-                int ch = in.read(buffer);
-                while (ch != -1) {
-                    out.write(buffer, 0, ch);
-                    ch = in.read(buffer);
-                }
-            } catch (Exception e) {
-                throw e;
+            BufferedInputStream in = new BufferedInputStream(fIn);
+            BufferedOutputStream out = new BufferedOutputStream(fOut);
+        ) {
+            byte buffer[] = new byte[BUFFER_SIZE];
+            int len;
+            while ((len = in.read(buffer)) != -1) {
+                out.write(buffer, 0, len);
             }
 
             changeFilePermission(this.tempDir + media.getName());

@@ -15,7 +15,8 @@ public class ImpalaJdbcAdaptor {
     // Impala connection info
     private final String connectionUrl = System.getenv("IMPALA_LINK");
     private final String jdbcDriverName = "com.cloudera.impala.jdbc41.Driver";
-    private final String dataPath = System.getenv("DATA_STORE");
+    private final String dataPath = System.getProperty("java.io.tmpdir") +
+        System.getenv("DATA_STORE");
     private Statement statement;
 
     /**

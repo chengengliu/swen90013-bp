@@ -12,7 +12,7 @@ services:
     depends_on:
       - apacheimpala
     volumes:
-      - preprocess-data:/var/lib/jetty/preprocess_data
+      - preprocess-data:/tmp/preprocess_data
     ports:
       - 8080:8080
     networks:
@@ -23,7 +23,7 @@ services:
     image: apache/kudu:impala-latest
     container_name: apacheimpala
     volumes:
-      - preprocess-data:/preprocess_data
+      - preprocess-data:/tmp/preprocess_data
     ports:
       - 21050:21050
     networks:
