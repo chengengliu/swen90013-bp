@@ -1,6 +1,8 @@
 package org.apromore.plugin.listeners;
 
-import org.apromore.plugin.composers.TableComposer;
+import java.util.List;
+
+import org.apromore.plugin.utils.TableUtils;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Div;
@@ -12,7 +14,15 @@ import org.zkoss.zul.Grid;
  */
 public class OnClickViewSnippetEventListener implements EventListener<Event> {
 
-    TableComposer tableComposer = new TableComposer();
+    List<List<String>> resultsList = null;
+
+    /**
+     * Constructor.
+     * @param list the resultsList to populate a grid with
+     */
+    public OnClickViewSnippetEventListener(List<List<String>> list){
+        this.resultsList = list;
+    }
 
     /**
      * Defines what happens when the event occurs.
@@ -25,12 +35,11 @@ public class OnClickViewSnippetEventListener implements EventListener<Event> {
             Div iconButton = (Div)event.getTarget();
             //System.out.println("Clicked "+iconButton.getId());
             //Get the grid
-            Grid grid = tableComposer.getGridFromButton(iconButton);
+            Grid grid = TableUtils.getGridFromButton(iconButton);
             //System.out.println("Grid: "+grid.getId());
 
             //Populate the grid
-            TableComposer.populateGrid(grid,
-                    tableComposer.getRandomGridList(10, 10));
+            TableUtils.populateGrid(grid, resultsList);
 
         } else {
             //System.out.println("Event Target: "

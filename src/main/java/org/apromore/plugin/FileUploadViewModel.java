@@ -3,7 +3,6 @@ package org.apromore.plugin;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 
 import org.apromore.plugin.listeners.OnClickViewSnippetEventListener;
@@ -95,14 +94,12 @@ public class FileUploadViewModel {
                 // If the file was written then load in impala and get snippet
                 if (returnMessage.equals("Upload Success")) {
                     List<List<String>> resultsList;
-                    addFileToUIList(media.getName());
 
                     // Add the table and get snippet from impala
                     resultsList = transactionService.addTableGetSnippet(
                                                 media.getName(), 10);
+                    addFileToUIList(media.getName(), resultsList);
 
-                    // Create result String
-                    textTable = createTableOutput(resultsList);
                 }
 
                 Messagebox.show(returnMessage);
@@ -137,7 +134,7 @@ public class FileUploadViewModel {
      * Adds a file to the list in UI.
      * @param filePath the path of the file to add to the UI.
      */
-    private void addFileToUIList(String filename) {
+    private void addFileToUIList(String filename, List<List<String>> resultsList) {
 
         Hlayout fileListRow = new Hlayout();
         inputFileList.appendChild(fileListRow);
@@ -175,7 +172,7 @@ public class FileUploadViewModel {
         eyeButton.setPopupAttributes(popupBox, null, null, null, "toggle");
         fileListRow.appendChild(eyeButton);
         eyeButton.addEventListener(Events.ON_CLICK,
-                new OnClickViewSnippetEventListener());
+                new OnClickViewSnippetEventListener(resultsList));
 
         HtmlNativeComponent eyeIcon = new HtmlNativeComponent("i");
         eyeIcon.setDynamicProperty("class", "z-icon-eye");
