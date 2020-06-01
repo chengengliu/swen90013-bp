@@ -38,8 +38,11 @@ public class OnClickViewSnippetEventListener implements EventListener<Event> {
             Grid grid = TableUtils.getGridFromButton(iconButton);
             //System.out.println("Grid: "+grid.getId());
 
-            //Populate the grid
-            TableUtils.populateGrid(grid, resultsList);
+            //Populate the grid with actual data
+            //TableUtils.populateGrid(grid, resultsList);
+            //Populate the grid with sample data
+            TableUtils.populateGrid(grid,
+                    TableUtils.getRandomGridList(10, 10));
 
         } else {
             //System.out.println("Event Target: "

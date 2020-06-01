@@ -31,7 +31,6 @@ public class TableUtils{
                 // populate columns with headers
                 for (String cell: row) {
                     Column col = new Column(cell);
-                    col.setWidth("100px");
                     cols.appendChild(col);
                 }
 
@@ -52,6 +51,7 @@ public class TableUtils{
                 }
             }
         }
+        g.setSizedByContent(true);
     }
 
     /**
@@ -97,12 +97,16 @@ public class TableUtils{
         List<List<String>> exampleList = new ArrayList<List<String>>();
         int count = 0;
 
-        //Use a sample list of lists for now
+        //Create a sample list of lists
         for (int i = 0; i < rows; i++) {
             List<String> row = new ArrayList<String>();
             exampleList.add(row);
             for (int j = 0; j < cols; j++) {
-                row.add(Integer.toString(count++));
+                if(i == 0) {
+            	    row.add("Sample Data");
+                } else {
+                    row.add(Integer.toString(count++));
+                }
             }
         }
 
