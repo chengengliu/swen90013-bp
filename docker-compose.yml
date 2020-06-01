@@ -7,8 +7,8 @@ services:
     build: .
     container_name: apromorepreprocessing
     environment:
-      - IMPALA_LINK=${IMPALA_LINK}
-      - DATA_STORE=${DATA_STORE}
+      - IMPALA_LINK=jdbc:impala://apacheimpala:21050
+      - DATA_STORE=/preprocess_data
     depends_on:
       - apacheimpala
     volumes:
