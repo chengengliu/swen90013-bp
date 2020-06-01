@@ -1,10 +1,12 @@
 package org.apromore.plugin.services.impl;
 
 import java.io.*;
-import java.util.logging.FileHandler;
+import java.nio.file.*;
+import java.nio.file.attribute.*;
+import java.util.EnumSet;
+import java.util.Set;
+import static java.nio.file.attribute.PosixFilePermission.*;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.apromore.plugin.services.FileHandlerService;
 import org.springframework.stereotype.Service;
 import org.zkoss.util.media.Media;
@@ -17,8 +19,6 @@ public class FileHandlerImpl implements FileHandlerService {
     private static final int BUFFER_SIZE = 1024;
     private static final String UPLOAD_FAILED = "Upload Failed";
     private static final String UPLOAD_SUCCESS = "Upload Success";
-    private static final Logger logger = LogManager
-            .getLogger(FileHandler.class);
     private String tempDir = null;
 
     /**
@@ -26,8 +26,8 @@ public class FileHandlerImpl implements FileHandlerService {
      */
     private void generateDirectory() {
         String temporalDir = new File("").getAbsolutePath();
-        File directory = new File(temporalDir + "/files/");
-        this.tempDir = temporalDir + "/files/";
+        File directory = new File(temporalDir + System.getenv("DATA_STORE"));
+        this.tempDir = temporalDir + System.getenv("DATA_STORE");
         if (!directory.exists()) {
             directory.mkdir();
         }
@@ -59,6 +59,7 @@ public class FileHandlerImpl implements FileHandlerService {
     public String writeFiles(Media media) {
         generateDirectory();
         InputStream fIn;
+
         if (media.isBinary()) {
             fIn = media.getStreamData();
         } else {
@@ -82,10 +83,38 @@ public class FileHandlerImpl implements FileHandlerService {
             } catch (Exception e) {
                 throw e;
             }
+
+            changeFilePermission(this.tempDir + media.getName());
         } catch (Exception e) {
             return UPLOAD_FAILED;
         }
 
         return UPLOAD_SUCCESS;
+    }
+
+    /**
+     * Change the File permission so that impala could read the
+     * files in the volume.
+     *
+     * @param filePath Path of the file in the volume.
+     * @throws Exception for the file permission change failure.
+     */
+    private void changeFilePermission(String filePath) throws Exception {
+        Path path = Paths.get(filePath);
+        Set<PosixFilePermission> permissions = EnumSet.of(OWNER_READ,
+                                                          OWNER_WRITE,
+                                                          GROUP_READ,
+                                                          OTHERS_READ);
+
+        PosixFileAttributeView posixView = Files.getFileAttributeView(path,
+                PosixFileAttributeView.class);
+
+        if (posixView == null) {
+            System.out.format("POSIX attribute view  is not  supported%n.");
+            return;
+        }
+
+        posixView.setPermissions(permissions);
+        System.out.println("Permissions set successfully to rw-r--r--.");
     }
 }

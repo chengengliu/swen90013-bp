@@ -55,7 +55,11 @@ public class FileHandlerImplTest extends EasyMockSupport {
 
         replayAll();
 
-        Assert.assertEquals(service.writeFiles(media), UPLOAD_SUCCESS);
+        try {
+            Assert.assertEquals(service.writeFiles(media), UPLOAD_SUCCESS);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         verifyAll();
     }
@@ -100,7 +104,11 @@ public class FileHandlerImplTest extends EasyMockSupport {
 
         replayAll();
 
-        service.writeFiles(media);
+        try {
+            service.writeFiles(media);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         verifyAll();
     }

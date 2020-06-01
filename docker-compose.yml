@@ -1,0 +1,40 @@
+version: "3.7"
+
+# Application Containers
+services:
+  # Plugin Container
+  apromorepreprocessing:
+    build: .
+    container_name: apromorepreprocessing
+    environment:
+      - IMPALA_LINK=jdbc:impala://apacheimpala:21050
+      - DATA_STORE=/preprocess_data
+    depends_on:
+      - apacheimpala
+    volumes:
+      - preprocess-data:/var/lib/jetty/preprocess_data
+    ports:
+      - 8080:8080
+    networks:
+      - impala-net
+
+  # Apache Impala Container
+  apacheimpala:
+    image: apache/kudu:impala-latest
+    container_name: apacheimpala
+    volumes:
+      - preprocess-data:/preprocess_data
+    ports:
+      - 21050:21050
+    networks:
+      - impala-net
+    command: impala
+
+# Volume to store Log files
+volumes:
+  preprocess-data:
+    driver: local
+
+# private Bridge Network
+networks:
+  impala-net:
