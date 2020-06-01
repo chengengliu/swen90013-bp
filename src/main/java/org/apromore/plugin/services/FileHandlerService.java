@@ -1,6 +1,8 @@
 package org.apromore.plugin.services;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 import org.zkoss.util.media.Media;
 
@@ -14,7 +16,7 @@ public interface FileHandlerService {
      * @param media the input file.
      * @return return the message to show on client side.
      */
-    String writeFiles(Media media);
+    String writeFiles(Media media) throws IOException;
 
     /**
      * Output the file.
