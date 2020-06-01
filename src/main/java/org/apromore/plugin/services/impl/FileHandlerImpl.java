@@ -1,6 +1,8 @@
 package org.apromore.plugin.services.impl;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.FileHandler;
 
 import org.apache.log4j.LogManager;
@@ -20,6 +22,7 @@ public class FileHandlerImpl implements FileHandlerService {
     private static final Logger logger = LogManager
             .getLogger(FileHandler.class);
     private String tempDir = null;
+    private List<String> filePathList = new ArrayList<String>();
 
     /**
      * Create a directory to save the output files to.
@@ -84,11 +87,20 @@ public class FileHandlerImpl implements FileHandlerService {
                 if (out != null) {
                     out.close();
                 }
+                filePathList.add(this.tempDir + media.getName());
                 return UPLOAD_SUCCESS;
             } catch (IOException e) {
                 e.printStackTrace();
                 return UPLOAD_FAILED;
             }
         }
+    }
+
+    /**
+     * Returns a list of file paths.
+     * @return a list of file paths.
+     */
+    public List<String> getFilePathList() {
+        return filePathList;
     }
 }

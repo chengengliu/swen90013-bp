@@ -1,11 +1,11 @@
 <?link rel="stylesheet" type="text/css" href="/css/multi-event-log-plugin.css"?>
 <zk>
-    <vlayout sclass="left-panel">
+    <vlayout sclass="left-panel" apply="org.zkoss.bind.BindComposer"
+            viewModel="@id('vm') @init('org.apromore.plugin.FileUploadViewModel')">
         <!-- Left panel section -->
 
         <!-- Upload and Download buttons -->
-        <hlayout sclass="button-area" apply="org.zkoss.bind.BindComposer"
-            viewModel="@id('vm') @init('org.apromore.plugin.FileUploadViewModel')">
+        <hlayout sclass="button-area" >
             <button id="btnUpload" label="Upload"
                     onClick="@command('onFileUpload')"
                     mold="trendy" />
@@ -16,21 +16,8 @@
         <label sclass="heading" value="Tables"/>
         <!-- Add list of input tables here -->
 
-		<div id="input-file-list">
-	        <hlayout apply="org.apromore.plugin.composers.TableComposer">
-	            <n:i class="z-icon-table" xmlns:n="native"/>
-	            <label value="someInputData.csv" />
-	            <popup id="table1">
-	                <div sclass = "input-table-scroll-area">
-	                    <grid id="inputGrid">
-	                    </grid>
-	                </div>
-	            </popup>
-	            <space spacing="3px" />
-	            <div id="view-input-snippet" popup="table1, type=toggle">
-	                <n:i class="z-icon-eye" xmlns:n="native" />
-	            </div>
-	        </hlayout>
+		<div id="inputFileList">
+			<!-- List of input files will be generated here -->
         </div>
     </vlayout>
 </zk>
