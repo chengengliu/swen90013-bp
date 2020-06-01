@@ -3,14 +3,13 @@ version: "3.7"
 # Application Containers
 services:
   # Plugin Container
-  apromorepreprocessing:
+  apromore-preprocessing:
     build: .
-    container_name: apromorepreprocessing
     environment:
-      - IMPALA_LINK=jdbc:impala://apacheimpala:21050
+      - IMPALA_LINK=jdbc:impala://impala:21050
       - DATA_STORE=/preprocess_data
     depends_on:
-      - apacheimpala
+      - impala
     volumes:
       - preprocess-data:/tmp/preprocess_data
     ports:
@@ -19,9 +18,8 @@ services:
       - impala-net
 
   # Apache Impala Container
-  apacheimpala:
+  impala:
     image: apache/kudu:impala-latest
-    container_name: apacheimpala
     volumes:
       - preprocess-data:/tmp/preprocess_data
     ports:

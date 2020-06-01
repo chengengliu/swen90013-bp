@@ -1,7 +1,12 @@
 package org.apromore.plugin.services.impl;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -20,44 +25,141 @@ public class ImpalaJdbcAdaptor {
     private Statement statement;
 
     /**
+     * Get the type of a string.
+     *
+     * @param string string to check
+     * @return type of the string
+     */
+    private String getType(String string) {
+        if (isInt(string)) {
+            return "INT";
+        } else if (isDouble(string)) {
+            return "DOUBLE";
+        } else if (isBool(string)) {
+            return "BOOLEAN";
+        } else {
+            return "STRING";
+        }
+    }
+
+    /**
+     * Determine whether a string is an integer.
+     *
+     * @param string string to check
+     * @return true if the string is an integer, false otherwise
+     */
+    private boolean isInt(String string) {
+        try {
+            Integer.parseInt(string);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Determine whether a string is a double.
+     *
+     * @param string string to check
+     * @return true if the string is a double, false otherwise
+     */
+    private boolean isDouble(String string) {
+        try {
+            Double.parseDouble(string);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Determine whether a string is a boolean.
+     *
+     * @param string string to check
+     * @return true if the string is a boolean, false otherwise
+     */
+    private boolean isBool(String string) {
+        return (string.equals("True") || string.equals("False"));
+    }
+
+    /**
      * Add the table in the impala.
      *
      * @param tableName Name of the table to add
-     * @param fileName File name
+     * @param fileName  File name
      * @return If the file was added
      */
     public boolean addTable(String tableName, String fileName) {
+        String drop = "DROP TABLE IF EXISTS " + tableName;
+        String create;
 
-        String sqlStatementDrop = "DROP TABLE IF EXISTS " + tableName;
+        if (fileName.endsWith(".parquet") || fileName.endsWith(".dat")) {
+            create = "CREATE EXTERNAL TABLE %s " +
+                "LIKE PARQUET '%s' " +
+                "STORED AS PARQUET " +
+                "LOCATION '%s'";
 
-        // Build String
-        String query = "CREATE EXTERNAL TABLE %s " +
-                        "LIKE PARQUET '%s/%s' " +
-                        "STORED AS PARQUET " +
-                        "LOCATION '%s'";
+            create = String.format(
+                create,
+                tableName,
+                dataPath + "/" + fileName + "/" + fileName,
+                dataPath + "/" + fileName);
+        } else if (fileName.endsWith(".csv")) {
+            String columns = "";
+            File file = new File(dataPath + "/" + fileName + "/" + fileName);
 
-        query = String.format(query, tableName, dataPath, fileName, dataPath);
-        boolean status = false;
+            try (
+                FileReader fileReader = new FileReader(file);
+                BufferedReader br = new BufferedReader(fileReader);
+            ) {
+                List<String> headers = Arrays.asList(br.readLine().split(","));
+                List<String> firstRow = Arrays.asList(br.readLine().split(","));
+
+                for (int i = 0; i < headers.size(); i++) {
+                    columns += String.format(
+                        "%s %s, ",
+                        headers.get(i),
+                        getType(firstRow.get(i)));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+
+            create = "CREATE EXTERNAL TABLE %s (%s) " +
+                "ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' " +
+                "LINES TERMINATED BY '\n' " +
+                "STORED AS TEXTFILE " +
+                "LOCATION '%s' " +
+                "TBLPROPERTIES('skip.header.line.count'='1')";
+
+            create = String.format(
+                create,
+                tableName,
+                columns.substring(0, columns.length() - 2),
+                dataPath + "/" + fileName);
+        } else {
+            return false;
+        }
 
         try (
-            Connection connection = DriverManager.getConnection(connectionUrl)
+            Connection connection = DriverManager.getConnection(connectionUrl);
         ) {
             // Init connection
             Class.forName(jdbcDriverName);
             statement = connection.createStatement();
 
             // Import table
-            statement.execute(sqlStatementDrop);
-            statement.execute(query);
+            statement.execute(drop);
+            statement.execute(create);
 
-            status = true;
-            System.out.println("Table added!!");
-
+            System.out.println("Table added");
+            return true;
         } catch (SQLException | ClassNotFoundException e) {
-            System.out.println("Failed to add Table!!");
+            System.out.println("Failed to add Table");
             e.printStackTrace();
         }
-        return status;
+        return false;
     }
 
     /**
@@ -67,11 +169,10 @@ public class ImpalaJdbcAdaptor {
      * @return List of the result rows
      */
     public List<List<String>> executeQuery(String sqlStatement) {
-
         List<List<String>> resultList = new ArrayList<>();
 
         try (
-            Connection connection = DriverManager.getConnection(connectionUrl)
+            Connection connection = DriverManager.getConnection(connectionUrl);
         ) {
             // Init connection
             Class.forName(jdbcDriverName);

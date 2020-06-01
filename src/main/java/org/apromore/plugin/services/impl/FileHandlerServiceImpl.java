@@ -15,23 +15,18 @@ import org.zkoss.util.media.Media;
  * Implement the file handle service.
  */
 @Service("fileHandlerService")
-public class FileHandlerImpl implements FileHandlerService {
+public class FileHandlerServiceImpl implements FileHandlerService {
     private static final int BUFFER_SIZE = 1024;
     private static final String UPLOAD_FAILED = "Upload Failed";
     private static final String UPLOAD_SUCCESS = "Upload Success";
-    private String tempDir = null;
+    private String tempDir = System.getProperty("java.io.tmpdir") +
+        System.getenv("DATA_STORE");
 
     /**
      * Create a directory to save the output files to.
      */
-    private void generateDirectory() {
-        File directory = new File(System.getProperty("java.io.tmpdir") +
-            System.getenv("DATA_STORE"));
-        this.tempDir = System.getProperty("java.io.tmpdir") +
-            System.getenv("DATA_STORE");
-        if (!directory.exists()) {
-            directory.mkdir();
-        }
+    private void generateDirectory(String file) {
+        new File(tempDir + "/" + file).mkdirs();
     }
 
     /**
@@ -58,15 +53,16 @@ public class FileHandlerImpl implements FileHandlerService {
      * @return return the message to show on client side.
      */
     public String writeFiles(Media media) {
-        generateDirectory();
-        File file = new File(this.tempDir + "/" + media.getName());
+        generateDirectory(media.getName());
+        File file = new File(
+            this.tempDir + "/" + media.getName() + "/" + media.getName());
 
         try (
             InputStream fIn = (
                 media.isBinary() ?
                 media.getStreamData() :
                 new ByteArrayInputStream(media.getStringData().getBytes()));
-            OutputStream fOut = new FileOutputStream(file);
+            OutputStream fOut = new FileOutputStream(file, false);
             BufferedInputStream in = new BufferedInputStream(fIn);
             BufferedOutputStream out = new BufferedOutputStream(fOut);
         ) {
@@ -76,8 +72,10 @@ public class FileHandlerImpl implements FileHandlerService {
                 out.write(buffer, 0, len);
             }
 
-            changeFilePermission(this.tempDir + media.getName());
+            changeFilePermission(
+                this.tempDir + "/" + media.getName() + "/" + media.getName());
         } catch (Exception e) {
+            e.printStackTrace();
             return UPLOAD_FAILED;
         }
 
@@ -93,10 +91,11 @@ public class FileHandlerImpl implements FileHandlerService {
      */
     private void changeFilePermission(String filePath) throws Exception {
         Path path = Paths.get(filePath);
-        Set<PosixFilePermission> permissions = EnumSet.of(OWNER_READ,
-                                                          OWNER_WRITE,
-                                                          GROUP_READ,
-                                                          OTHERS_READ);
+        Set<PosixFilePermission> permissions = EnumSet.of(
+            OWNER_READ,
+            OWNER_WRITE,
+            GROUP_READ,
+            OTHERS_READ);
 
         PosixFileAttributeView posixView = Files.getFileAttributeView(path,
                 PosixFileAttributeView.class);

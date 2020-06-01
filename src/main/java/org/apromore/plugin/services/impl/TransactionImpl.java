@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * Transaction service for executing statements for impala.
  */
 @Service("transactionService")
-public class TransactionImp implements Transaction {
+public class TransactionImpl implements Transaction {
 
     @Autowired
     private ImpalaJdbcAdaptor impalaJdbc;
@@ -24,13 +24,12 @@ public class TransactionImp implements Transaction {
      */
     @Override
     public List<List<String>> addTableGetSnippet(String fileName, int limit) {
-
         List<List<String>> resultsList = null;
 
         String tableName = fileName.split("\\.")[0];
 
         // Adding the file into the Impala as a table
-        boolean isTableAdded =  impalaJdbc.addTable(tableName, fileName);
+        boolean isTableAdded = impalaJdbc.addTable(tableName, fileName);
 
         // Get snippet
         if (isTableAdded) {

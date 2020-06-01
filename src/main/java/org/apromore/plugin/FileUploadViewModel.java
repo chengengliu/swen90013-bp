@@ -75,7 +75,8 @@ public class FileUploadViewModel {
 
                     // Add the table and get snippet from impala
                     resultsList = transactionService.addTableGetSnippet(
-                                                media.getName(), 10);
+                        media.getName(),
+                        10);
 
                     // Create result String
                     textTable = createTableOutput(resultsList);
