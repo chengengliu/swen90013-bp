@@ -127,7 +127,7 @@ public class ImpalaJdbcAdaptor {
      */
     private void initConnection() {
         try {
-            //
+
             Class.forName(jdbcDriverName);
             con = DriverManager.getConnection(connectionUrl);
             stmt = con.createStatement();
@@ -143,7 +143,7 @@ public class ImpalaJdbcAdaptor {
      * Exit the JDBC connection.
      * @throws Throwable Close connection error.
      */
-    private void exitConnection() throws Throwable {
+    private void exitConnection() throws SQLException {
         this.con.close();
     }
 }

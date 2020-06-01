@@ -18,7 +18,9 @@ COPY --from=build /app/target/preprocessing-plugin.war /var/lib/jetty/webapps/
 
 # Change Volume permissions from root to jetty
 RUN mkdir /var/lib/jetty/preprocess_data
+
 RUN chown jetty:jetty /var/lib/jetty/preprocess_data
+
 USER jetty
 
 EXPOSE 8080

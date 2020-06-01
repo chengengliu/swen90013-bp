@@ -71,8 +71,6 @@ public class FileHandlerImpl implements FileHandlerService {
         try {
             File file = new File(this.tempDir + media.getName());
 
-            System.out.println(file.toString());
-
             OutputStream fOut = new FileOutputStream(file);
             out = new BufferedOutputStream(fOut);
             byte buffer[] = new byte[BUFFER_SIZE];
