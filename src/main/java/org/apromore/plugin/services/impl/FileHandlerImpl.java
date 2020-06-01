@@ -30,8 +30,8 @@ public class FileHandlerImpl implements FileHandlerService {
      */
     private void generateDirectory() {
         String temporalDir = new File("").getAbsolutePath();
-        File directory = new File(temporalDir + "/preprocess_data/");
-        this.tempDir = temporalDir + "/preprocess_data/";
+        File directory = new File(temporalDir + System.getenv("DATA_STORE"));
+        this.tempDir = temporalDir + System.getenv("DATA_STORE");
         if (!directory.exists()) {
             directory.mkdir();
         }
@@ -73,9 +73,8 @@ public class FileHandlerImpl implements FileHandlerService {
         BufferedOutputStream out = null;
 
         try {
-            File file = new File(this.tempDir + media.getName());
 
-            System.out.println(file.toString());
+            File file = new File(this.tempDir + media.getName());
 
             OutputStream fOut = new FileOutputStream(file);
             out = new BufferedOutputStream(fOut);
