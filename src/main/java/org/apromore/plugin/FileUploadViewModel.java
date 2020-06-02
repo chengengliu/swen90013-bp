@@ -35,7 +35,7 @@ public class FileUploadViewModel {
     @WireVariable
     private FileHandlerService fileHandlerService;
     @Wire("#inputFileList")
-    Div inputFileList;
+    private Div inputFileList;
 
     @WireVariable
     private Transaction transactionService;
