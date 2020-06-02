@@ -116,10 +116,10 @@ public class FileHandlerImpl implements FileHandlerService {
         if (file.exists()) {
             boolean brval = file.setReadable(true, false);
             boolean bwval = file.setWritable(true);
-            System.out.println("set all read permissions: "+ brval);
-            System.out.println("set owner's write permission: "+ bwval);
+            System.out.println("set all read permissions: " + brval);
+            System.out.println("set owner's write permission: " + bwval);
         } else {
-             System.out.println("File cannot exists: ");
+            System.out.println("File cannot exists: ");
         }
 
         System.out.println("Permissions set successfully to rw-r--r--.");

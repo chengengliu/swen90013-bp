@@ -32,9 +32,8 @@ public class EyeIconDiv extends Div {
         //System.out.println("Grid: "+grid.getId());
 
         //Populate the grid with actual data
-        //TableUtils.populateGrid(grid, resultsList);
+        TableUtils.populateGrid(grid, resultsList);
         //Populate the grid with sample data
-        TableUtils.populateGrid(grid,
-                TableUtils.getRandomGridList(10, 10));
+        //TableUtils.populateGrid(grid, TableUtils.getRandomGridList(10, 10));
     }
 }
