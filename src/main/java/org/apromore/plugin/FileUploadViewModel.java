@@ -33,9 +33,7 @@ public class FileUploadViewModel {
      * Initialise.
      */
     @Init
-    public void init() {
-
-    }
+    public void init() { }
 
     /**
      * Convert the list result into String.
