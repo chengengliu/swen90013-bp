@@ -1,5 +1,7 @@
 package org.apromore.plugin.services.impl;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apromore.plugin.services.Transaction;
@@ -29,12 +31,19 @@ public class TransactionImpl implements Transaction {
         String tableName = fileName.split("\\.")[0];
 
         // Adding the file into the Impala as a table
-        boolean isTableAdded = impalaJdbc.addTable(tableName, fileName);
+        try {
+            if (fileName.endsWith(".csv")) {
+                impalaJdbc.createCsvTable(tableName, fileName);
+            } else if (
+                fileName.endsWith(".parquet") || fileName.endsWith(".dat")
+            ) {
+                impalaJdbc.createParquetTable(tableName, fileName);
+            }
 
-        // Get snippet
-        if (isTableAdded) {
             resultsList = impalaJdbc.executeQuery(
                 "SELECT * FROM " + tableName + " LIMIT " + limit);
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
         }
 
         return resultsList;

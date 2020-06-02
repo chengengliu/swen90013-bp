@@ -82,64 +82,83 @@ public class ImpalaJdbcAdaptor {
     }
 
     /**
+     * Create a table from a parquet file.
+     *
+     * @param tableName name of the table to create
+     * @param fileName name of the file
+     * @throws SQLException if unable to execute statement
+     */
+    public void createParquetTable(String tableName, String fileName)
+            throws SQLException {
+        String create = "CREATE EXTERNAL TABLE %s " +
+            "LIKE PARQUET '%s' " +
+            "STORED AS PARQUET " +
+            "LOCATION '%s'";
+
+        create = String.format(
+            create,
+            tableName,
+            dataPath + "/" + fileName + "/" + fileName,
+            dataPath + "/" + fileName);
+
+        createTable(create, tableName);
+    }
+
+    /**
+     * Create a table from a csv file.
+     *
+     * @param tableName name of the table to create
+     * @param fileName name of the file
+     * @throws IOException if unable to read file
+     * @throws SQLException if unable to execute statement
+     */
+    public void createCsvTable(String tableName, String fileName)
+            throws IOException,
+            SQLException {
+        String columns = "";
+        File file = new File(dataPath + "/" + fileName + "/" + fileName);
+
+        try (
+            FileReader fileReader = new FileReader(file);
+            BufferedReader br = new BufferedReader(fileReader);
+        ) {
+            List<String> headers = Arrays.asList(br.readLine().split(","));
+            List<String> firstRow = Arrays.asList(br.readLine().split(","));
+
+            for (int i = 0; i < headers.size(); i++) {
+                columns += String.format(
+                    "%s %s, ",
+                    headers.get(i),
+                    getType(firstRow.get(i)));
+            }
+        }
+
+        String create = "CREATE EXTERNAL TABLE %s (%s) " +
+            "ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' " +
+            "LINES TERMINATED BY '\n' " +
+            "STORED AS TEXTFILE " +
+            "LOCATION '%s' " +
+            "TBLPROPERTIES('skip.header.line.count'='1')";
+
+        create = String.format(
+            create,
+            tableName,
+            columns.substring(0, columns.length() - 2),
+            dataPath + "/" + fileName);
+
+        createTable(create, tableName);
+    }
+
+    /**
      * Add the table in the impala.
      *
+     * @param create statement used to create the table
      * @param tableName Name of the table to add
-     * @param fileName  File name
-     * @return If the file was added
+     * @throws SQLException if unable to execute statement
      */
-    public boolean addTable(String tableName, String fileName) {
+    private void createTable(String create, String tableName)
+        throws SQLException {
         String drop = "DROP TABLE IF EXISTS " + tableName;
-        String create;
-
-        if (fileName.endsWith(".parquet") || fileName.endsWith(".dat")) {
-            create = "CREATE EXTERNAL TABLE %s " +
-                "LIKE PARQUET '%s' " +
-                "STORED AS PARQUET " +
-                "LOCATION '%s'";
-
-            create = String.format(
-                create,
-                tableName,
-                dataPath + "/" + fileName + "/" + fileName,
-                dataPath + "/" + fileName);
-        } else if (fileName.endsWith(".csv")) {
-            String columns = "";
-            File file = new File(dataPath + "/" + fileName + "/" + fileName);
-
-            try (
-                FileReader fileReader = new FileReader(file);
-                BufferedReader br = new BufferedReader(fileReader);
-            ) {
-                List<String> headers = Arrays.asList(br.readLine().split(","));
-                List<String> firstRow = Arrays.asList(br.readLine().split(","));
-
-                for (int i = 0; i < headers.size(); i++) {
-                    columns += String.format(
-                        "%s %s, ",
-                        headers.get(i),
-                        getType(firstRow.get(i)));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            }
-
-            create = "CREATE EXTERNAL TABLE %s (%s) " +
-                "ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' " +
-                "LINES TERMINATED BY '\n' " +
-                "STORED AS TEXTFILE " +
-                "LOCATION '%s' " +
-                "TBLPROPERTIES('skip.header.line.count'='1')";
-
-            create = String.format(
-                create,
-                tableName,
-                columns.substring(0, columns.length() - 2),
-                dataPath + "/" + fileName);
-        } else {
-            return false;
-        }
 
         try (
             Connection connection = DriverManager.getConnection(connectionUrl);
@@ -153,12 +172,10 @@ public class ImpalaJdbcAdaptor {
             statement.execute(create);
 
             System.out.println("Table added");
-            return true;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             System.out.println("Failed to add Table");
             e.printStackTrace();
         }
-        return false;
     }
 
     /**
