@@ -13,6 +13,7 @@ public interface FileHandlerService {
 
     /**
      * Writes the input file to an output stream.
+     *
      * @param media the input file.
      * @return return the message to show on client side.
      */
@@ -20,6 +21,7 @@ public interface FileHandlerService {
 
     /**
      * Output the file.
+     *
      * @return returns a file.
      */
     File outputFiles();

@@ -73,12 +73,16 @@ public class FileUploadViewModel {
                 if (returnMessage.equals("Upload Success")) {
                     List<List<String>> resultsList;
 
-                    // Add the table and get snippet from impala
-                    resultsList = transactionService.addTableGetSnippet(
-                                                media.getName(), 10);
+                    boolean status = transactionService
+                                        .addTable(media.getName());
 
-                    // Create result String
-                    textTable = createTableOutput(resultsList);
+                    if (status) {
+                        resultsList = transactionService
+                                        .getSnippet(media.getName(), 10);
+
+                        // Create result String
+                        textTable = createTableOutput(resultsList);
+                    }
                 }
 
                 Messagebox.show(returnMessage);
