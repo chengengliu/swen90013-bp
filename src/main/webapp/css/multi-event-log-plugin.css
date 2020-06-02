@@ -58,7 +58,7 @@
 
 .input-table-scroll-area{
 	width: 700px;
-	height: 300px; 
+	height: 300px;
 	border: 1px solid black;
 	overflow: auto;
 }
