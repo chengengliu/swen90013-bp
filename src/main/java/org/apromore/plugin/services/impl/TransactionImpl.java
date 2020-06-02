@@ -19,7 +19,7 @@ public class TransactionImpl implements Transaction {
      * Add the file to the Impala and get a snippet.
      *
      * @param fileName File Name
-     * @param limit  Limit of the rows
+     * @param limit    Limit of the rows
      * @return return the snippet of the table.
      */
     @Override
@@ -33,8 +33,8 @@ public class TransactionImpl implements Transaction {
 
         // Get snippet
         if (isTableAdded) {
-            resultsList = impalaJdbc.executeQuery("SELECT * FROM " +
-                    tableName + " LIMIT " + limit);
+            resultsList = impalaJdbc.executeQuery(
+                "SELECT * FROM " + tableName + " LIMIT " + limit);
         }
 
         return resultsList;
@@ -44,15 +44,15 @@ public class TransactionImpl implements Transaction {
      * Get snippet from the impala tables.
      *
      * @param tableName File Name
-     * @param limit Limit the rows
+     * @param limit     Limit the rows
      * @return return the snippet of the table.
      */
     @Override
     public List<List<String>> getSnippet(String tableName, int limit) {
         List<List<String>> resultsList;
 
-        resultsList = impalaJdbc.executeQuery("SELECT * FROM " +
-                tableName + " LIMIT " + limit);
+        resultsList = impalaJdbc
+                .executeQuery("SELECT * FROM " + tableName + " LIMIT " + limit);
 
         return resultsList;
     }

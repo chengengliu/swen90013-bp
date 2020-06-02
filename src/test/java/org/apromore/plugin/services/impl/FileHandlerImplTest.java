@@ -16,8 +16,8 @@ import org.zkoss.util.media.Media;
 import static org.easymock.EasyMock.*;
 
 /**
- * Unit test class for FileHandlerImpl. Tests include file saving test
- * and directory test.
+ * Unit test class for FileHandlerImpl. Tests include file saving test and
+ * directory test.
  */
 @ContextConfiguration(classes = PluginConfig.class)
 @RunWith(SpringRunner.class)
@@ -69,8 +69,7 @@ public class FileHandlerImplTest extends EasyMockSupport {
      */
     @Test
     public void writeStreamFilesTest() throws IOException {
-        bufferedInputStream = createMockBuilder(
-                BufferedInputStream.class)
+        bufferedInputStream = createMockBuilder(BufferedInputStream.class)
                 .withConstructor(InputStream.class)
                 .withArgs(inputStream)
                 .createMock();
@@ -93,8 +92,7 @@ public class FileHandlerImplTest extends EasyMockSupport {
      */
     @Test(expected = NullPointerException.class)
     public void writeFileFailTest() {
-        bufferedInputStream = createMockBuilder(
-                BufferedInputStream.class)
+        bufferedInputStream = createMockBuilder(BufferedInputStream.class)
                 .withConstructor(InputStream.class)
                 .withArgs(null)
                 .createMock();

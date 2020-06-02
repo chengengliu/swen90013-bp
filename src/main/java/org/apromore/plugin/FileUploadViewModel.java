@@ -46,8 +46,8 @@ public class FileUploadViewModel {
     private String createTableOutput(List<List<String>> tableVal) {
 
         String text = "";
-        for (List<String> rowList: tableVal) {
-            for (String rowVal: rowList) {
+        for (List<String> rowList : tableVal) {
+            for (String rowVal : rowList) {
                 text += rowVal + ", ";
             }
             text += "\n";
@@ -74,9 +74,8 @@ public class FileUploadViewModel {
                     List<List<String>> resultsList;
 
                     // Add the table and get snippet from impala
-                    resultsList = transactionService.addTableGetSnippet(
-                        media.getName(),
-                        10);
+                    resultsList = transactionService
+                            .addTableGetSnippet(media.getName(), 10);
 
                     // Create result String
                     textTable = createTableOutput(resultsList);
@@ -92,8 +91,7 @@ public class FileUploadViewModel {
                 NULL_UPLOAD_MESSAGE,
                 ERROR,
                 Messagebox.OK,
-                Messagebox.ERROR
-            );
+                Messagebox.ERROR);
         }
     }
 

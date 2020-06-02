@@ -24,6 +24,8 @@ public class FileHandlerServiceImpl implements FileHandlerService {
 
     /**
      * Create a directory to save the output files to.
+     *
+     * @param file name of the file to create a directory for
      */
     private void generateDirectory(String file) {
         new File(tempDir + "/" + file).mkdirs();
@@ -83,22 +85,19 @@ public class FileHandlerServiceImpl implements FileHandlerService {
     }
 
     /**
-     * Change the File permission so that impala could read the
-     * files in the volume.
+     * Change the File permission so that impala could read the files in the
+     * volume.
      *
      * @param filePath Path of the file in the volume.
      * @throws Exception for the file permission change failure.
      */
     private void changeFilePermission(String filePath) throws Exception {
         Path path = Paths.get(filePath);
-        Set<PosixFilePermission> permissions = EnumSet.of(
-            OWNER_READ,
-            OWNER_WRITE,
-            GROUP_READ,
-            OTHERS_READ);
+        Set<PosixFilePermission> permissions = EnumSet
+                .of(OWNER_READ, OWNER_WRITE, GROUP_READ, OTHERS_READ);
 
-        PosixFileAttributeView posixView = Files.getFileAttributeView(path,
-                PosixFileAttributeView.class);
+        PosixFileAttributeView posixView = Files
+                .getFileAttributeView(path, PosixFileAttributeView.class);
 
         if (posixView == null) {
             System.out.format("POSIX attribute view  is not  supported%n.");
