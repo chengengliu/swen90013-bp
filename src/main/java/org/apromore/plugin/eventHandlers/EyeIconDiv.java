@@ -2,7 +2,9 @@ package org.apromore.plugin.eventHandlers;
 
 import java.util.List;
 
+import org.apromore.plugin.services.Transaction;
 import org.apromore.plugin.utils.TableUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Grid;
@@ -14,6 +16,8 @@ import org.zkoss.zul.Grid;
 public class EyeIconDiv extends Div {
     private List<List<String>> resultsList = null;
 
+    @Autowired
+    private Transaction transactionService;
     /**
      * Constructor.
      * @param list a list of results.
@@ -30,11 +34,7 @@ public class EyeIconDiv extends Div {
         //Get the grid
         Grid grid = TableUtils.getGridFromButton(this);
         //System.out.println("Grid: "+grid.getId());
-
         //Populate the grid with actual data
-        //TableUtils.populateGrid(grid, resultsList);
-        //Populate the grid with sample data
-        TableUtils.populateGrid(grid,
-                TableUtils.getRandomGridList(10, 10));
+        TableUtils.populateGrid(grid, resultsList);
     }
 }
