@@ -17,7 +17,7 @@
 
 .card{
 	background: white;
-	box-shadow: 0px 3px 7px 1px rgba(0,0,0,0.05);
+	box-shadow: 0 3px 7px 1px rgba(0,0,0,0.05);
 	border-radius: 7px;
 	padding: 10px;
 	position: relative;
@@ -28,7 +28,7 @@
 	padding: 10px;
 	height: 100%;
 	text-align: center;
-	box-shadow: 0px 3px 7px 1px rgba(0,0,0,0.05);
+	box-shadow: 0 3px 7px 1px rgba(0,0,0,0.05);
 	border-radius: 7px;
 	border: 1px solid #8c8c8c;
 	position: relative;
@@ -41,17 +41,11 @@
 	text-align: center;
 }
 
-.top-right-panel-center{
-}
-
 .bottom-right-panel{
 	height: 300px;
 	width: 900px;
 	background: #FFFFFF;
 	text-align: center;
-}
-
-.bottom-right-panel-center{
 }
 
 .button-area{
@@ -68,4 +62,3 @@
 	border: 1px solid black;
 	overflow: auto;
 }
-
