@@ -1,7 +1,5 @@
 package org.apromore.plugin.services.impl;
 
-import static java.nio.file.attribute.PosixFilePermission.*;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -17,6 +15,7 @@ import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.EnumSet;
 import java.util.Set;
+import static java.nio.file.attribute.PosixFilePermission.*;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apromore.plugin.services.FileHandlerService;
@@ -38,7 +37,7 @@ public class FileHandlerServiceImpl implements FileHandlerService {
      * Create a directory to save the output files to.
      *
      * @param path name of the file to create a directory for
-     * @throws IOException
+     * @throws IOException if unable to change permissions
      */
     private void generateDirectory(String path) throws IOException {
         new File(path).mkdirs();
@@ -93,8 +92,8 @@ public class FileHandlerServiceImpl implements FileHandlerService {
         try {
             if (fileName.endsWith(".csv")) {
                 generateDirectory(
-                    this.tempDir + "/" + FilenameUtils.removeExtension(fileName) +
-                        "_csv");
+                    this.tempDir + "/" +
+                    FilenameUtils.removeExtension(fileName) + "_csv");
             }
 
             generateDirectory(
@@ -103,7 +102,6 @@ public class FileHandlerServiceImpl implements FileHandlerService {
             e.printStackTrace();
             return UPLOAD_FAILED;
         }
-
 
         File file = new File(path);
 
@@ -136,8 +134,7 @@ public class FileHandlerServiceImpl implements FileHandlerService {
      * volume.
      *
      * @param filePath Path of the file in the volume.
-     * @throws IOException
-     * @throws Exception for the file permission change failure.
+     * @throws IOException if the file permissions were not changed
      */
     private void changeFilePermission(String filePath) throws IOException {
         Path path = Paths.get(filePath);
