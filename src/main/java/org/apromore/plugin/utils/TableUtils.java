@@ -25,6 +25,11 @@ public class TableUtils {
         g.appendChild(cols);
         g.appendChild(rows);
 
+        if(list == null) {
+        	System.out.println("List is null");
+        	return;
+        }
+        
         for (List<String> row:list) {
             if (firstRow) {
 
