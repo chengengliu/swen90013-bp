@@ -3,6 +3,7 @@ package org.apromore.plugin.services;
 import java.io.File;
 import java.io.IOException;
 
+import org.apromore.plugin.services.impl.IllegalFileTypeException;
 import org.zkoss.util.media.Media;
 
 /**
@@ -15,8 +16,9 @@ public interface FileHandlerService {
      *
      * @param media the input file.
      * @return return the message to show on client side.
+     * @throws IllegalFileTypeException if the file type is unsupported
      */
-    String writeFiles(Media media) throws IOException;
+    String writeFiles(Media media) throws IOException, IllegalFileTypeException;
 
     /**
      * Output the file.

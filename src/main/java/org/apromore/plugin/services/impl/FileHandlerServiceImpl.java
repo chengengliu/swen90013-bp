@@ -53,11 +53,20 @@ public class FileHandlerServiceImpl implements FileHandlerService {
      *
      * @param media the input file.
      * @return return the message to show on client side.
+     * @throws IllegalFileTypeException if file type is not supported
      */
-    public String writeFiles(Media media) {
-        generateDirectory(media.getName());
-        File file = new File(
-            this.tempDir + "/" + media.getName() + "/" + media.getName());
+    public String writeFiles(Media media) throws IllegalFileTypeException {
+        String fileName = media.getName();
+
+        if (!(
+            fileName.endsWith(".csv") ||
+            fileName.endsWith("dat") ||
+            fileName.endsWith(".parquet"))) {
+            throw new IllegalFileTypeException("File must be csv or parquet.");
+        }
+
+        generateDirectory(fileName);
+        File file = new File(this.tempDir + "/" + fileName + "/" + fileName);
 
         try (
             InputStream fIn = (
@@ -75,7 +84,7 @@ public class FileHandlerServiceImpl implements FileHandlerService {
             }
 
             changeFilePermission(
-                this.tempDir + "/" + media.getName() + "/" + media.getName());
+                this.tempDir + "/" + fileName + "/" + fileName);
         } catch (Exception e) {
             e.printStackTrace();
             return UPLOAD_FAILED;

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apromore.plugin.services.FileHandlerService;
 import org.apromore.plugin.services.Transaction;
+import org.apromore.plugin.services.impl.IllegalFileTypeException;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.util.media.Media;
@@ -82,6 +83,8 @@ public class FileUploadViewModel {
                 Messagebox.show(returnMessage);
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (IllegalFileTypeException e) {
+                Messagebox.show(e.getMessage());
             }
 
         } else {
