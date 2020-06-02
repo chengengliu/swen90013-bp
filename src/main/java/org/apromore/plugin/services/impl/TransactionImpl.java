@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apromore.plugin.services.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class TransactionImpl implements Transaction {
     public List<List<String>> addTableGetSnippet(String fileName, int limit) {
         List<List<String>> resultsList = null;
 
-        String tableName = fileName.split("\\.")[0];
+        String tableName = FilenameUtils.removeExtension(fileName);
 
         // Adding the file into the Impala as a table
         try {

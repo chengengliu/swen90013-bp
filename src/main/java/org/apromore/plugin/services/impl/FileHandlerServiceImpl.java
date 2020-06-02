@@ -7,6 +7,7 @@ import java.util.EnumSet;
 import java.util.Set;
 import static java.nio.file.attribute.PosixFilePermission.*;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apromore.plugin.services.FileHandlerService;
 import org.springframework.stereotype.Service;
 import org.zkoss.util.media.Media;
@@ -25,10 +26,10 @@ public class FileHandlerServiceImpl implements FileHandlerService {
     /**
      * Create a directory to save the output files to.
      *
-     * @param file name of the file to create a directory for
+     * @param dir name of the file to create a directory for
      */
-    private void generateDirectory(String file) {
-        new File(tempDir + "/" + file).mkdirs();
+    private void generateDirectory(String dir) {
+        new File(tempDir + "/" + dir).mkdirs();
     }
 
     /**
@@ -57,6 +58,8 @@ public class FileHandlerServiceImpl implements FileHandlerService {
      */
     public String writeFiles(Media media) throws IllegalFileTypeException {
         String fileName = media.getName();
+        String path = this.tempDir + "/" +
+            FilenameUtils.removeExtension(fileName) + "/" + fileName;
 
         if (!(
             fileName.endsWith(".csv") ||
@@ -65,8 +68,8 @@ public class FileHandlerServiceImpl implements FileHandlerService {
             throw new IllegalFileTypeException("File must be csv or parquet.");
         }
 
-        generateDirectory(fileName);
-        File file = new File(this.tempDir + "/" + fileName + "/" + fileName);
+        generateDirectory(FilenameUtils.removeExtension(fileName));
+        File file = new File(path);
 
         try (
             InputStream fIn = (
@@ -83,8 +86,7 @@ public class FileHandlerServiceImpl implements FileHandlerService {
                 out.write(buffer, 0, len);
             }
 
-            changeFilePermission(
-                this.tempDir + "/" + fileName + "/" + fileName);
+            changeFilePermission(path);
         } catch (Exception e) {
             e.printStackTrace();
             return UPLOAD_FAILED;

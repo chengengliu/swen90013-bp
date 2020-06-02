@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -90,7 +91,9 @@ public class ImpalaJdbcAdaptor {
      */
     public void createParquetTable(String tableName, String fileName)
             throws SQLException {
-        String create = "CREATE EXTERNAL TABLE %s " +
+        String dir = dataPath + "/" + FilenameUtils.removeExtension(fileName);
+
+        String create = "CREATE EXTERNAL TABLE `%s` " +
             "LIKE PARQUET '%s' " +
             "STORED AS PARQUET " +
             "LOCATION '%s'";
@@ -98,8 +101,8 @@ public class ImpalaJdbcAdaptor {
         create = String.format(
             create,
             tableName,
-            dataPath + "/" + fileName + "/" + fileName,
-            dataPath + "/" + fileName);
+            dir + "/" + fileName,
+            dir + fileName);
 
         createTable(create, tableName);
     }
@@ -116,7 +119,9 @@ public class ImpalaJdbcAdaptor {
             throws IOException,
             SQLException {
         String columns = "";
-        File file = new File(dataPath + "/" + fileName + "/" + fileName);
+
+        String dir = dataPath + "/" + FilenameUtils.removeExtension(fileName);
+        File file = new File(dir + "/" + fileName);
 
         try (
             FileReader fileReader = new FileReader(file);
@@ -127,13 +132,13 @@ public class ImpalaJdbcAdaptor {
 
             for (int i = 0; i < headers.size(); i++) {
                 columns += String.format(
-                    "%s %s, ",
+                    "`%s` %s, ",
                     headers.get(i),
                     getType(firstRow.get(i)));
             }
         }
 
-        String create = "CREATE EXTERNAL TABLE %s (%s) " +
+        String create = "CREATE EXTERNAL TABLE `%s` (%s) " +
             "ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' " +
             "LINES TERMINATED BY '\n' " +
             "STORED AS TEXTFILE " +
@@ -144,7 +149,7 @@ public class ImpalaJdbcAdaptor {
             create,
             tableName,
             columns.substring(0, columns.length() - 2),
-            dataPath + "/" + fileName);
+            dir);
 
         createTable(create, tableName);
     }
