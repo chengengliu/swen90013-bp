@@ -22,7 +22,6 @@ public class ImpalaJdbcAdaptor {
     private final String jdbcDriverName = "com.cloudera.impala.jdbc41.Driver";
     private final String dataPath = System.getProperty("java.io.tmpdir") +
         System.getenv("DATA_STORE");
-    private Statement statement;
 
     /**
      * Get the type of a string.
@@ -147,7 +146,7 @@ public class ImpalaJdbcAdaptor {
         ) {
             // Init connection
             Class.forName(jdbcDriverName);
-            statement = connection.createStatement();
+            Statement statement = connection.createStatement();
 
             // Import table
             statement.execute(drop);
@@ -176,7 +175,7 @@ public class ImpalaJdbcAdaptor {
         ) {
             // Init connection
             Class.forName(jdbcDriverName);
-            statement = connection.createStatement();
+            Statement statement = connection.createStatement();
 
             // Execute query
             ResultSet resultSet = statement.executeQuery(sqlStatement);
