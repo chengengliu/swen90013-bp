@@ -36,7 +36,9 @@ public class TransactionImpl implements Transaction {
             if (fileName.endsWith(".csv")) {
                 impalaJdbc.createCsvTable(tableName, fileName);
             } else if (
-                fileName.endsWith(".parquet") || fileName.endsWith(".dat")
+                fileName.endsWith(".parq") ||
+                fileName.endsWith(".parquet") ||
+                fileName.endsWith(".dat")
             ) {
                 impalaJdbc.createParquetTable(tableName, fileName);
             }

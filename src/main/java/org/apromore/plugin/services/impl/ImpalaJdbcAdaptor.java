@@ -86,7 +86,7 @@ public class ImpalaJdbcAdaptor {
      * Create a table from a parquet file.
      *
      * @param tableName name of the table to create
-     * @param fileName name of the file
+     * @param fileName  name of the file
      * @throws SQLException if unable to execute statement
      */
     public void createParquetTable(String tableName, String fileName)
@@ -102,7 +102,7 @@ public class ImpalaJdbcAdaptor {
             create,
             tableName,
             dir + "/" + fileName,
-            dir + fileName);
+            dir);
 
         createTable(create, tableName);
     }
@@ -111,8 +111,8 @@ public class ImpalaJdbcAdaptor {
      * Create a table from a csv file.
      *
      * @param tableName name of the table to create
-     * @param fileName name of the file
-     * @throws IOException if unable to read file
+     * @param fileName  name of the file
+     * @throws IOException  if unable to read file
      * @throws SQLException if unable to execute statement
      */
     public void createCsvTable(String tableName, String fileName)
@@ -120,7 +120,8 @@ public class ImpalaJdbcAdaptor {
             SQLException {
         String columns = "";
 
-        String dir = dataPath + "/" + FilenameUtils.removeExtension(fileName);
+        String dir = dataPath + "/" + FilenameUtils.removeExtension(fileName) +
+            "_csv";
         File file = new File(dir + "/" + fileName);
 
         try (
@@ -147,38 +148,71 @@ public class ImpalaJdbcAdaptor {
 
         create = String.format(
             create,
-            tableName,
+            tableName + "_csv",
             columns.substring(0, columns.length() - 2),
             dir);
 
-        createTable(create, tableName);
+        createTable(create, tableName + "_csv");
+
+        try {
+            Class.forName(jdbcDriverName);
+            try (
+                Connection connection = DriverManager
+                    .getConnection(connectionUrl);
+                Statement statement = connection.createStatement();
+            ) {
+                String query = "CREATE EXTERNAL TABLE `%s` " +
+                    "LIKE `%s` " +
+                    "STORED AS PARQUET " +
+                    "LOCATION '%s'";
+
+                query = String.format(
+                    query,
+                    tableName,
+                    tableName + "_csv",
+                    dataPath + "/" + tableName);
+
+                createTable(query, tableName);
+
+                statement.execute(
+                    String.format(
+                        "INSERT OVERWRITE TABLE `%s` SELECT * FROM `%s`",
+                        tableName,
+                        tableName + "_csv"));
+
+                statement.execute(
+                    String.format(
+                        "DROP TABLE IF EXISTS `%s`",
+                        tableName + "_csv"));
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Add the table in the impala.
      *
-     * @param create statement used to create the table
+     * @param create    statement used to create the table
      * @param tableName Name of the table to add
      * @throws SQLException if unable to execute statement
      */
     private void createTable(String create, String tableName)
-        throws SQLException {
+            throws SQLException {
         String drop = "DROP TABLE IF EXISTS " + tableName;
 
-        try (
-            Connection connection = DriverManager.getConnection(connectionUrl);
-        ) {
-            // Init connection
+        try {
             Class.forName(jdbcDriverName);
-            Statement statement = connection.createStatement();
-
-            // Import table
-            statement.execute(drop);
-            statement.execute(create);
-
-            System.out.println("Table added");
+            try (
+                Connection connection = DriverManager
+                    .getConnection(connectionUrl);
+                Statement statement = connection.createStatement();
+            ) {
+                // Import table
+                statement.execute(drop);
+                statement.execute(create);
+            }
         } catch (ClassNotFoundException e) {
-            System.out.println("Failed to add Table");
             e.printStackTrace();
         }
     }

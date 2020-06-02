@@ -20,7 +20,7 @@ USER jetty
 
 # Change Volume permissions from root to jetty
 RUN mkdir /tmp/preprocess_data && \
-    chown jetty:jetty /tmp/preprocess_data
+    chmod -R 777 /tmp/preprocess_data
 
 EXPOSE 8080
 
