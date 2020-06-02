@@ -3,6 +3,7 @@ package org.apromore.plugin;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apromore.plugin.eventHandlers.EyeIconDiv;
@@ -31,6 +32,7 @@ public class FileUploadViewModel {
     private static final String NULL_UPLOAD_MESSAGE = "No file is selected";
     private static final String ERROR = "Error";
     private String textTable;
+    private List<String> filenames = new ArrayList();
 
     @WireVariable
     private FileHandlerService fileHandlerService;
@@ -97,7 +99,12 @@ public class FileUploadViewModel {
                     // Add the table and get snippet from impala
                     resultsList = transactionService.addTableGetSnippet(
                                                 media.getName(), 10);
-                    addFileToUIList(media.getName(), resultsList);
+
+                    //Prevent the same file from appearing in the list twice
+                    if (!filenames.contains(media.getName())) {
+                        filenames.add(media.getName());
+                        addFileToUIList(media.getName(), resultsList);
+                    }
 
                 }
 
