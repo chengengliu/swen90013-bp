@@ -2,12 +2,8 @@ package org.apromore.plugin.services.impl;
 
 import java.io.*;
 import java.nio.file.*;
-import java.nio.file.attribute.*;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
-import static java.nio.file.attribute.PosixFilePermission.*;
 
 import org.apromore.plugin.services.FileHandlerService;
 import org.springframework.stereotype.Service;
@@ -115,20 +111,17 @@ public class FileHandlerImpl implements FileHandlerService {
      */
     private void changeFilePermission(String filePath) throws Exception {
         Path path = Paths.get(filePath);
-        Set<PosixFilePermission> permissions = EnumSet.of(OWNER_READ,
-                                                          OWNER_WRITE,
-                                                          GROUP_READ,
-                                                          OTHERS_READ);
-
-        PosixFileAttributeView posixView = Files.getFileAttributeView(path,
-                PosixFileAttributeView.class);
-
-        if (posixView == null) {
-            System.out.format("POSIX attribute view  is not  supported%n.");
-            return;
+        File file = path.toFile();
+        //set write permission on file only for owner
+        if (file.exists()) {
+            boolean brval = file.setReadable(true, false);
+            boolean bwval = file.setWritable(true);
+            System.out.println("set all read permissions: "+ brval);
+            System.out.println("set owner's write permission: "+ bwval);
+        } else {
+             System.out.println("File cannot exists: ");
         }
 
-        posixView.setPermissions(permissions);
         System.out.println("Permissions set successfully to rw-r--r--.");
     }
 
