@@ -14,8 +14,6 @@ services:
       - preprocess-data:/tmp/preprocess_data
     ports:
       - 8080:8080
-    networks:
-      - impala-net
 
   # Apache Impala Container
   impala:
@@ -24,15 +22,9 @@ services:
       - preprocess-data:/tmp/preprocess_data
     ports:
       - 21050:21050
-    networks:
-      - impala-net
     command: impala
 
 # Volume to store Log files
 volumes:
   preprocess-data:
     driver: local
-
-# private Bridge Network
-networks:
-  impala-net:
