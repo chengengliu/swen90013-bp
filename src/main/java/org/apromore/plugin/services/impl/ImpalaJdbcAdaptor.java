@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ImpalaJdbcAdaptor {
-
     // Impala connection info
     private final String connectionUrl = System.getenv("IMPALA_LINK");
     private final String jdbcDriverName = "com.cloudera.impala.jdbc41.Driver";
@@ -54,8 +53,7 @@ public class ImpalaJdbcAdaptor {
      * @throws SQLException if unable to execute statement
      */
     public void createCsvTable(String tableName, String fileName)
-            throws IOException,
-            SQLException {
+            throws IOException, SQLException {
         String columns = "";
 
         String dir = dataPath + "/" + FilenameUtils.removeExtension(fileName) +

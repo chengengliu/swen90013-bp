@@ -10,7 +10,6 @@ import org.zkoss.util.media.Media;
  * Interface for creating file services.
  */
 public interface FileHandlerService {
-
     /**
      * Writes the input file to an output stream.
      *

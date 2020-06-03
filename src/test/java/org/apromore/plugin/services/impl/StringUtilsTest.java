@@ -15,9 +15,7 @@ public class StringUtilsTest {
         Assert.assertEquals(
             StringUtils.getColumnType("abc"),
             StringUtils.STRING);
-        Assert.assertEquals(
-            StringUtils.getColumnType(""),
-            StringUtils.STRING);
+        Assert.assertEquals(StringUtils.getColumnType(""), StringUtils.STRING);
     }
 
     /**
