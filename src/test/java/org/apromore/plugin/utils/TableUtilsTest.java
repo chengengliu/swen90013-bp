@@ -27,7 +27,7 @@ public class TableUtilsTest {
 
         //Create a sample list of lists
         for (int i = 0; i < rows; i++) {
-            List<String> row = new ArrayList();
+            List<String> row = new ArrayList<>();
             exampleList.add(row);
             for (int j = 0; j < cols; j++) {
                 if (i == 0) {

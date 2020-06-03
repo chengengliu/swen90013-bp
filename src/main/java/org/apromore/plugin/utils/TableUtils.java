@@ -18,6 +18,11 @@ public class TableUtils {
     public static void populateGrid(Grid grid, List<List<String>> gridData) {
         boolean firstRow = true;
 
+        if (grid == null) {
+            System.out.println("Grid is null");
+            return;
+        }
+
         grid.getChildren().clear();
         Columns cols = new Columns();
         Rows rows = new Rows();
