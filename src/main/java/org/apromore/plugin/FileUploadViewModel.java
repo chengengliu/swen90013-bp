@@ -25,7 +25,6 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.*;
 
-
 /**
  * Model for the upload view.
  */
@@ -34,7 +33,7 @@ public class FileUploadViewModel {
     private static final String NULL_UPLOAD_MESSAGE = "No file is selected";
     private static final String ERROR = "Error";
     private String textTable;
-    private List<String> filenames = new ArrayList();
+    private List<String> filenames = new ArrayList<>();
 
     @WireVariable
     private FileHandlerService fileHandlerService;
@@ -73,6 +72,7 @@ public class FileUploadViewModel {
 
     /**
      * Defines what actions must be taken after the view model is composed.
+     *
      * @param view the view associated with this view model.
      */
     @AfterCompose
@@ -99,7 +99,7 @@ public class FileUploadViewModel {
                     try {
                         transactionService.addTable(media.getName());
                         resultsList = transactionService
-                                        .getSnippet(media.getName(), 10);
+                                .getSnippet(media.getName(), 10);
 
                         // Create result String
                         textTable = createTableOutput(resultsList);
@@ -107,7 +107,7 @@ public class FileUploadViewModel {
                         e.printStackTrace();
                     }
 
-                    //Prevent the same file from appearing in the list twice
+                    // Prevent the same file from appearing in the list twice
                     if (!filenames.contains(media.getName())) {
                         filenames.add(media.getName());
                         addFileToUIList(media.getName(), resultsList);
@@ -145,25 +145,27 @@ public class FileUploadViewModel {
 
     /**
      * Adds a file to the list in UI.
-     * @param filename the name of the file to add to the UI.
+     *
+     * @param filename    the name of the file to add to the UI.
      * @param resultsList snippet data.
      */
-    private void addFileToUIList(String filename,
+    private void addFileToUIList(
+            String filename,
             List<List<String>> resultsList) {
 
         Hlayout fileListRow = new Hlayout();
         inputFileList.appendChild(fileListRow);
 
-        //Create table icon
+        // Create table icon
         HtmlNativeComponent tableIcon = new HtmlNativeComponent("i");
         tableIcon.setDynamicProperty("class", "z-icon-table");
         fileListRow.appendChild(tableIcon);
 
-        //Create the label
+        // Create the label
         Label fileLabel = new Label(filename);
         fileListRow.appendChild(fileLabel);
 
-        //Construct the popup box and contents
+        // Construct the popup box and contents
         Popup popupBox = new Popup();
         popupBox.setId(filename + "Snippet");
         fileListRow.appendChild(popupBox);
@@ -176,12 +178,12 @@ public class FileUploadViewModel {
         inputGrid.setId(filename + "Grid");
         scrollArea.appendChild(inputGrid);
 
-        //Add some spacing
+        // Add some spacing
         Space space = new Space();
         space.setSpacing("3px");
         fileListRow.appendChild(space);
 
-        //Construct eye icon
+        // Construct eye icon
         EyeIconDiv eyeButton = new EyeIconDiv(resultsList);
         eyeButton.setId("view" + filename + "Snippet");
         eyeButton.setPopupAttributes(popupBox, null, null, null, "toggle");
@@ -190,7 +192,5 @@ public class FileUploadViewModel {
         HtmlNativeComponent eyeIcon = new HtmlNativeComponent("i");
         eyeIcon.setDynamicProperty("class", "z-icon-eye");
         eyeButton.appendChild(eyeIcon);
-
     }
-
 }

@@ -25,5 +25,4 @@ public interface FileHandlerService {
      * @return returns a file.
      */
     File outputFiles();
-
 }

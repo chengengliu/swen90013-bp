@@ -131,10 +131,9 @@ public class FileHandlerServiceImpl implements FileHandlerService {
      * @throws IOException if the file permissions were not changed
      */
     private void changeFilePermission(String filePath) throws IOException {
-
         Path path = Paths.get(filePath);
         File file = path.toFile();
-        //set write permission on file only for owner
+
         if (file.exists()) {
             boolean brval = file.setReadable(true, false);
             boolean bwval = file.setWritable(true, false);
