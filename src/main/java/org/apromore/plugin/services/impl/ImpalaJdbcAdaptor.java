@@ -222,8 +222,10 @@ public class ImpalaJdbcAdaptor {
      *
      * @param sqlStatement Sql string
      * @return List of the result rows
+     * @throws SQLException if unable to execute query
      */
-    public List<List<String>> executeQuery(String sqlStatement) {
+    public List<List<String>> executeQuery(String sqlStatement)
+        throws SQLException {
         List<List<String>> resultList = new ArrayList<>();
 
         try (
@@ -247,7 +249,6 @@ public class ImpalaJdbcAdaptor {
                     System.out.print(" | ");
                 }
                 header.add(rsmd.getColumnName(i));
-                System.out.print(rsmd.getColumnName(i));
             }
 
             // Add the header
@@ -267,7 +268,7 @@ public class ImpalaJdbcAdaptor {
 
             System.out.println("Executed: " + sqlStatement);
 
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 

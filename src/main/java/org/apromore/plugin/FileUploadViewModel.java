@@ -3,6 +3,7 @@ package org.apromore.plugin;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apromore.plugin.services.FileHandlerService;
@@ -72,12 +73,16 @@ public class FileUploadViewModel {
                 if (returnMessage.equals("Upload Success")) {
                     List<List<String>> resultsList;
 
-                    // Add the table and get snippet from impala
-                    resultsList = transactionService
-                            .addTableGetSnippet(media.getName(), 10);
+                    try {
+                        transactionService.addTable(media.getName());
+                        resultsList = transactionService
+                                        .getSnippet(media.getName(), 10);
 
-                    // Create result String
-                    textTable = createTableOutput(resultsList);
+                        // Create result String
+                        textTable = createTableOutput(resultsList);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 Messagebox.show(returnMessage);
