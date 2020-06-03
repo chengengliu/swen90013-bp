@@ -31,6 +31,7 @@ public class FileHandlerImpl implements FileHandlerService {
 
     /**
      * Output the files to the user who request download.
+     *
      * @return a file
      */
     public File outputFiles() {

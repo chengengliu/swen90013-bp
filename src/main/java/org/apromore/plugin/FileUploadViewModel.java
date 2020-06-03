@@ -94,18 +94,24 @@ public class FileUploadViewModel {
 
                 // If the file was written then load in impala and get snippet
                 if (returnMessage.equals("Upload Success")) {
-                    List<List<String>> resultsList;
+                    List<List<String>> resultsList = null;
 
-                    // Add the table and get snippet from impala
-                    resultsList = transactionService.addTableGetSnippet(
-                                                media.getName(), 10);
+                    boolean status = transactionService
+                                        .addTable(media.getName());
+
+                    if (status) {
+                        resultsList = transactionService
+                                        .getSnippet(media.getName(), 10);
+
+                        // Create result String
+                        textTable = createTableOutput(resultsList);
+                    }
 
                     //Prevent the same file from appearing in the list twice
                     if (!filenames.contains(media.getName())) {
                         filenames.add(media.getName());
                         addFileToUIList(media.getName(), resultsList);
                     }
-
                 }
 
                 Messagebox.show(returnMessage);

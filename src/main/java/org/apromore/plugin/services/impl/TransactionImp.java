@@ -44,17 +44,36 @@ public class TransactionImp implements Transaction {
     /**
      * Get snippet from the impala tables.
      *
-     * @param tableName File Name
+     * @param fileName File Name
      * @param limit Limit the rows
      * @return return the snippet of the table.
      */
     @Override
-    public List<List<String>> getSnippet(String tableName, int limit) {
+    public List<List<String>> getSnippet(String fileName, int limit) {
         List<List<String>> resultsList;
+
+        String tableName = fileName.split("\\.")[0];
 
         resultsList = impalaJdbc.executeQuery("SELECT * FROM " +
                 tableName + " LIMIT " + limit);
 
         return resultsList;
+    }
+
+    /**
+     * Separate add table method to add tables in Impala.
+     *
+     * @param fileName File to add
+     * @return Status if the file was added
+     */
+    @Override
+    public boolean addTable(String fileName) {
+
+        String tableName = fileName.split("\\.")[0];
+
+        // Adding the file into the Impala as a table
+        boolean fileAddStatus =  impalaJdbc.addTable(tableName, fileName);
+
+        return fileAddStatus;
     }
 }
