@@ -23,33 +23,33 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
       - name: Pull Docker images
-        run: docker pull -a omjadas/swen90013-bp
+        run: docker pull -a ${{ secrets.DOCKER_REPO }}
       - name: Build and push Docker image (caddy)
         uses: docker/build-push-action@v1.1.0
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: omjadas/swen90013-bp
+          repository: ${{ secrets.DOCKER_REPO }}
           dockerfile: Dockerfile.caddy
           tags: caddy
-          cache_froms: omjadas/swen90013-bp:caddy
+          cache_froms: ${{ secrets.DOCKER_REPO }}:caddy
       - name: Build and push Docker image (build)
         uses: docker/build-push-action@v1.1.0
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: omjadas/swen90013-bp
+          repository: ${{ secrets.DOCKER_REPO }}
           tags: build
           target: build
-          cache_froms: omjadas/swen90013-bp:build
+          cache_froms: ${{ secrets.DOCKER_REPO }}:build
       - name: Build and push Docker image
         uses: docker/build-push-action@v1.1.0
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: omjadas/swen90013-bp
+          repository: ${{ secrets.DOCKER_REPO }}
           tags: latest
-          cache_froms: omjadas/swen90013-bp:build,omjadas/swen90013-bp:latest
+          cache_froms: ${{ secrets.DOCKER_REPO }}:build,${{ secrets.DOCKER_REPO }}:latest
       - name: Deploy
         run: |
           DOCKER_HOST="${{ secrets.DOCKER_HOST }}" \
