@@ -10,8 +10,11 @@ import org.zkoss.zul.Columns;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Row;
 
+/**
+ * A class to test TableUtils.
+ */
 public class TableUtilsTest {
-    
+
     /**
      * Returns a return list of lists for a grid.
      * @param rows the number of rows in the grid.
@@ -38,11 +41,14 @@ public class TableUtilsTest {
         return exampleList;
     }
 
+    /**
+     * Tests whether the created grid has the same amount of cells as items in the list.
+     */
     @Test
     public void populateGridTest() {
         int rows = 11;
         int cols = 5;
-    	Grid g = new Grid();
+        Grid g = new Grid();
         TableUtils.populateGrid(g, getRandomGridList(rows, cols));
 
         int gridcells = 0;
@@ -53,7 +59,7 @@ public class TableUtilsTest {
                 Assert.assertEquals(child.getChildren().size(), cols);
                 gridcells += child.getChildren().size();
             } else {
-                Assert.assertEquals(child.getChildren().size(), rows-1);
+                Assert.assertEquals(child.getChildren().size(), rows - 1);
                 for (Component row: child.getChildren()) {
                     Assert.assertEquals(row.getClass(), Row.class);
                     Assert.assertEquals(row.getChildren().size(), cols);
@@ -62,7 +68,7 @@ public class TableUtilsTest {
             }
         }
 
-        Assert.assertEquals(gridcells, rows*cols);
+        Assert.assertEquals(gridcells, rows * cols);
     }
 
 }
