@@ -42,7 +42,8 @@ public class TableUtilsTest {
     }
 
     /**
-     * Tests whether the created grid has the same amount of cells as items in the list.
+     * Tests whether the created grid has the same amount of
+     * cells as items in the list.
      */
     @Test
     public void populateGridTest() {
