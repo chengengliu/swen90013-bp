@@ -40,7 +40,7 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
     @Before
     public void setup() {
         media = createMock(Media.class);
-        inputStream = createMock(InputStream.class);
+        inputStream = new ByteArrayInputStream("data".getBytes());
     }
 
     /**

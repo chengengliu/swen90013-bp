@@ -130,8 +130,8 @@ public class FileHandlerServiceImpl implements FileHandlerService {
     }
 
     /**
-     * Change the File permission so that impala could read the files in the
-     * volume.
+     * Change the File permission so that impala can read and write the files in
+     * the volume.
      *
      * @param filePath Path of the file in the volume.
      * @throws IOException if the file permissions were not changed
