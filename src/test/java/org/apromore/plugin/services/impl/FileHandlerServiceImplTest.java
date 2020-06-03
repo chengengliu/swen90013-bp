@@ -47,7 +47,7 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
      * Test if string file is successfully saved.
      */
     @Test
-    public void writeStringFilesTest() {
+    public void writeStringFilesTest() throws IOException {
         String mockString = "test";
 
         expect(media.getName()).andReturn("file.parquet");

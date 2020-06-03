@@ -8,14 +8,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.PosixFileAttributeView;
-import java.nio.file.attribute.PosixFilePermission;
-import java.util.EnumSet;
-import java.util.Set;
-import static java.nio.file.attribute.PosixFilePermission.*;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apromore.plugin.services.FileHandlerService;
@@ -137,27 +131,21 @@ public class FileHandlerServiceImpl implements FileHandlerService {
      * @throws IOException if the file permissions were not changed
      */
     private void changeFilePermission(String filePath) throws IOException {
+
         Path path = Paths.get(filePath);
-        Set<PosixFilePermission> permissions = EnumSet.of(
-            OWNER_READ,
-            OWNER_WRITE,
-            OWNER_EXECUTE,
-            GROUP_READ,
-            GROUP_WRITE,
-            GROUP_EXECUTE,
-            OTHERS_READ,
-            OTHERS_WRITE,
-            OTHERS_EXECUTE);
-
-        PosixFileAttributeView posixView = Files
-                .getFileAttributeView(path, PosixFileAttributeView.class);
-
-        if (posixView == null) {
-            System.out.format("POSIX attribute view  is not  supported%n.");
-            return;
+        File file = path.toFile();
+        //set write permission on file only for owner
+        if (file.exists()) {
+            boolean brval = file.setReadable(true, false);
+            boolean bwval = file.setWritable(true, false);
+            System.out.println("set read permissions: " + brval);
+            System.out.println("set write permission: " + bwval);
+            if (file.isDirectory()) {
+                boolean bxval = file.setExecutable(true, false);
+                System.out.println("Set execute permissions" + bxval);
+            }
+        } else {
+            System.out.println("File does not exist");
         }
-
-        posixView.setPermissions(permissions);
-        System.out.println("Permissions set successfully to rw-r--r--.");
     }
 }
