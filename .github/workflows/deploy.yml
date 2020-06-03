@@ -55,6 +55,7 @@ jobs:
           DOCKER_HOST="${{ secrets.DOCKER_HOST }}" \
             BASIC_AUTH_USERNAME="${{ secrets.BASIC_AUTH_USERNAME }}" \
             BASIC_AUTH_PASSWORD_HASH="${{ secrets.BASIC_AUTH_PASSWORD_HASH }}" \
+            docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull && \
             docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
       - name: Update deployment status
         uses: bobheadxi/deployments@master
