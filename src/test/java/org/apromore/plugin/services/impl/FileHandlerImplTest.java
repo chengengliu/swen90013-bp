@@ -47,19 +47,16 @@ public class FileHandlerImplTest extends EasyMockSupport {
      * Test if string file is successfully saved.
      */
     @Test
-    public void writeStringFilesTest() {
+    public void writeStringFilesTest() throws IOException {
         String mockString = "test";
 
+        expect(media.getName()).andReturn("sample-file-name").times(2);
         expect(media.isBinary()).andReturn(false);
         expect(media.getStringData()).andReturn(mockString);
 
         replayAll();
 
-        try {
-            Assert.assertEquals(service.writeFiles(media), UPLOAD_SUCCESS);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Assert.assertEquals(service.writeFiles(media), UPLOAD_SUCCESS);
 
         verifyAll();
     }
@@ -75,6 +72,7 @@ public class FileHandlerImplTest extends EasyMockSupport {
                 .withArgs(inputStream)
                 .createMock();
 
+        expect(media.getName()).andReturn("sample-file-name").times(1);
         expect(media.isBinary()).andReturn(true);
         expect(media.getStreamData()).andReturn(inputStream);
 

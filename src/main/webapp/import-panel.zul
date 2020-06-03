@@ -1,0 +1,23 @@
+<?link rel="stylesheet" type="text/css" href="/css/multi-event-log-plugin.css"?>
+<zk>
+    <vlayout sclass="left-panel" apply="org.zkoss.bind.BindComposer"
+            viewModel="@id('vm') @init('org.apromore.plugin.FileUploadViewModel')">
+        <!-- Left panel section -->
+
+        <!-- Upload and Download buttons -->
+        <hlayout sclass="button-area" >
+            <button id="btnUpload" label="Upload"
+                    onClick="@command('onFileUpload')"
+                    mold="trendy" />
+            <button id="btnDownload" label="Download"
+                    onClick="@command('onFileDownload')"/>
+        </hlayout>
+
+        <label sclass="heading" value="Tables"/>
+        <!-- Add list of input tables here -->
+
+		<div id="inputFileList">
+			<!-- List of input files will be generated here -->
+        </div>
+    </vlayout>
+</zk>
