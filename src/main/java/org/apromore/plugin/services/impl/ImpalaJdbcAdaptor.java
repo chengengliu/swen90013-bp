@@ -50,16 +50,14 @@ public class ImpalaJdbcAdaptor {
             statement.execute(query);
 
             status = true;
-            System.out.println("Table added!!");
+            System.out.println(tableName + " added to Impala!!");
 
-        } catch (SQLException e) {
-            System.out.println("Failed to add Table!!");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.out.println("Failed to add Table!!");
-            e.printStackTrace();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException error) {
+            error.printStackTrace();
+        } catch (Exception error) {
+            error.printStackTrace();
+        } catch (Throwable error) {
+            error.printStackTrace();
         }
         return status;
     }
@@ -95,7 +93,6 @@ public class ImpalaJdbcAdaptor {
                     System.out.print(" | ");
                 }
                 header.add(rsmd.getColumnName(i));
-                System.out.print(rsmd.getColumnName(i));
             }
 
             // Add the header
@@ -115,12 +112,12 @@ public class ImpalaJdbcAdaptor {
 
             System.out.println("Executed: " + sqlStatement);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException error) {
+            error.printStackTrace();
+        } catch (Exception error) {
+            error.printStackTrace();
+        } catch (Throwable error) {
+            error.printStackTrace();
         }
 
         return resultList;
