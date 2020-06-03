@@ -10,7 +10,7 @@ services:
       - maven_cache:/m2
     ports:
       - "8080:8080"
-  
+
   impala:
     ports:
       - "21050:21050"
