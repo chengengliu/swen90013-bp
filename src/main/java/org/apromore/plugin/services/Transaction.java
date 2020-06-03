@@ -15,17 +15,17 @@ public interface Transaction {
      * @param limit    Limit of the rows
      * @return return the snippet of the table.
      * @throws SQLException if unable to execute statement
-     * @throws IOException if unable to read file
+     * @throws IOException  if unable to read file
      */
     List<List<String>> addTableGetSnippet(String fileName, int limit)
-        throws IOException, SQLException;
+            throws IOException, SQLException;
 
     /**
      * Separate add table method to add tables in Impala.
      *
      * @param fileName File to add
      * @throws SQLException if unable to execute statement
-     * @throws IOException if unable to read file
+     * @throws IOException  if unable to read file
      */
     void addTable(String fileName) throws IOException, SQLException;
 
@@ -38,5 +38,5 @@ public interface Transaction {
      * @throws SQLException if unable to execute statement
      */
     List<List<String>> getSnippet(String fileName, int limit)
-        throws SQLException;
+            throws SQLException;
 }

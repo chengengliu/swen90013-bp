@@ -40,11 +40,7 @@ public class ImpalaJdbcAdaptor {
             "STORED AS PARQUET " +
             "LOCATION '%s'";
 
-        create = String.format(
-            create,
-            tableName,
-            dir + "/" + fileName,
-            dir);
+        create = String.format(create, tableName, dir + "/" + fileName, dir);
 
         createTable(create, tableName);
     }
@@ -167,7 +163,7 @@ public class ImpalaJdbcAdaptor {
      * @throws SQLException if unable to execute query
      */
     public List<List<String>> executeQuery(String sqlStatement)
-        throws SQLException {
+            throws SQLException {
         List<List<String>> resultList = new ArrayList<>();
 
         try (

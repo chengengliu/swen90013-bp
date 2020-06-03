@@ -25,11 +25,11 @@ public class TransactionImpl implements Transaction {
      * @param limit    Limit of the rows
      * @return return the snippet of the table.
      * @throws SQLException if unable to execute statement
-     * @throws IOException if unable to read file
+     * @throws IOException  if unable to read file
      */
     @Override
     public List<List<String>> addTableGetSnippet(String fileName, int limit)
-        throws IOException, SQLException {
+            throws IOException, SQLException {
         addTable(fileName);
         return getSnippet(fileName, limit);
     }
@@ -48,8 +48,8 @@ public class TransactionImpl implements Transaction {
         List<List<String>> resultsList;
         String tableName = FilenameUtils.removeExtension(fileName);
 
-        resultsList = impalaJdbc.executeQuery("SELECT * FROM " +
-                tableName + " LIMIT " + limit);
+        resultsList = impalaJdbc
+                .executeQuery("SELECT * FROM " + tableName + " LIMIT " + limit);
 
         return resultsList;
     }
@@ -59,7 +59,7 @@ public class TransactionImpl implements Transaction {
      *
      * @param fileName File to add
      * @throws SQLException if unable to execute statement
-     * @throws IOException if unable to read file
+     * @throws IOException  if unable to read file
      */
     @Override
     public void addTable(String fileName) throws IOException, SQLException {
