@@ -164,46 +164,42 @@ public class ImpalaJdbcAdaptor {
             throws SQLException {
         List<List<String>> resultList = new ArrayList<>();
 
-        try (
-            Connection connection = DriverManager.getConnection(connectionUrl);
-        ) {
-            // Init connection
+        try {
             Class.forName(jdbcDriverName);
-            Statement statement = connection.createStatement();
+            try (
+                Connection connection = DriverManager
+                    .getConnection(connectionUrl);
+                Statement statement = connection.createStatement();
+            ) {
+                ResultSet resultSet = statement.executeQuery(sqlStatement);
+                ResultSetMetaData rsmd = resultSet.getMetaData();
+                int columnsNumber = rsmd.getColumnCount();
+                List<String> header = new ArrayList<>();
 
-            // Execute query
-            ResultSet resultSet = statement.executeQuery(sqlStatement);
-            ResultSetMetaData rsmd = resultSet.getMetaData();
-
-            int columnsNumber = rsmd.getColumnCount();
-
-            List<String> header = new ArrayList<>();
-
-            // Header
-            for (int i = 1; i <= columnsNumber; i++) {
-                if (i > 1) {
-                    System.out.print(" | ");
-                }
-                header.add(rsmd.getColumnName(i));
-            }
-
-            // Add the header
-            resultList.add(header);
-
-            // Parsing the returned result
-            while (resultSet.next()) {
-
-                List<String> rowList = new ArrayList<>();
-
+                // Header
                 for (int i = 1; i <= columnsNumber; i++) {
-                    rowList.add(resultSet.getString(i));
+                    if (i > 1) {
+                        System.out.print(" | ");
+                    }
+                    header.add(rsmd.getColumnName(i));
                 }
 
-                resultList.add(rowList);
+                // Add the header
+                resultList.add(header);
+
+                // Parsing the returned result
+                while (resultSet.next()) {
+                    List<String> rowList = new ArrayList<>();
+
+                    for (int i = 1; i <= columnsNumber; i++) {
+                        rowList.add(resultSet.getString(i));
+                    }
+
+                    resultList.add(rowList);
+                }
+
+                System.out.println("Executed: " + sqlStatement);
             }
-
-            System.out.println("Executed: " + sqlStatement);
-
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
