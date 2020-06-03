@@ -9,4 +9,7 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./src:/app/src
-      - /m2
+      - maven-cache:/m2
+
+volumes:
+  maven-cache:

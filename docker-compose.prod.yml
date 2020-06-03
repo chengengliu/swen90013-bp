@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  apromore-preprocessing:
+    restart: always
+
+  impala:
+    restart: always
+
+  caddy:
+    image: omjadas/swen90013-bp:caddy
+    depends_on:
+      - apromore-preprocessing
+    environment:
+      - BASIC_AUTH_USERNAME
+      - BASIC_AUTH_PASSWORD_HASH
+    volumes:
+      - caddy_config:/config
+      - caddy_data:/data
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+
+volumes:
+  caddy_config:
+  caddy_data:
