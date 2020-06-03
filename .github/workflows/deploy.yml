@@ -1,10 +1,8 @@
 name: Deploy
 
-on: [push]
-
-env:
-  BASIC_AUTH_USERNAME: "${{ secrets.BASIC_AUTH_USERNAME }}"
-  BASIC_AUTH_PASSWORD: "${{ secrets.BASIC_AUTH_PASSWORD_HASH }}"
+on: 
+  push:
+    branches: [master]
 
 jobs:
   build:
@@ -53,13 +51,14 @@ jobs:
           tags: latest
           cache_froms: ${{ secrets.DOCKER_REPO }}:build,${{ secrets.DOCKER_REPO }}:latest
       - name: Deploy
+        env:
+          DOCKER_HOST: "${{ secrets.DOCKER_HOST }}"
+          BASIC_AUTH_USERNAME: "${{ secrets.BASIC_AUTH_USERNAME }}"
+          BASIC_AUTH_PASSWORD_HASH: "${{ secrets.BASIC_AUTH_PASSWORD_HASH }}"
         run: |
-          ( 
-            export DOCKER_HOST="${{ secrets.DOCKER_HOST }}" && \
-            docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull && \
-            docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --force-recreate --remove-orphans -d && \
-            docker image prune -f
-          )
+          docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull && \
+          docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --force-recreate --remove-orphans -d && \
+          docker image prune -f
       - name: Update deployment status
         uses: bobheadxi/deployments@master
         if: always()
