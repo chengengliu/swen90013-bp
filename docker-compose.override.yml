@@ -1,8 +1,6 @@
 version: "3.7"
 
-# Application Containers
 services:
-  # Plugin Container
   apromore-preprocessing:
     build:
       context: .
@@ -10,6 +8,12 @@ services:
     volumes:
       - ./src:/app/src
       - maven_cache:/m2
+    ports:
+      - "8080:8080"
+  
+  impala:
+    ports:
+      - "21050:21050"
 
 volumes:
   maven_cache:

@@ -12,19 +12,14 @@ services:
       - impala
     volumes:
       - preprocess-data:/tmp/preprocess_data
-    ports:
-      - 8080:8080
 
   # Apache Impala Container
   impala:
     image: apache/kudu:impala-latest
     volumes:
       - preprocess-data:/tmp/preprocess_data
-    ports:
-      - 21050:21050
     command: impala
 
 # Volume to store Log files
 volumes:
   preprocess-data:
-    driver: local
