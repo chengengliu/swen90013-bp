@@ -16,12 +16,12 @@ import org.zkoss.util.media.Media;
 import static org.easymock.EasyMock.*;
 
 /**
- * Unit test class for FileHandlerImpl. Tests include file saving test
- * and directory test.
+ * Unit test class for FileHandlerImpl. Tests include file saving test and
+ * directory test.
  */
 @ContextConfiguration(classes = PluginConfig.class)
 @RunWith(SpringRunner.class)
-public class FileHandlerImplTest extends EasyMockSupport {
+public class FileHandlerServiceImplTest extends EasyMockSupport {
     private static final String UPLOAD_FAILED = "Upload Failed";
     private static final String UPLOAD_SUCCESS = "Upload Success";
 
@@ -40,7 +40,7 @@ public class FileHandlerImplTest extends EasyMockSupport {
     @Before
     public void setup() {
         media = createMock(Media.class);
-        inputStream = createMock(InputStream.class);
+        inputStream = new ByteArrayInputStream("data".getBytes());
     }
 
     /**
@@ -50,13 +50,17 @@ public class FileHandlerImplTest extends EasyMockSupport {
     public void writeStringFilesTest() throws IOException {
         String mockString = "test";
 
-        expect(media.getName()).andReturn("sample-file-name").times(2);
+        expect(media.getName()).andReturn("file.parquet");
         expect(media.isBinary()).andReturn(false);
         expect(media.getStringData()).andReturn(mockString);
 
         replayAll();
 
-        Assert.assertEquals(service.writeFiles(media), UPLOAD_SUCCESS);
+        try {
+            Assert.assertEquals(service.writeFiles(media), UPLOAD_SUCCESS);
+        } catch (IOException | IllegalFileTypeException e) {
+            e.printStackTrace();
+        }
 
         verifyAll();
     }
@@ -66,13 +70,12 @@ public class FileHandlerImplTest extends EasyMockSupport {
      */
     @Test
     public void writeStreamFilesTest() throws IOException {
-        bufferedInputStream = createMockBuilder(
-                BufferedInputStream.class)
+        bufferedInputStream = createMockBuilder(BufferedInputStream.class)
                 .withConstructor(InputStream.class)
                 .withArgs(inputStream)
                 .createMock();
 
-        expect(media.getName()).andReturn("sample-file-name").times(1);
+        expect(media.getName()).andReturn("file.parquet");
         expect(media.isBinary()).andReturn(true);
         expect(media.getStreamData()).andReturn(inputStream);
 
@@ -81,7 +84,11 @@ public class FileHandlerImplTest extends EasyMockSupport {
 
         replayAll();
 
-        Assert.assertEquals(service.writeFiles(media), UPLOAD_SUCCESS);
+        try {
+            Assert.assertEquals(service.writeFiles(media), UPLOAD_SUCCESS);
+        } catch (IllegalFileTypeException e) {
+            e.printStackTrace();
+        }
 
         verifyAll();
     }
@@ -91,12 +98,12 @@ public class FileHandlerImplTest extends EasyMockSupport {
      */
     @Test(expected = NullPointerException.class)
     public void writeFileFailTest() {
-        bufferedInputStream = createMockBuilder(
-                BufferedInputStream.class)
+        bufferedInputStream = createMockBuilder(BufferedInputStream.class)
                 .withConstructor(InputStream.class)
                 .withArgs(null)
                 .createMock();
 
+        expect(media.getName()).andReturn("file.parquet");
         expect(media.isBinary()).andReturn(true);
         expect(media.getStreamData()).andReturn(null);
 
@@ -104,7 +111,7 @@ public class FileHandlerImplTest extends EasyMockSupport {
 
         try {
             service.writeFiles(media);
-        } catch (IOException e) {
+        } catch (IOException | IllegalFileTypeException e) {
             e.printStackTrace();
         }
 

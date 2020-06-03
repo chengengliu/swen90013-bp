@@ -36,17 +36,6 @@ namespace org {
                         + Join(JoinType joinType, String file, String joinKey1, String joinKey2)
                     }
 
-                    class Where {
-                        - String column
-                        - String value
-                        + Where(String column, Comparison comparison, String value)
-                    }
-
-                    class Order {
-                        - String column
-                        + Order(String column, Direction direction)
-                    }
-
                     FileImporterLogicImpl ..|> org.apromore.service.FileImporterLogic.FileImporterLogic
                     TransactionImpl ..|> org.apromore.service.FileImporterLogic.Transaction
 
@@ -55,10 +44,6 @@ namespace org {
                     If ..|> org.apromore.service.FileImporterLogic.Statement
                     Join ..|> org.apromore.service.FileImporterLogic.Statement
                     Join --* "1" org.apromore.service.FileImporterLogic.JoinType : - joinType
-                    Where ..|> org.apromore.service.FileImporterLogic.Statement
-                    Where --* "1" org.apromore.service.FileImporterLogic.Comparison : - comparison
-                    Order ..|> org.apromore.service.FileImporterLogic.Statement
-                    Order --* "1" org.apromore.service.FileImporterLogic.Direction : - direction
                 }
 
                 interface Statement {
@@ -70,19 +55,6 @@ namespace org {
                     INNER
                     RIGHT
                     FULL_OUTER
-                }
-
-                enum Comparison {
-                    EQUALS
-                    GREATER_THAN
-                    LESS_THAN
-                    GREATER_THAN_OR_EQUALS
-                    LESS_THAN_OR_EQUALS
-                }
-
-                enum Direction {
-                    ASC
-                    DESC
                 }
 
                 interface Transaction {
@@ -113,11 +85,11 @@ namespace org {
                 namespace FileImporterPortal {
                     namespace impl {
                         class FileUploadServiceImpl
-                        class FileImporterServiceImpl
+                        class FileExporterServiceImpl
 
                         FileUploadServiceImpl ..|> org.apromore.plugin.portal.FileImporterPortal.FileUploadService
-                        FileImporterServiceImpl ..|> org.apromore.plugin.portal.FileImporterPortal.FileImporterService
-                        FileImporterServiceImpl --* "1" org.apromore.service.FileImporterLogic.FileImporterLogic : - fileImporterLogic
+                        FileExporterServiceImpl ..|> org.apromore.plugin.portal.FileImporterPortal.FileExporterService
+                        FileExporterServiceImpl --* "1" org.apromore.service.FileImporterLogic.FileImporterLogic : - fileImporterLogic
                     }
 
                     class FileUploadViewModel {
@@ -129,18 +101,18 @@ namespace org {
                         + void writeFiles(Media[] media)
                     }
 
-                    class FileImporterViewModel {
+                    class FileExporterViewModel {
                         + void init()
                         + void onFileImport()
                     }
 
-                    interface FileImporterService {
+                    interface FileExporterService {
                         + void getSnippet(Operation[] operations)
                         + void importFiles(Media[] media, Operation[] operations)
                     }
 
                     FileUploadViewModel --* "1" FileUploadService : - fileUploadService
-                    FileImporterViewModel --* "1" FileImporterService : - fileImporterService
+                    FileExporterViewModel --* "1" FileExporterService : - fileExporterService
                 }
             }
         }

@@ -5,6 +5,9 @@ name: Java CI with Maven
 
 on: [push]
 
+env:
+  DATA_STORE: /preprocess_data
+
 jobs:
   build:
     runs-on: ubuntu-latest

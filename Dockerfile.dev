@@ -1,0 +1,15 @@
+# Maven Builder
+FROM maven:3-jdk-8-alpine as build
+
+WORKDIR /app
+
+COPY pom.xml ./
+
+RUN mkdir /tmp/preprocess_data && \
+    chmod -R 777 /tmp/preprocess_data
+
+RUN mvn -B -T 1C -Dmaven.repo.local=/m2 dependency:go-offline
+
+COPY src ./src
+
+CMD [ "mvn", "-Dmaven.repo.local=/m2", "jetty:run" ]
