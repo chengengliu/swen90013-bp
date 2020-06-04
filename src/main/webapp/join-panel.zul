@@ -1,0 +1,35 @@
+<?link rel="stylesheet" type="text/css" href="/css/multi-event-log-plugin.css"?>
+<zk>
+	<window sclass="card" border="normal" vflex="3" apply="org.zkoss.bind.BindComposer"
+            viewModel="@id('vm') @init('org.apromore.plugin.JoinPanelViewModel')"
+           	>
+		<!-- Top panel section -->
+		<div sclass="top-right-panel-center">
+			<grid>
+				<columns>
+					<column>Table A</column>
+					<column>Table B</column>
+					<column>Join Type</column>
+					<column>Key A</column>
+					<column>Key B</column>
+					
+				</columns>
+				<rows children="@load(vm.joinQueryModels)">
+					<template name="model">
+						<row>
+							<combobox model="@load(vm.files)"
+								selectedItem="@bind(vm.selectedFile)"
+								onSelect="@command('onTableASelected')">
+	
+								<template name="model">
+									<comboitem label="@load(each)" />
+								</template>
+	
+							</combobox>
+						</row>
+					</template>
+				</rows>
+			</grid>
+		</div>
+	</window>
+</zk>
