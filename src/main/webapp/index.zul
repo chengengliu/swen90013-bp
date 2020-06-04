@@ -7,7 +7,7 @@
                 sclass = "banner-logo"/>
         </div>
 
-        <hlayout spacing="0.5em" hflex="1" vflex="1">
+        <hlayout spacing="0.3em" hflex="1" vflex="1">
             <include src="/import-panel.zul" vflex="1"/>
             <vlayout spacing="1em" hflex="1" vflex="1">
 
@@ -20,9 +20,6 @@
 
                 <window sclass="card" vflex="7">
                     <!-- Bottom panel section -->
-                    <div sclass="bottom-right-panel-center">
-                        Insert Join Table here
-                    </div>
                 </window>
 
             </vlayout>
