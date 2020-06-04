@@ -21,7 +21,6 @@
 	border-radius: 7px;
 	padding: 10px;
 	position: relative;
-	overflow: scroll;
 }
 
 .left-panel{
@@ -40,7 +39,6 @@
 	width: 900px;
 	background: #F2F2F2;
 	text-align: center;
-	overflow: auto;
 }
 
 .bottom-right-panel{
