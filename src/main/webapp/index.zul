@@ -12,9 +12,9 @@
             
             <vlayout spacing="0.4em" hflex="1" vflex="1">
 
-                <include src="/join-panel.zul" vflex="5"/>
+                <include src="/join-panel.zul" vflex="4"/>
 
-                <window sclass="card" border="normal" vflex="5">
+                <window sclass="card" border="normal" vflex="6">
                     <!-- Bottom panel section -->
                     <div sclass="bottom-right-panel-center">
                         Insert Join Table here

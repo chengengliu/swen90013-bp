@@ -35,10 +35,9 @@
 }
 
 .top-right-panel{
-	height: 200px;
-	width: 900px;
 	background: #F2F2F2;
 	text-align: center;
+	overflow: auto;
 }
 
 .bottom-right-panel{

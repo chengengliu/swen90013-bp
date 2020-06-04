@@ -29,6 +29,7 @@ public class JoinPanelViewModel {
 		files.add("C");
 		joinQueryModels.add(new joinQueryModel("a", "b", "c", "d", "e"));
 		joinQueryModels.add(new joinQueryModel("1", "2", "3", "4", "5"));
+		joinQueryModels.add(new joinQueryModel("6", "7", "8", "9", "10"));
 
     }
 	
@@ -37,9 +38,17 @@ public class JoinPanelViewModel {
 	public void onTableASelected() {
 		//files.add(selectedFile);
 		System.out.println("working");
-		System.out.println("Table a for JQM0: " + joinQueryModels.get(0).getSelectedTableA());
-		System.out.println("Table a for JQM1: " + joinQueryModels.get(1).getSelectedTableA());
+		System.out.println("Table A for JQM0: " + joinQueryModels.get(0).getSelectedTableA());
+		System.out.println("Table A for JQM1: " + joinQueryModels.get(1).getSelectedTableA());
 	}
+
+	@Command("onTableBSelected")
+    public void onTableBSelected() {
+        //files.add(selectedFile);
+        System.out.println("working");
+        System.out.println("Table B for JQM0: " + joinQueryModels.get(0).getSelectedTableB());
+        System.out.println("Table B for JQM1: " + joinQueryModels.get(1).getSelectedTableB());
+    }
 	
 	public List<String> getFiles() {
 		return files;
