@@ -36,8 +36,9 @@ public class JoinPanelViewModel {
 	@Command("onTableASelected")
 	public void onTableASelected() {
 		//files.add(selectedFile);
-		System.out.println("woprking");
-		//System.out.println(selectedFile);
+		System.out.println("working");
+		System.out.println("Table a for JQM0: " + joinQueryModels.get(0).getSelectedTableA());
+		System.out.println("Table a for JQM1: " + joinQueryModels.get(1).getSelectedTableA());
 	}
 	
 	public List<String> getFiles() {
