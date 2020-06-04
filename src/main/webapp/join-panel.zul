@@ -2,9 +2,9 @@
 <zk>
 	<window sclass="card" border="normal" vflex="1" apply="org.zkoss.bind.BindComposer"
             viewModel="@id('vm') @init('org.apromore.plugin.JoinPanelViewModel')"
-           	>
+           	contentStyle="overflow:auto;">
 		<!-- Top panel section -->
-		<div sclass="top-right-panel">
+		<div >
 			<grid model="@load(vm.joinQueryModels)">
 				<columns>
 					<column>Table A</column>
@@ -21,19 +21,19 @@
 								<combobox model="@load(vm.files)"
 								selectedItem = "@bind(each.selectedTableA)"
 								onSelect="@command('onTableASelected')">
-	
-								<template name="model" var="file">
-									<comboitem label="@load(file)" />
-								</template>
+		
+									<template name="model" var="file">
+										<comboitem label="@load(file)" />
+									</template>
 	
 								</combobox>
 								<combobox model="@load(vm.files)"
 								selectedItem = "@bind(each.selectedTableB)"
 								onSelect="@command('onTableBSelected')">
 	
-								<template name="model" var="file">
-									<comboitem label="@load(file)" />
-								</template>
+									<template name="model" var="file">
+										<comboitem label="@load(file)" />
+									</template>
 	
 								</combobox>
 							</row>
