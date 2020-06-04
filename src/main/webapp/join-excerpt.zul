@@ -1,0 +1,12 @@
+<?link rel="stylesheet" type="text/css" href="/css/multi-event-log-plugin.css"?>
+<zk>
+
+    <window sclass="card" vflex="7" apply="org.zkoss.bind.BindComposer"
+        viewModel="@id('vm') @init('org.apromore.plugin.JoinExcerptViewModel')"
+        contentStyle="overflow:auto;">
+
+
+
+    </window>
+
+</zk>

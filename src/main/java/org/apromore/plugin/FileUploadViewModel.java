@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apromore.plugin.eventHandlers.EyeIconDiv;
+import org.apromore.plugin.eventHandlers.TableIconDiv;
 import org.apromore.plugin.services.FileHandlerService;
 import org.apromore.plugin.services.Transaction;
 import org.apromore.plugin.services.impl.IllegalFileTypeException;
@@ -156,10 +157,14 @@ public class FileUploadViewModel {
         Hlayout fileListRow = new Hlayout();
         inputFileList.appendChild(fileListRow);
 
-        // Create table icon
+        // Show in joined excerpt
+        TableIconDiv tableButton = new TableIconDiv(resultsList);
+        tableButton.setId("view" + filename + "Snippet");
+        fileListRow.appendChild(tableButton);
+
         HtmlNativeComponent tableIcon = new HtmlNativeComponent("i");
         tableIcon.setDynamicProperty("class", "z-icon-table");
-        fileListRow.appendChild(tableIcon);
+        tableButton.appendChild(tableIcon);
 
         // Create the label
         Label fileLabel = new Label(filename);

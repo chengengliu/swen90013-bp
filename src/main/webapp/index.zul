@@ -18,9 +18,7 @@
                     </div>
                 </window>
 
-                <window sclass="card" vflex="7">
-                    <!-- Bottom panel section -->
-                </window>
+                <include src="/join-panel.zul" vflex="4"/>
 
             </vlayout>
         </hlayout>
