@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
 import org.apromore.plugin.eventHandlers.EyeIconDiv;
@@ -12,14 +13,11 @@ import org.apromore.plugin.eventHandlers.TableIconDiv;
 import org.apromore.plugin.services.FileHandlerService;
 import org.apromore.plugin.services.Transaction;
 import org.apromore.plugin.services.impl.IllegalFileTypeException;
-import org.zkoss.bind.annotation.AfterCompose;
-import org.zkoss.bind.annotation.Command;
-import org.zkoss.bind.annotation.ContextParam;
-import org.zkoss.bind.annotation.ContextType;
-import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.*;
 import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlNativeComponent;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -159,7 +157,7 @@ public class FileUploadViewModel {
 
         // Show in joined excerpt
         TableIconDiv tableButton = new TableIconDiv(resultsList);
-        tableButton.setId("view" + filename + "Snippet");
+        tableButton.setId("viewTable" + filename + "Snippet");
         fileListRow.appendChild(tableButton);
 
         HtmlNativeComponent tableIcon = new HtmlNativeComponent("i");

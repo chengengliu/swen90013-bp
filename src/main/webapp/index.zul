@@ -18,7 +18,7 @@
                     </div>
                 </window>
 
-                <include src="/join-panel.zul" vflex="4"/>
+                <include src="/join-excerpt.zul" vflex="4"/>
 
             </vlayout>
         </hlayout>
