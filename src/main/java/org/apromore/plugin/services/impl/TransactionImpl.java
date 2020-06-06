@@ -18,6 +18,9 @@ public class TransactionImpl implements Transaction {
     @Autowired
     private ImpalaJdbcAdaptor impalaJdbc;
 
+    @Autowired
+    private Join joinTable;
+
     /**
      * Add the file to the Impala and get a snippet.
      *
@@ -35,13 +38,13 @@ public class TransactionImpl implements Transaction {
     }
 
     /**
-     * Get snippet from the impala tables.
-     *
-     * @param fileName File Name
-     * @param limit    Limit the rows
-     * @return return the snippet of the table.
-     * @throws SQLException if unable to execute statement
-     */
+    * Get snippet from the impala tables.
+    *
+    * @param fileName File Name
+    * @param limit    Limit the rows
+    * @return return the snippet of the table.
+    * @throws SQLException if unable to execute statement
+    */
     @Override
     public List<List<String>> getSnippet(String fileName, int limit)
             throws SQLException {
@@ -55,12 +58,12 @@ public class TransactionImpl implements Transaction {
     }
 
     /**
-     * Separate add table method to add tables in Impala.
-     *
-     * @param fileName File to add
-     * @throws SQLException if unable to execute statement
-     * @throws IOException  if unable to read file
-     */
+    * Separate add table method to add tables in Impala.
+    *
+    * @param fileName File to add
+    * @throws SQLException if unable to execute statement
+    * @throws IOException  if unable to read file
+    */
     @Override
     public void addTable(String fileName) throws IOException, SQLException {
         String tableName = FilenameUtils.removeExtension(fileName);
@@ -75,5 +78,29 @@ public class TransactionImpl implements Transaction {
         ) {
             impalaJdbc.createParquetTable(tableName, fileName);
         }
+    }
+
+
+    /**
+    * Join mutiple tables with different keys.
+    *
+    * @param joinTables List of table pairs to join
+    * @param limit number of rows to return after join
+    * @throws SQLException If unable to execute sql query
+     * @return
+    */
+    @Override
+    public List<List<String>> join(List<List<String>> joinTables, int limit)
+            throws SQLException {
+        String query = "SELECT * FROM %s" +
+                        "LIMIT %d;";
+
+        String joinString = joinTable.getJoinString(joinTables);
+
+        query = String.format(query, joinString, limit);
+
+        System.out.println(query);
+
+        return impalaJdbc.executeQuery(query);
     }
 }
