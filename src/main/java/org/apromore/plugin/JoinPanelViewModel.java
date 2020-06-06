@@ -2,11 +2,14 @@ package org.apromore.plugin;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apromore.plugin.models.JoinQueryModel;
 import org.apromore.plugin.services.FileHandlerService;
 import org.apromore.plugin.services.Transaction;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.GlobalCommand;
@@ -102,9 +105,14 @@ public class JoinPanelViewModel {
 
         joinInfo.add(joinTableInfo);
 
-        List<List<String>> tableVal = null;
+        List<List<String>> resultsList = null;
         try {
-            tableVal = transactionService.join(joinInfo, 10);
+
+            resultsList = transactionService.join(joinInfo, 10);
+            Map<String,Object> args = new HashMap<String,Object>();
+            args.put("resultsList", resultsList);
+            BindUtils.postGlobalCommand(null, null, "onTableClick", args);
+
         } catch (SQLException e) {
 
             e.printStackTrace();
@@ -112,7 +120,7 @@ public class JoinPanelViewModel {
 
         String text = "";
 
-        for (List<String> rowList : tableVal) {
+        for (List<String> rowList : resultsList) {
             for (String rowVal : rowList) {
                 text += rowVal + ", ";
             }

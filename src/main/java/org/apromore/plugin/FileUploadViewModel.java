@@ -38,8 +38,6 @@ public class FileUploadViewModel {
     private String textTable;
     private List<String> filenames = new ArrayList<>();
 
-
-
     @WireVariable
     private FileHandlerService fileHandlerService;
     @Wire("#inputFileList")
@@ -197,7 +195,7 @@ public class FileUploadViewModel {
         Hlayout fileListRow = new Hlayout();
         inputFileList.appendChild(fileListRow);
 
-        // Create table icon
+        // Show in joined excerpt
         HtmlNativeComponent tableIcon = new HtmlNativeComponent("i");
         tableIcon.setDynamicProperty("class", "z-icon-table");
         fileListRow.appendChild(tableIcon);
@@ -216,6 +214,7 @@ public class FileUploadViewModel {
         popupBox.appendChild(scrollArea);
 
         Grid inputGrid = new Grid();
+        inputGrid.setClass("");
         inputGrid.setId(filename + "Grid");
         scrollArea.appendChild(inputGrid);
 

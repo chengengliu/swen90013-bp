@@ -1,10 +1,10 @@
 <?link rel="stylesheet" type="text/css" href="/css/multi-event-log-plugin.css"?>
 <zk>
-	<window sclass="card" border="normal" vflex="1" apply="org.zkoss.bind.BindComposer"
+	<window sclass="card" vflex="6" apply="org.zkoss.bind.BindComposer"
             viewModel="@id('vm') @init('org.apromore.plugin.JoinPanelViewModel')"
            	contentStyle="overflow:auto;">
 		<!-- Top panel section -->
-		<div >
+		<div>
 			<grid model="@load(vm.joinQueryModels)">
 				<columns>
 					<column>Table A</column>
