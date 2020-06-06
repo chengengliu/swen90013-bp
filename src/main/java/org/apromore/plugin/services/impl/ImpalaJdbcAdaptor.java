@@ -44,7 +44,7 @@ public class ImpalaJdbcAdaptor {
     /**
      * Get columns from a csv file.
      *
-     * @param file
+     * @param file CSV file object 
      * @return String columns in "`col1` type1, `col2` type2, ..."
      * @throws IOException if unable to read file
      */

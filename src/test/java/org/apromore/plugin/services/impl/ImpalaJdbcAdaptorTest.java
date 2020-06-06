@@ -102,7 +102,6 @@ public class ImpalaJdbcAdaptorTest {
             .andReturn(columns);
 
         String testTableName = "testTable";
-        String testFileName = testTableName + ".csv";
         String dir = dataPath + "/" + testTableName + "_csv";
 
         String statement1 = String.format(
@@ -152,6 +151,7 @@ public class ImpalaJdbcAdaptorTest {
         );
         expect(statement.execute(statement4)).andReturn(true);
 
+        String testFileName = testTableName + ".csv";
         replayAll();
         impalaJdbc.createCsvTable(testTableName, testFileName);
         verifyAll();
