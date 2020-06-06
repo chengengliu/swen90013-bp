@@ -24,6 +24,52 @@ public class ImpalaJdbcAdaptor {
         System.getenv("DATA_STORE");
 
     /**
+     * Establish the connection and return a statement instance
+     * 
+     * @return the sql statement instance
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    private Statement getStatement()
+        throws ClassNotFoundException, SQLException {
+        Class.forName(jdbcDriverName);
+        try (
+            Connection connection = DriverManager.getConnection(connectionUrl);
+            Statement statement = connection.createStatement();
+        ) {
+            return statement; 
+        }
+    }
+
+    /**
+     * Get columns from a csv file
+     * 
+     * @param file 
+     * @return String columns in "`col1` type1, `col2` type2, ..."
+     * @throws IOException
+     */
+    private String getColumnsFrom(File file) throws IOException {
+        try (
+            FileReader fileReader = new FileReader(file);
+            BufferedReader br = new BufferedReader(fileReader);
+        ) {
+            String columns = "";
+
+            List<String> headers = Arrays.asList(br.readLine().split(","));
+            List<String> firstRow = Arrays.asList(br.readLine().split(","));
+
+            for (int i = 0; i < headers.size(); i++) {
+                columns += String.format(
+                    "`%s` %s, ",
+                    headers.get(i),
+                    StringUtils.getColumnType(firstRow.get(i)));
+            }
+
+            return columns;
+        }
+    }
+
+    /**
      * Create a table from a parquet file.
      *
      * @param tableName name of the table to create
@@ -54,26 +100,11 @@ public class ImpalaJdbcAdaptor {
      */
     public void createCsvTable(String tableName, String fileName)
             throws IOException, SQLException {
-        String columns = "";
 
         String dir = dataPath + "/" + FilenameUtils.removeExtension(fileName) +
             "_csv";
         File file = new File(dir + "/" + fileName);
-
-        try (
-            FileReader fileReader = new FileReader(file);
-            BufferedReader br = new BufferedReader(fileReader);
-        ) {
-            List<String> headers = Arrays.asList(br.readLine().split(","));
-            List<String> firstRow = Arrays.asList(br.readLine().split(","));
-
-            for (int i = 0; i < headers.size(); i++) {
-                columns += String.format(
-                    "`%s` %s, ",
-                    headers.get(i),
-                    StringUtils.getColumnType(firstRow.get(i)));
-            }
-        }
+        String columns = getColumnsFrom(file);
 
         String create = "CREATE EXTERNAL TABLE `%s` (%s) " +
             "ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' " +
@@ -90,37 +121,31 @@ public class ImpalaJdbcAdaptor {
 
         createTable(create, tableName + "_csv");
 
+        String query = "CREATE EXTERNAL TABLE `%s` " +
+            "LIKE `%s` " +
+            "STORED AS PARQUET " +
+            "LOCATION '%s'";
+
+        query = String.format(
+            query,
+            tableName,
+            tableName + "_csv",
+            dataPath + "/" + tableName);
+
+        createTable(query, tableName);
+
         try {
-            Class.forName(jdbcDriverName);
-            try (
-                Connection connection = DriverManager
-                    .getConnection(connectionUrl);
-                Statement statement = connection.createStatement();
-            ) {
-                String query = "CREATE EXTERNAL TABLE `%s` " +
-                    "LIKE `%s` " +
-                    "STORED AS PARQUET " +
-                    "LOCATION '%s'";
-
-                query = String.format(
-                    query,
+            Statement statement = getStatement();
+            statement.execute(
+                String.format(
+                    "INSERT OVERWRITE TABLE `%s` SELECT * FROM `%s`",
                     tableName,
-                    tableName + "_csv",
-                    dataPath + "/" + tableName);
+                    tableName + "_csv"));
 
-                createTable(query, tableName);
-
-                statement.execute(
-                    String.format(
-                        "INSERT OVERWRITE TABLE `%s` SELECT * FROM `%s`",
-                        tableName,
-                        tableName + "_csv"));
-
-                statement.execute(
-                    String.format(
-                        "DROP TABLE IF EXISTS `%s`",
-                        tableName + "_csv"));
-            }
+            statement.execute(
+                String.format(
+                    "DROP TABLE IF EXISTS `%s`",
+                    tableName + "_csv"));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -136,18 +161,11 @@ public class ImpalaJdbcAdaptor {
     private void createTable(String create, String tableName)
             throws SQLException {
         String drop = "DROP TABLE IF EXISTS " + tableName;
-
+        
         try {
-            Class.forName(jdbcDriverName);
-            try (
-                Connection connection = DriverManager
-                    .getConnection(connectionUrl);
-                Statement statement = connection.createStatement();
-            ) {
-                // Import table
-                statement.execute(drop);
-                statement.execute(create);
-            }
+            Statement statement = getStatement();
+            statement.execute(drop);
+            statement.execute(create);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -165,41 +183,35 @@ public class ImpalaJdbcAdaptor {
         List<List<String>> resultList = new ArrayList<>();
 
         try {
-            Class.forName(jdbcDriverName);
-            try (
-                Connection connection = DriverManager
-                    .getConnection(connectionUrl);
-                Statement statement = connection.createStatement();
-            ) {
-                ResultSet resultSet = statement.executeQuery(sqlStatement);
-                ResultSetMetaData rsmd = resultSet.getMetaData();
-                int columnsNumber = rsmd.getColumnCount();
-                List<String> header = new ArrayList<>();
+            Statement statement = getStatement();
+            ResultSet resultSet = statement.executeQuery(sqlStatement);
+            ResultSetMetaData rsmd = resultSet.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            List<String> header = new ArrayList<>();
 
-                // Header
-                for (int i = 1; i <= columnsNumber; i++) {
-                    if (i > 1) {
-                        System.out.print(" | ");
-                    }
-                    header.add(rsmd.getColumnName(i));
+            // Header
+            for (int i = 1; i <= columnsNumber; i++) {
+                if (i > 1) {
+                    System.out.print(" | ");
                 }
-
-                // Add the header
-                resultList.add(header);
-
-                // Parsing the returned result
-                while (resultSet.next()) {
-                    List<String> rowList = new ArrayList<>();
-
-                    for (int i = 1; i <= columnsNumber; i++) {
-                        rowList.add(resultSet.getString(i));
-                    }
-
-                    resultList.add(rowList);
-                }
-
-                System.out.println("Executed: " + sqlStatement);
+                header.add(rsmd.getColumnName(i));
             }
+
+            // Add the header
+            resultList.add(header);
+
+            // Parsing the returned result
+            while (resultSet.next()) {
+                List<String> rowList = new ArrayList<>();
+
+                for (int i = 1; i <= columnsNumber; i++) {
+                    rowList.add(resultSet.getString(i));
+                }
+
+                resultList.add(rowList);
+            }
+
+            System.out.println("Executed: " + sqlStatement);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

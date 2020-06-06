@@ -8,7 +8,8 @@
         <zk.version>9.0.0.1</zk.version>
         <spring.version>5.2.6.RELEASE</spring.version>
         <commons-io>2.7</commons-io>
-        <easymock.version>3.1</easymock.version>
+        <easymock.version>3.2</easymock.version>
+        <powermock.version>2.0.7</powermock.version>
         <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
         <packname>-${project.version}-FL-${maven.build.timestamp}</packname>
     </properties>
@@ -130,6 +131,20 @@
             <version>${easymock.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- PowerMock dependencies -->
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-easymock</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>  
 
         <!-- JUnit Testing dependencies -->
         <dependency>
