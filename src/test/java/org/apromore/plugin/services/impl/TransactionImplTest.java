@@ -4,14 +4,15 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.powermock.api.easymock.PowerMock.*;
 
 /**
  * Test class for TransactionImpl.
@@ -30,14 +31,12 @@ public class TransactionImplTest {
     @Before
     public void setup() {
         transaction = new TransactionImpl();
-        impalaJdbc = PowerMock.createMock(ImpalaJdbcAdaptor.class);
+        impalaJdbc = createMock(ImpalaJdbcAdaptor.class);
         Whitebox.setInternalState(transaction, "impalaJdbc", impalaJdbc);
     }
 
     /**
      * Test addTable method for parquet files.
-     * @throws IOException
-     * @throws SQLException
      */
     @Test
     public void testAddParquetTable() throws IOException, SQLException {
@@ -45,17 +44,15 @@ public class TransactionImplTest {
         String fileName = tableName + ".parquet";
 
         impalaJdbc.createParquetTable(tableName, fileName);
-        EasyMock.expectLastCall();
+        expectLastCall();
 
-        EasyMock.replay(impalaJdbc);
+        replayAll();
         transaction.addTable(fileName);
-        EasyMock.verify(impalaJdbc);
+        verifyAll();
     }
 
     /**
      * Test addTable method for csv files.
-     * @throws IOException
-     * @throws SQLException
      */
     @Test
     public void testAddTableForCsv() throws IOException, SQLException {
@@ -63,17 +60,15 @@ public class TransactionImplTest {
         String fileName = tableName + ".csv";
 
         impalaJdbc.createCsvTable(tableName, fileName);
-        EasyMock.expectLastCall();
+        expectLastCall();
 
-        EasyMock.replay(impalaJdbc);
+        replayAll();
         transaction.addTable(fileName);
-        EasyMock.verify(impalaJdbc);
+        verifyAll();
     }
 
     /**
      * Test getSnippet method.
-     * @throws IOException
-     * @throws SQLException
      */
     @Test
     public void testGetSnippet() throws IOException, SQLException {
@@ -82,21 +77,17 @@ public class TransactionImplTest {
         int limit = 2147483647;
         List<List<String>> snippet = null;
 
-        EasyMock.expect(
-            impalaJdbc.executeQuery(
-                "SELECT * FROM " + tableName + " LIMIT " + limit
-            )
-        ).andReturn(snippet);
+        expect(impalaJdbc.executeQuery(
+            "SELECT * FROM " + tableName + " LIMIT " + limit
+        )).andReturn(snippet);
 
-        EasyMock.replay(impalaJdbc);
+        replayAll();
         transaction.getSnippet(fileName, limit);
-        EasyMock.verify(impalaJdbc);
+        verifyAll();
     }
 
     /**
      * Test addTableGetSnippet method.
-     * @throws IOException
-     * @throws SQLException
      */
     @Test
     public void testAddTableGetSnippet() throws IOException, SQLException {
@@ -106,14 +97,14 @@ public class TransactionImplTest {
         List<List<String>> snippet = null;
 
         impalaJdbc.createParquetTable(tableName, fileName);
-        EasyMock.expectLastCall();
+        expectLastCall();
 
-        EasyMock.expect(
-            impalaJdbc.executeQuery("SELECT * FROM " + tableName + " LIMIT " + limit)
-        ).andReturn(snippet);
+        expect(impalaJdbc.executeQuery(
+            "SELECT * FROM " + tableName + " LIMIT " + limit
+        )).andReturn(snippet);
 
-        EasyMock.replay(impalaJdbc);
+        replayAll();
         transaction.addTableGetSnippet(fileName, limit);
-        EasyMock.verify(impalaJdbc);
+        verifyAll();
     }
 }

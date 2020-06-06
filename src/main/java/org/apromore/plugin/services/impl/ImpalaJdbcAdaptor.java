@@ -27,8 +27,8 @@ public class ImpalaJdbcAdaptor {
      * Establish the connection and return a statement instance.
      *
      * @return the sql statement instance
-     * @throws ClassNotFoundException
-     * @throws SQLException
+     * @throws ClassNotFoundException if unable to find jdbc driver class
+     * @throws SQLException if unable to read file
      */
     private Statement getStatement()
         throws ClassNotFoundException, SQLException {
@@ -46,7 +46,7 @@ public class ImpalaJdbcAdaptor {
      *
      * @param file
      * @return String columns in "`col1` type1, `col2` type2, ..."
-     * @throws IOException
+     * @throws IOException if unable to read file
      */
     private String getColumnsFrom(File file) throws IOException {
         try (
