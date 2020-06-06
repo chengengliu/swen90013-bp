@@ -56,18 +56,18 @@ public class FileHandlerServiceImpl implements FileHandlerService {
         }
         return null;
     }
-    
+
     /**
      * Outputs all files.
-     * 
+     *
      * @return returns a list of files.
      */
     public ArrayList<File> outputFiles() {
-    	ArrayList<File> files = new ArrayList<File>();
+        ArrayList<File> files = new ArrayList<File>();
         File dir = new File(this.tempDir);
         File[] directoryListing = dir.listFiles();
         if (directoryListing != null) {
-            
+
             for (File f : directoryListing) {
                 files.add(f);
             }

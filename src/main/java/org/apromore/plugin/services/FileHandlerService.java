@@ -22,16 +22,16 @@ public interface FileHandlerService {
 
     /**
      * Output a file.
-     * 
+     *
      * @return returns a file.
      */
     File outputFile();
-    
+
     /**
      * Outputs all files.
-     * 
+     *
      * @return returns a list of files.
      */
     ArrayList<File> outputFiles();
-    
+
 }
