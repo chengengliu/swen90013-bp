@@ -46,7 +46,7 @@ public class JoinPanelViewModel {
         joins.add("INNER JOIN");
         joins.add("LEFT JOIN");
         joins.add("RIGHT JOIN");
-        joins.add("OUTER JOIN");
+        joins.add("FULL OUTER JOIN");
         joinQueryModels.add(new JoinQueryModel());
     }
 
