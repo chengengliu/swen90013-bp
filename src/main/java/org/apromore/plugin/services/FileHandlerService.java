@@ -2,6 +2,7 @@ package org.apromore.plugin.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.apromore.plugin.services.impl.IllegalFileTypeException;
 import org.zkoss.util.media.Media;
@@ -20,9 +21,17 @@ public interface FileHandlerService {
     String writeFiles(Media media) throws IOException, IllegalFileTypeException;
 
     /**
-     * Output the file.
-     *
+     * Output a file.
+     * 
      * @return returns a file.
      */
-    File outputFiles();
+    File outputFile();
+    
+    /**
+     * Outputs all files.
+     * 
+     * @return returns a list of files.
+     */
+    ArrayList<File> outputFiles();
+    
 }

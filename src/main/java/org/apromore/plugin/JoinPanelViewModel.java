@@ -1,12 +1,15 @@
 package org.apromore.plugin;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apromore.plugin.models.JoinQueryModel;
+import org.apromore.plugin.services.FileHandlerService;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
 
 
 /**
@@ -22,7 +25,8 @@ public class JoinPanelViewModel {
 	private List<String> files = new ArrayList<String>();
 	private List<String> joins = new ArrayList<String>();
 
-
+	@WireVariable
+    private FileHandlerService fileHandlerService;
 
 	@Init
     public void init() {
@@ -34,6 +38,7 @@ public class JoinPanelViewModel {
 		joins.add("Right");
 		//joinQueryModels.add(new JoinQueryModel("a", "b", "c", "d", "e"));
 		joinQueryModels.add(new JoinQueryModel());
+		
 		
     }
 	
@@ -59,6 +64,10 @@ public class JoinPanelViewModel {
         //files.add(selectedFile);
         System.out.println("submit query");
         getCurJoinQueryModel().submit();
+        
+        ArrayList<File> files = fileHandlerService.outputFiles();
+		
+		System.out.println(files);
     }
 	
 	public List<String> getFiles() {

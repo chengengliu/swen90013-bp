@@ -135,7 +135,7 @@ public class FileUploadViewModel {
      */
     @Command("onFileDownload")
     public void onFileDownload() {
-        File file = fileHandlerService.outputFiles();
+        File file = fileHandlerService.outputFile();
         try {
             Filedownload.save(file, null);
         } catch (FileNotFoundException e) {
