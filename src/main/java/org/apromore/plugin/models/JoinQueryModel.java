@@ -1,9 +1,9 @@
 package org.apromore.plugin.models;
 
-import org.apache.commons.io.FilenameUtils;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.FilenameUtils;
 
 /**
  * Model for a join query.
@@ -28,6 +28,8 @@ public class JoinQueryModel {
 
     /**
      * Send the join query to Impala. Not currently implemented.
+     *
+     * @return Get the join table Info
      */
     public List<String> submit() {
         List<String> tableQuery = new ArrayList<>();

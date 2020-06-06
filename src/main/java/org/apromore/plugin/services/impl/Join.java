@@ -1,11 +1,11 @@
 package org.apromore.plugin.services.impl;
 
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
+import org.springframework.stereotype.Component;
 
 /**
  * Join is used to create Join String using TableJoin Graph and
@@ -24,11 +24,8 @@ public class Join {
      */
     public String getJoinString(List<List<String>> joinTables) {
         createJoinTables(joinTables);
-        for (JoinTable t: tables) {
-            t.printTableInfo();
-        }
-
         buildJoinString();
+
         return joinString;
     }
 
@@ -65,9 +62,9 @@ public class Join {
             String key,
             String forwardTableName
     ) {
-
         JoinTable joinTable = null;
 
+        // If the joinTable already exists in the graph
         for (JoinTable table: tables) {
             if (table.getTableName().equals(tableName)) {
                 joinTable = table;
@@ -75,6 +72,7 @@ public class Join {
             }
         }
 
+        // Create a new JoinTable node in the graph
         if (joinTable == null) {
             joinTable = new JoinTable(tableName, key, forwardTableName);
             tables.add(joinTable);
@@ -86,12 +84,13 @@ public class Join {
     }
 
     /**
+     * Add the table pain in the Join Table Graph.
      *
-     * @param table1
-     * @param key1
-     * @param table2
-     * @param key2
-     * @param joinType
+     * @param table1 TableA
+     * @param key1  TableA key that connects TableB
+     * @param table2 TableB
+     * @param key2 TableB key that connects TableA
+     * @param joinType Type of join for the table
      */
     private void addTablePair(
             String table1,
@@ -110,8 +109,9 @@ public class Join {
     }
 
     /**
+     * Find the starting JoinTable of the Graph.
      *
-     * @return
+     * @return Starting node of Join Table
      */
     private JoinTable findStartingTable() {
 
@@ -124,6 +124,12 @@ public class Join {
         return null;
     }
 
+    /**
+     * Get the preceding JoinTable node.
+     *
+     * @param table Join table
+     * @return preceding Join table
+     */
     private JoinTable getPrecedingTable(JoinTable table) {
 
         for (JoinTable jTable : tables) {
@@ -139,13 +145,20 @@ public class Join {
         return null;
     }
 
-    private ArrayList<JoinTable> CalculateJoinSequenceBFS() {
+    /**
+     * Apply BFS and find the sequence of the Join traversal
+     * to create JoinString.
+     *
+     * @return JoinTable sequence to traverse
+     */
+    private ArrayList<JoinTable> calculateJoinSequenceBfs() {
         Queue<JoinTable> queue = new LinkedList<>();
         ArrayList<JoinTable> joinSequence = new ArrayList<>();
         JoinTable startTable = findStartingTable();
 
         queue.add(startTable);
 
+        // Breath First Search
         while (!queue.isEmpty()) {
             JoinTable current = queue.remove();
             List<JoinTable> childTables = current.getChildTables();
@@ -160,15 +173,18 @@ public class Join {
         return joinSequence;
     }
 
+    /**
+     * Build the JoinString based on the JoinTable sequence.
+     */
     private void buildJoinString() {
 
         joinString = "";
-        ArrayList<JoinTable> joinSequence = CalculateJoinSequenceBFS();
+        ArrayList<JoinTable> joinSequence = calculateJoinSequenceBfs();
 
         // Get the first table to join with
         joinString += joinSequence.get(0).getTableName() + " ";
 
-        // Create all the tables to join
+        // Create the Join tables query string
         for (int i = 1; i < joinSequence.size() ; i ++) {
             JoinTable rightTable = joinSequence.get(i);
             JoinTable leftTable = getPrecedingTable(rightTable);

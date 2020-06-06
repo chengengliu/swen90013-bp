@@ -45,8 +45,8 @@ public interface Transaction {
      *
      * @param joinTables List of table pairs to join
      * @param limit number of rows to return after join
+     * @return result List
      * @throws SQLException If unable to execute sql query
-     * @return
      */
     List<List<String>> join(List<List<String>> joinTables, int limit)
             throws SQLException;

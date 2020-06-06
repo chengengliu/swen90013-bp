@@ -87,7 +87,7 @@ public class TransactionImpl implements Transaction {
     * @param joinTables List of table pairs to join
     * @param limit number of rows to return after join
     * @throws SQLException If unable to execute sql query
-     * @return
+     * @return result List
     */
     @Override
     public List<List<String>> join(List<List<String>> joinTables, int limit)

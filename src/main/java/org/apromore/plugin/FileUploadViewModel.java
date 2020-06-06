@@ -40,6 +40,7 @@ public class FileUploadViewModel {
 
     @WireVariable
     private FileHandlerService fileHandlerService;
+
     @Wire("#inputFileList")
     private Div inputFileList;
 
@@ -140,35 +141,6 @@ public class FileUploadViewModel {
         }
     }
 
-    private void getJoinInputSet() {
-        List<List<String>> joinInput = new ArrayList<>();
-
-        List<String> rowInput1 = new ArrayList<>();
-        rowInput1.add("orders");
-        rowInput1.add("userid");
-        rowInput1.add("userdata1");
-        rowInput1.add("id");
-        rowInput1.add("INNER JOIN");
-        joinInput.add(rowInput1);
-
-        List<String> rowInput2 = new ArrayList<>();
-        rowInput2.add("orders");
-        rowInput2.add("pid");
-        rowInput2.add("products");
-        rowInput2.add("pid");
-        rowInput2.add("INNER JOIN");
-        joinInput.add(rowInput2);
-
-        try {
-            List<List<String>> resultsList = transactionService
-                    .join(joinInput, 10);
-            String textTable = createTableOutput(resultsList);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
     /**
      * Describes the actions taken when a file is downloaded.
      */
@@ -214,7 +186,6 @@ public class FileUploadViewModel {
         popupBox.appendChild(scrollArea);
 
         Grid inputGrid = new Grid();
-        inputGrid.setClass("");
         inputGrid.setId(filename + "Grid");
         scrollArea.appendChild(inputGrid);
 
