@@ -1,5 +1,7 @@
 package org.apromore.plugin.models;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,14 @@ public class JoinQueryModel {
     /**
      * Send the join query to Impala. Not currently implemented.
      */
-    public void submit() {
+    public List<String> submit() {
+        List<String> tableQuery = new ArrayList<>();
+        tableQuery.add(FilenameUtils.removeExtension(selectedTableA));
+        tableQuery.add(selectedKeyA);
+        tableQuery.add(FilenameUtils.removeExtension(selectedTableB));
+        tableQuery.add(selectedKeyB);
+        tableQuery.add(selectedJoin);
+
         System.out.println("Query:" +
                 selectedTableA + " " +
                 selectedTableB + " " +
@@ -35,6 +44,8 @@ public class JoinQueryModel {
                 selectedKeyA + " " +
                 selectedKeyB
         );
+
+        return tableQuery;
     }
 
     /**

@@ -40,9 +40,10 @@ public class JoinPanelViewModel {
         filenames = new ArrayList<String>();
         joinQueryModels = new ArrayList<JoinQueryModel>();
         joins = new ArrayList<String>();
-        joins.add("Inner");
-        joins.add("Left");
-        joins.add("Right");
+        joins.add("INNER JOIN");
+        joins.add("LEFT JOIN");
+        joins.add("RIGHT JOIN");
+        joins.add("OUTER JOIN");
         joinQueryModels.add(new JoinQueryModel());
     }
 
@@ -95,7 +96,30 @@ public class JoinPanelViewModel {
      */
     @Command("submitQuery")
     public void submitQuery(@BindingParam("index") int index) {
-        joinQueryModels.get(index).submit();
+
+        List<String> joinTableInfo = joinQueryModels.get(index).submit();
+        List<List<String>> joinInfo = new ArrayList<>();
+
+        joinInfo.add(joinTableInfo);
+
+        List<List<String>> tableVal = null;
+        try {
+            tableVal = transactionService.join(joinInfo, 10);
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+
+        String text = "";
+
+        for (List<String> rowList : tableVal) {
+            for (String rowVal : rowList) {
+                text += rowVal + ", ";
+            }
+            text += "\n";
+        }
+
+        System.out.println(text);
     }
 
     /**
