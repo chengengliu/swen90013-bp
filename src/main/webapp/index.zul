@@ -9,23 +9,20 @@
 
         <hlayout spacing="0.4em" hflex="1" vflex="1">
             <include src="/import-panel.zul" vflex="1"/>
+            
             <vlayout spacing="0.4em" hflex="1" vflex="1">
 
-                <window sclass="card" border="normal" vflex="3">
-                    <!-- Top panel section -->
-                    <div sclass="top-right-panel-center">
-                        Add input tables to join here
-                    </div>
-                </window>
+                <include src="/join-panel.zul" vflex="4"/>
 
-                <window sclass="card" border="normal" vflex="7">
+                <window sclass="card" border="normal" vflex="6">
                     <!-- Bottom panel section -->
                     <div sclass="bottom-right-panel-center">
                         Insert Join Table here
                     </div>
                 </window>
-
+				
             </vlayout>
+            
         </hlayout>
     </vlayout>
 </zk>

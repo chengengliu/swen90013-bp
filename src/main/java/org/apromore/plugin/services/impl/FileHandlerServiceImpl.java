@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apromore.plugin.services.FileHandlerService;
@@ -39,11 +41,11 @@ public class FileHandlerServiceImpl implements FileHandlerService {
     }
 
     /**
-     * Output the files to the user who request download.
+     * Output a file to the user who request download.
      *
      * @return a file
      */
-    public File outputFiles() {
+    public File outputFile() {
         File dir = new File(this.tempDir);
         File[] directoryListing = dir.listFiles();
         if (directoryListing != null) {
@@ -51,6 +53,25 @@ public class FileHandlerServiceImpl implements FileHandlerService {
             for (File f : directoryListing) {
                 return f;
             }
+        }
+        return null;
+    }
+
+    /**
+     * Outputs all files.
+     *
+     * @return returns a list of files.
+     */
+    public ArrayList<File> outputFiles() {
+        ArrayList<File> files = new ArrayList<File>();
+        File dir = new File(this.tempDir);
+        File[] directoryListing = dir.listFiles();
+        if (directoryListing != null) {
+
+            for (File f : directoryListing) {
+                files.add(f);
+            }
+            return files;
         }
         return null;
     }

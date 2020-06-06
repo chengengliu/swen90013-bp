@@ -5,12 +5,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apromore.plugin.eventHandlers.EyeIconDiv;
 import org.apromore.plugin.services.FileHandlerService;
 import org.apromore.plugin.services.Transaction;
 import org.apromore.plugin.services.impl.IllegalFileTypeException;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
@@ -34,6 +37,8 @@ public class FileUploadViewModel {
     private static final String ERROR = "Error";
     private String textTable;
     private List<String> filenames = new ArrayList<>();
+
+
 
     @WireVariable
     private FileHandlerService fileHandlerService;
@@ -97,6 +102,7 @@ public class FileUploadViewModel {
                     List<List<String>> resultsList = null;
 
                     try {
+
                         transactionService.addTable(media.getName());
                         resultsList = transactionService
                                 .getSnippet(media.getName(), 10);
@@ -110,6 +116,12 @@ public class FileUploadViewModel {
                     // Prevent the same file from appearing in the list twice
                     if (!filenames.contains(media.getName())) {
                         filenames.add(media.getName());
+
+                        Map<String,Object> args = new HashMap<String,Object>();
+                        args.put("filenames", this.filenames);
+                        BindUtils.postGlobalCommand(null, null,
+                                "newFileUpload", args);
+
                         addFileToUIList(media.getName(), resultsList);
                     }
                 }
@@ -164,7 +176,7 @@ public class FileUploadViewModel {
      */
     @Command("onFileDownload")
     public void onFileDownload() {
-        File file = fileHandlerService.outputFiles();
+        File file = fileHandlerService.outputFile();
         try {
             Filedownload.save(file, null);
         } catch (FileNotFoundException e) {
@@ -221,5 +233,14 @@ public class FileUploadViewModel {
         HtmlNativeComponent eyeIcon = new HtmlNativeComponent("i");
         eyeIcon.setDynamicProperty("class", "z-icon-eye");
         eyeButton.appendChild(eyeIcon);
+    }
+
+    /**
+     * Get filenames.
+     *
+     * @return filenames
+     */
+    public List<String> getFilenames() {
+        return filenames;
     }
 }

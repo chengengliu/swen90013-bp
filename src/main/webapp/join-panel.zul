@@ -1,0 +1,74 @@
+<?link rel="stylesheet" type="text/css" href="/css/multi-event-log-plugin.css"?>
+<zk>
+	<window sclass="card" border="normal" vflex="1" apply="org.zkoss.bind.BindComposer"
+            viewModel="@id('vm') @init('org.apromore.plugin.JoinPanelViewModel')"
+           	contentStyle="overflow:auto;">
+		<!-- Top panel section -->
+		<div >
+			<grid model="@load(vm.joinQueryModels)">
+				<columns>
+					<column>Table A</column>
+					<column>Table B</column>
+					<column>Join Type</column>
+					<column>Key A</column>
+					<column>Key B</column>
+					<column>Submit</column>
+				</columns>
+				<rows >
+					
+						<template name="model">
+							<row>
+								<combobox model="@load(vm.filenames)"
+									selectedItem="@bind(each.selectedTableA)"
+									onSelect="@command('onTableASelected', index=forEachStatus.index)">
+									
+									<template name="model" var="file">
+										<comboitem label="@load(file)" />
+									</template>
+								</combobox>
+
+								<combobox model="@load(vm.filenames)"
+									selectedItem="@bind(each.selectedTableB)"
+									onSelect="@command('onTableBSelected', index=forEachStatus.index)">
+
+									<template name="model" var="file">
+										<comboitem label="@load(file)" />
+									</template>
+								</combobox>
+
+								<combobox model="@load(vm.joins)"
+									selectedItem="@bind(each.selectedJoin)">
+
+									<template name="model" var="join">
+										<comboitem label="@load(join)" />
+									</template>
+								</combobox>
+
+								<combobox model="@load(each.tableAKeys)"
+									selectedItem="@bind(each.selectedKeyA)">
+
+									<template name="model" var="keyA">
+										<comboitem label="@load(keyA)" />
+									</template>
+								</combobox>
+
+								<combobox model="@load(each.tableBKeys)"
+									selectedItem="@bind(each.selectedKeyB)">
+
+									<template name="model" var="keyB">
+										<comboitem label="@load(keyB)" />
+									</template>
+								</combobox>
+
+								<button id="btnSubmitQuery"
+									label="+" onClick="@command('submitQuery', index=forEachStatus.index)" />
+
+							</row>
+
+						</template>
+					
+				</rows>
+			</grid>
+		</div>
+	</window>
+</zk>
