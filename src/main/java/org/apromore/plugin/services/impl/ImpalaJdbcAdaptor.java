@@ -24,8 +24,8 @@ public class ImpalaJdbcAdaptor {
         System.getenv("DATA_STORE");
 
     /**
-     * Establish the connection and return a statement instance
-     * 
+     * Establish the connection and return a statement instance.
+     *
      * @return the sql statement instance
      * @throws ClassNotFoundException
      * @throws SQLException
@@ -37,14 +37,14 @@ public class ImpalaJdbcAdaptor {
             Connection connection = DriverManager.getConnection(connectionUrl);
             Statement statement = connection.createStatement();
         ) {
-            return statement; 
+            return statement;
         }
     }
 
     /**
-     * Get columns from a csv file
-     * 
-     * @param file 
+     * Get columns from a csv file.
+     *
+     * @param file
      * @return String columns in "`col1` type1, `col2` type2, ..."
      * @throws IOException
      */
@@ -161,7 +161,7 @@ public class ImpalaJdbcAdaptor {
     private void createTable(String create, String tableName)
             throws SQLException {
         String drop = "DROP TABLE IF EXISTS " + tableName;
-        
+
         try {
             Statement statement = getStatement();
             statement.execute(drop);

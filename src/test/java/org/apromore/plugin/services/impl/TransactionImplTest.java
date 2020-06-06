@@ -14,7 +14,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
 /**
- * Test class for TransactionImpl
+ * Test class for TransactionImpl.
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ ImpalaJdbcAdaptor.class })
@@ -23,7 +23,7 @@ public class TransactionImplTest {
     private ImpalaJdbcAdaptor impalaJdbc;
 
     /**
-     * Setup for tests
+     * Setup for tests.
      * Initialize transaction, mock an impalaJbdc instance
      * and inject mock impalaJbdc into the transaction
      */
@@ -35,7 +35,7 @@ public class TransactionImplTest {
     }
 
     /**
-     * Test addTable method for parquet files
+     * Test addTable method for parquet files.
      * @throws IOException
      * @throws SQLException
      */
@@ -43,17 +43,17 @@ public class TransactionImplTest {
     public void testAddParquetTable() throws IOException, SQLException {
         String tableName = "testFile";
         String fileName = tableName + ".parquet";
-        
+
         impalaJdbc.createParquetTable(tableName, fileName);
         EasyMock.expectLastCall();
-        
+
         EasyMock.replay(impalaJdbc);
         transaction.addTable(fileName);
         EasyMock.verify(impalaJdbc);
     }
 
     /**
-     * Test addTable method for csv files
+     * Test addTable method for csv files.
      * @throws IOException
      * @throws SQLException
      */
@@ -61,17 +61,17 @@ public class TransactionImplTest {
     public void testAddTableForCsv() throws IOException, SQLException {
         String tableName = "testFile";
         String fileName = tableName + ".csv";
-        
+
         impalaJdbc.createCsvTable(tableName, fileName);
         EasyMock.expectLastCall();
-        
+
         EasyMock.replay(impalaJdbc);
         transaction.addTable(fileName);
         EasyMock.verify(impalaJdbc);
     }
 
     /**
-     * Test getSnippet method
+     * Test getSnippet method.
      * @throws IOException
      * @throws SQLException
      */
@@ -87,14 +87,14 @@ public class TransactionImplTest {
                 "SELECT * FROM " + tableName + " LIMIT " + limit
             )
         ).andReturn(snippet);
-        
+
         EasyMock.replay(impalaJdbc);
         transaction.getSnippet(fileName, limit);
         EasyMock.verify(impalaJdbc);
     }
 
     /**
-     * Test addTableGetSnippet method
+     * Test addTableGetSnippet method.
      * @throws IOException
      * @throws SQLException
      */
@@ -111,11 +111,9 @@ public class TransactionImplTest {
         EasyMock.expect(
             impalaJdbc.executeQuery("SELECT * FROM " + tableName + " LIMIT " + limit)
         ).andReturn(snippet);
-        
+
         EasyMock.replay(impalaJdbc);
         transaction.addTableGetSnippet(fileName, limit);
         EasyMock.verify(impalaJdbc);
     }
-
-
 }

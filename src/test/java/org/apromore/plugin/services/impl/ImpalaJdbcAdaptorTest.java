@@ -15,7 +15,7 @@ import static org.powermock.api.easymock.PowerMock.replayAll;
 import static org.powermock.api.easymock.PowerMock.verifyAll;
 
 /**
- * Test class for ImpalaJdbcAdaptor
+ * Test class for ImpalaJdbcAdaptor.
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ ImpalaJdbcAdaptor.class })
@@ -25,7 +25,7 @@ public class ImpalaJdbcAdaptorTest {
     private String dataPath = "TEST_DATA_PATH";
 
     /**
-     * Setup for tests
+     * Setup for tests.
      * mock the createTable, getStatement and getColumnsFrom methods,
      * inject a fake dataPath into impalaJdbc
      * and mock a statement instance
@@ -35,7 +35,7 @@ public class ImpalaJdbcAdaptorTest {
         impalaJdbc = PowerMock.createPartialMock(
             ImpalaJdbcAdaptor.class,
             "createTable",
-            "getStatement", 
+            "getStatement",
             "getColumnsFrom"
         );
 
@@ -45,14 +45,14 @@ public class ImpalaJdbcAdaptorTest {
     }
 
     /**
-     * Test private method createTable
+     * Test private method createTable.
      * @throws Exception
      */
     @Test
     public void testCreateTable() throws Exception {
         // Testing the createTable() method,
         // Need the method not to be a mock
-        // So create a new impalaJdbc 
+        // So create a new impalaJdbc
         ImpalaJdbcAdaptor impalaJdbc = PowerMock.createPartialMock(
             ImpalaJdbcAdaptor.class,
             "getStatement"
@@ -60,20 +60,20 @@ public class ImpalaJdbcAdaptorTest {
 
         String createStatement = "createStatement";
         String tableName = "testFile";
-        
+
         PowerMock.expectPrivate(impalaJdbc, "getStatement").andReturn(statement);
         EasyMock.expect(statement.execute(
             "DROP TABLE IF EXISTS " + tableName
         )).andReturn(true);
         EasyMock.expect(statement.execute(createStatement)).andReturn(true);
-    
+
         EasyMock.replay(impalaJdbc, statement);
         Whitebox.invokeMethod(impalaJdbc, "createTable", createStatement, tableName);
         EasyMock.verify(impalaJdbc, statement);
     }
 
     /**
-     * Test createParquetTable method
+     * Test createParquetTable method.
      * @throws Exception
      */
     @Test
@@ -81,7 +81,7 @@ public class ImpalaJdbcAdaptorTest {
         String testTableName = "testTable";
         String testFileName = testTableName + ".parquet";
         String dir = dataPath + "/" + testTableName;
-        
+
         String createStatement = "CREATE EXTERNAL TABLE `%s` " +
             "LIKE PARQUET '%s' " +
             "STORED AS PARQUET " +
@@ -107,7 +107,7 @@ public class ImpalaJdbcAdaptorTest {
     }
 
     /**
-     * Test createCsvTable method
+     * Test createCsvTable method.
      * @throws Exception
      */
     @Test
@@ -124,7 +124,7 @@ public class ImpalaJdbcAdaptorTest {
             "STORED AS TEXTFILE " +
             "LOCATION '%s' " +
             "TBLPROPERTIES('skip.header.line.count'='1')",
-        
+
             testTableName + "_csv",
             columns.substring(0, columns.length() - 2),
             dir
@@ -135,7 +135,7 @@ public class ImpalaJdbcAdaptorTest {
             "LIKE `%s` " +
             "STORED AS PARQUET " +
             "LOCATION '%s'",
-        
+
             testTableName,
             testTableName + "_csv",
             dataPath + "/" + testTableName
@@ -146,7 +146,7 @@ public class ImpalaJdbcAdaptorTest {
             testTableName,
             testTableName + "_csv"
         );
-        
+
         String statement4 = String.format(
             "DROP TABLE IF EXISTS `%s`",
             testTableName + "_csv"
@@ -180,5 +180,4 @@ public class ImpalaJdbcAdaptorTest {
         impalaJdbc.createCsvTable(testTableName, testFileName);
         verifyAll();
     }
-
 }
