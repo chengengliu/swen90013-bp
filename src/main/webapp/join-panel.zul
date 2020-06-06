@@ -61,7 +61,7 @@
 								</combobox>
 
 								<button id="btnSubmitQuery"
-									label="+" onClick="@command('submitQuery')" />
+									label="+" onClick="@command('submitQuery', index=forEachStatus.index)" />
 
 							</row>
 

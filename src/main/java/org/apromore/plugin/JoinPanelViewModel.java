@@ -90,8 +90,8 @@ public class JoinPanelViewModel {
 	 * 
 	 */
 	@Command("submitQuery")
-    public void submitQuery() {
-        getCurJoinQueryModel().submit();        
+    public void submitQuery(@BindingParam("index") int index) {
+        joinQueryModels.get(index).submit();        
     }
 	
 	
@@ -105,14 +105,6 @@ public class JoinPanelViewModel {
 		this.filenames = filenames;
     }
 	
-	/**
-	 * Get the last joinQueryModel in the list.
-	 * 
-	 * @return the last joinQueryModel in the list.
-	 */
-	public JoinQueryModel getCurJoinQueryModel() {
-		return this.joinQueryModels.get(joinQueryModels.size() - 1);
-	}
 
 	public List<JoinQueryModel> getJoinQueryModels() {
 		return joinQueryModels;
