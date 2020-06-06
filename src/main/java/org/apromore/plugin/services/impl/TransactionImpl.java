@@ -21,6 +21,9 @@ public class TransactionImpl implements Transaction {
     @Autowired
     private Join joinTable;
 
+    @Autowired
+    ImpalaTable impalaTable;
+
     /**
      * Add the file to the Impala and get a snippet.
      *
@@ -51,8 +54,9 @@ public class TransactionImpl implements Transaction {
         List<List<String>> resultsList;
         String tableName = FilenameUtils.removeExtension(fileName);
 
-        resultsList = impalaJdbc
-                .executeQuery("SELECT * FROM " + tableName + " LIMIT " + limit);
+        resultsList = impalaJdbc.executeQuery(
+                "SELECT * FROM " + tableName + " LIMIT " + limit
+        );
 
         return resultsList;
     }
@@ -70,13 +74,13 @@ public class TransactionImpl implements Transaction {
 
         // Adding the file into the Impala as a table
         if (fileName.endsWith(".csv")) {
-            impalaJdbc.createCsvTable(tableName, fileName);
+            impalaTable.createCsvTable(tableName, fileName);
         } else if (
             fileName.endsWith(".parq") ||
             fileName.endsWith(".parquet") ||
             fileName.endsWith(".dat")
         ) {
-            impalaJdbc.createParquetTable(tableName, fileName);
+            impalaTable.createParquetTable(tableName, fileName);
         }
     }
 
