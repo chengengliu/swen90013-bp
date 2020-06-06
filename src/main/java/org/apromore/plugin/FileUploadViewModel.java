@@ -102,8 +102,7 @@ public class FileUploadViewModel {
                     List<List<String>> resultsList = null;
 
                     try {
-                    	System.out.println("media.getName(): "+media.getName());
-                        
+   
                     	transactionService.addTable(media.getName());
                         resultsList = transactionService
                                 .getSnippet(media.getName(), 10);
@@ -117,11 +116,9 @@ public class FileUploadViewModel {
                     // Prevent the same file from appearing in the list twice
                     if (!filenames.contains(media.getName())) {
                         filenames.add(media.getName());
-                        
-                  
+                                     
                         Map<String,Object> args = new HashMap<String,Object>();
-                        args.put("filenames", this.filenames);
-                        
+                        args.put("filenames", this.filenames);        
                         BindUtils.postGlobalCommand(null, null, "newFileUpload", args);
                         
                         addFileToUIList(media.getName(), resultsList);

@@ -3,7 +3,9 @@ package org.apromore.plugin.models;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Model for a join query.
+ */
 public class JoinQueryModel {
 	private String selectedTableA;
 	private String selectedTableB;
@@ -12,21 +14,23 @@ public class JoinQueryModel {
 	private String selectedKeyB;
 		
 	private List<String> tableAKeys;
-	
-	private List<String> tableBKeys = new ArrayList<String>();
-	
+	private List<String> tableBKeys;	
 	
 	public JoinQueryModel() {	
-		tableAKeys = new ArrayList<String>();	
+		tableAKeys = new ArrayList<String>();
+		tableBKeys = new ArrayList<String>();
 	}
 	
+	/**
+	 * Send the join query to Impala. Not currently implemented.
+	 */
 	public void submit() {
 		System.out.println("Query:"
 				+ selectedTableA + " "
 				+ selectedTableB + " "
 				+ selectedJoin + " "
-				+ "keya" + " "
-				+ "keyb"
+				+ selectedKeyA + " "
+				+ selectedKeyB
 				);
 	}
 	
@@ -64,7 +68,6 @@ public class JoinQueryModel {
 	public List<String> getTableAKeys() {
 		return tableAKeys;
 	}
-	
 	
 	public void setTableAKeys(List<String> tableAKeys) {
 		this.tableAKeys = tableAKeys;

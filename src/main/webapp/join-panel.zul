@@ -21,16 +21,15 @@
 								<combobox model="@load(vm.filenames)"
 									selectedItem="@bind(each.selectedTableA)"
 									onSelect="@command('onTableASelected', index=forEachStatus.index)">
-
+									
 									<template name="model" var="file">
 										<comboitem label="@load(file)" />
 									</template>
-
 								</combobox>
 
 								<combobox model="@load(vm.filenames)"
 									selectedItem="@bind(each.selectedTableB)"
-									onSelect="@command('onTableBSelected')">
+									onSelect="@command('onTableBSelected', index=forEachStatus.index)">
 
 									<template name="model" var="file">
 										<comboitem label="@load(file)" />
@@ -53,11 +52,16 @@
 									</template>
 								</combobox>
 
-								<combobox></combobox>
+								<combobox model="@load(each.tableBKeys)"
+									selectedItem="@bind(each.selectedKeyB)">
+
+									<template name="model" var="keyB">
+										<comboitem label="@load(keyB)" />
+									</template>
+								</combobox>
 
 								<button id="btnSubmitQuery"
 									label="+" onClick="@command('submitQuery')" />
-
 
 							</row>
 
@@ -65,7 +69,6 @@
 					
 				</rows>
 			</grid>
-			<button id="refresh" label="refresh files" onClick="@command('refreshFiles')" />
 		</div>
 	</window>
 </zk>
