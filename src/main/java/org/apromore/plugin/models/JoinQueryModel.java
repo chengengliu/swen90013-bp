@@ -1,19 +1,31 @@
 package org.apromore.plugin.models;
 
-public class joinQueryModel {
+public class JoinQueryModel {
 	private String selectedTableA;
 	private String selectedTableB;
 	private String selectedJoin;
 	private String selectedKeyA;
 	private String selectedKeyB;
 	
-	public joinQueryModel(String selectedTableA, String selectedTableB, String selectedJoin, String selectedKeyA,
+	public JoinQueryModel(String selectedTableA, String selectedTableB, String selectedJoin, String selectedKeyA,
 			String selectedKeyB) {		
 		this.selectedTableA = selectedTableA;
 		this.selectedTableB = selectedTableB;
 		this.selectedJoin = selectedJoin;
 		this.selectedKeyA = selectedKeyA;
 		this.selectedKeyB = selectedKeyB;
+	}
+	public JoinQueryModel() {			
+	}
+	
+	public void submit() {
+		System.out.println("Query:"
+				+ selectedTableA + " "
+				+ selectedTableB + " "
+				+ selectedJoin + " "
+				+ "keya" + " "
+				+ "keyb"
+				);
 	}
 	
 	public String getSelectedTableA() {

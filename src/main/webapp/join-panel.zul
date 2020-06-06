@@ -12,32 +12,49 @@
 					<column>Join Type</column>
 					<column>Key A</column>
 					<column>Key B</column>
-					
+					<column>Submit</column>
 				</columns>
 				<rows >
 					
 						<template name="model">
 							<row>
 								<combobox model="@load(vm.files)"
-								selectedItem = "@bind(each.selectedTableA)"
-								onSelect="@command('onTableASelected')">
-		
+									selectedItem="@bind(each.selectedTableA)"
+									onSelect="@command('onTableASelected')">
+
 									<template name="model" var="file">
 										<comboitem label="@load(file)" />
 									</template>
-	
+
 								</combobox>
+
 								<combobox model="@load(vm.files)"
-								selectedItem = "@bind(each.selectedTableB)"
-								onSelect="@command('onTableBSelected')">
-	
+									selectedItem="@bind(each.selectedTableB)"
+									onSelect="@command('onTableBSelected')">
+
 									<template name="model" var="file">
 										<comboitem label="@load(file)" />
 									</template>
-	
 								</combobox>
+
+								<combobox model="@load(vm.joins)"
+									selectedItem="@bind(each.selectedJoin)">
+
+									<template name="model" var="join">
+										<comboitem label="@load(join)" />
+									</template>
+								</combobox>
+
+								<combobox></combobox>
+
+								<combobox></combobox>
+
+								<button id="btnSubmitQuery"
+									label="+" onClick="@command('submitQuery')" />
+
+
 							</row>
-							
+
 						</template>
 					
 				</rows>
