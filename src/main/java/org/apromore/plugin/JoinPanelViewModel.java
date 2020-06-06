@@ -117,17 +117,6 @@ public class JoinPanelViewModel {
 
             e.printStackTrace();
         }
-
-        String text = "";
-
-        for (List<String> rowList : resultsList) {
-            for (String rowVal : rowList) {
-                text += rowVal + ", ";
-            }
-            text += "\n";
-        }
-
-        System.out.println(text);
     }
 
     /**

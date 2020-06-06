@@ -69,8 +69,6 @@ public class FileUploadViewModel {
             text += "\n";
         }
 
-        System.out.println(text);
-
         return text;
     }
 

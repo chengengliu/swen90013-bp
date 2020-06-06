@@ -103,8 +103,6 @@ public class TransactionImpl implements Transaction {
 
         query = String.format(query, joinString, limit);
 
-        System.out.println(query);
-
         return impalaJdbc.executeQuery(query);
     }
 }

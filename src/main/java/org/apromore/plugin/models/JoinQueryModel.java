@@ -39,14 +39,6 @@ public class JoinQueryModel {
         tableQuery.add(selectedKeyB);
         tableQuery.add(selectedJoin);
 
-        System.out.println("Query:" +
-                selectedTableA + " " +
-                selectedTableB + " " +
-                selectedJoin + " " +
-                selectedKeyA + " " +
-                selectedKeyB
-        );
-
         return tableQuery;
     }
 

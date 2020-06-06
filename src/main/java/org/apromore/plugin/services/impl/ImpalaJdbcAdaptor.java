@@ -88,9 +88,6 @@ public class ImpalaJdbcAdaptor {
 
                 // Header
                 for (int i = 1; i <= columnsNumber; i++) {
-                    if (i > 1) {
-                        System.out.print(" | ");
-                    }
                     header.add(rsmd.getColumnName(i));
                 }
 
