@@ -1,21 +1,23 @@
 package org.apromore.plugin.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class JoinQueryModel {
 	private String selectedTableA;
 	private String selectedTableB;
 	private String selectedJoin;
 	private String selectedKeyA;
 	private String selectedKeyB;
+		
+	private List<String> tableAKeys;
 	
-	public JoinQueryModel(String selectedTableA, String selectedTableB, String selectedJoin, String selectedKeyA,
-			String selectedKeyB) {		
-		this.selectedTableA = selectedTableA;
-		this.selectedTableB = selectedTableB;
-		this.selectedJoin = selectedJoin;
-		this.selectedKeyA = selectedKeyA;
-		this.selectedKeyB = selectedKeyB;
-	}
-	public JoinQueryModel() {			
+	private List<String> tableBKeys = new ArrayList<String>();
+	
+	
+	public JoinQueryModel() {	
+		tableAKeys = new ArrayList<String>();	
 	}
 	
 	public void submit() {
@@ -57,6 +59,22 @@ public class JoinQueryModel {
 	}
 	public void setSelectedKeyB(String selectedKeyB) {
 		this.selectedKeyB = selectedKeyB;
+	}
+	
+	public List<String> getTableAKeys() {
+		return tableAKeys;
+	}
+	
+	
+	public void setTableAKeys(List<String> tableAKeys) {
+		this.tableAKeys = tableAKeys;
+	}
+	
+	public List<String> getTableBKeys() {
+		return tableBKeys;
+	}
+	public void setTableBKeys(List<String> tableBKeys) {
+		this.tableBKeys = tableBKeys;
 	}
 	
 }

@@ -18,9 +18,9 @@
 					
 						<template name="model">
 							<row>
-								<combobox model="@load(vm.files)"
+								<combobox model="@load(vm.filenames)"
 									selectedItem="@bind(each.selectedTableA)"
-									onSelect="@command('onTableASelected')">
+									onSelect="@command('onTableASelected', index=forEachStatus.index)">
 
 									<template name="model" var="file">
 										<comboitem label="@load(file)" />
@@ -28,7 +28,7 @@
 
 								</combobox>
 
-								<combobox model="@load(vm.files)"
+								<combobox model="@load(vm.filenames)"
 									selectedItem="@bind(each.selectedTableB)"
 									onSelect="@command('onTableBSelected')">
 
@@ -45,7 +45,13 @@
 									</template>
 								</combobox>
 
-								<combobox></combobox>
+								<combobox model="@load(each.tableAKeys)"
+									selectedItem="@bind(each.selectedKeyA)">
+
+									<template name="model" var="keyA">
+										<comboitem label="@load(keyA)" />
+									</template>
+								</combobox>
 
 								<combobox></combobox>
 
@@ -59,6 +65,7 @@
 					
 				</rows>
 			</grid>
+			<button id="refresh" label="refresh files" onClick="@command('refreshFiles')" />
 		</div>
 	</window>
 </zk>
