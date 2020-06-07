@@ -113,7 +113,7 @@ public class JoinTest {
             "`Table1`.`key1`=`Table2`.`key2` " +
             "LEFT JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` ";
         String expectedTest4 = "`Table1` INNER JOIN `Table2` ON " +
-            "`Table1`.`key1`=`Table2`.`key2` "+
+            "`Table1`.`key1`=`Table2`.`key2` " +
             "LEFT JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` ";
 
         Assert.assertEquals(
