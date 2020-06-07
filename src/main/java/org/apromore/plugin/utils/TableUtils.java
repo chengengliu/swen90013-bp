@@ -31,6 +31,8 @@ public class TableUtils {
 
         if (gridData == null) {
             System.out.println("List is null");
+            Column col = new Column("No Data Found");
+            cols.appendChild(col);
             return;
         }
 
@@ -69,6 +71,12 @@ public class TableUtils {
      * @return the filename of the data shown in the grid.
      */
     public static String getFilenameFromGrid(Grid g) {
+        //Return null if not enough parents
+        if (g.getParent() == null || g.getParent().getParent() == null ||
+                g.getParent().getParent().getParent() == null) {
+            return null;
+        }
+
         for (Component child: g.getParent().getParent().getParent()
                 .getChildren()) {
             if (child instanceof Label) {
