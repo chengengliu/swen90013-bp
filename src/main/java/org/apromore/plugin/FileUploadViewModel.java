@@ -170,13 +170,9 @@ public class FileUploadViewModel {
             String filename,
             List<List<String>> resultsList) {
 
-        Space initialSpace = new Space();
-        initialSpace.setSpacing("3px");
-        initialSpace.setSclass("initial-space");
-        inputFileList.appendChild(initialSpace);
-
         Hlayout fileListRow = new Hlayout();
         fileListRow.setHflex("1");
+        fileListRow.setSclass("file-list-row");
         inputFileList.appendChild(fileListRow);
 
         // Show in joined excerpt
@@ -184,12 +180,16 @@ public class FileUploadViewModel {
         tableIcon.setDynamicProperty("class", "z-icon-table");
         fileListRow.appendChild(tableIcon);
 
-        Space afterTableSpace = new Space();
-        afterTableSpace.setSpacing("3px");
-        inputFileList.appendChild(afterTableSpace);
-
         // Create the label
-        Label fileLabel = new Label(filename);
+
+        String labelName;
+        if(filename.endsWith("csv")) {
+            labelName = filename.substring(0, filename.length()-4);
+        }
+        else {
+            labelName = filename.substring(0, filename.length()-8);
+        }
+        Label fileLabel = new Label(labelName);
         fileLabel.setHflex("1");
         fileLabel.setSclass("file-label");
         fileListRow.appendChild(fileLabel);

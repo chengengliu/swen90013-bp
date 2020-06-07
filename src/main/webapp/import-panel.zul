@@ -14,6 +14,7 @@
         </hlayout>
 
         <label sclass="heading" value="Tables"/>
+        <space/>
         <!-- Add list of input tables here -->
 
 		<div id="inputFileList" sclass="file-list-div" hflex="1">
