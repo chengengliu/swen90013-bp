@@ -55,7 +55,7 @@ public class TableUtilsTest {
         int cols = 5;
         Grid grid = new Grid();
         //Add +1 to row for header
-        TableUtils.populateGrid(grid, getRandomGridList(rows+1, cols));
+        TableUtils.populateGrid(grid, getRandomGridList(rows + 1, cols));
 
         int gridcells = 0;
         Assert.assertEquals(grid.getChildren().size(), 2);
@@ -92,7 +92,7 @@ public class TableUtilsTest {
         Assert.assertEquals(cols.getChildren().size(), 1);
         Assert.assertEquals(rows.getChildren().size(), 0);
     }
-    
+
     /**
      * Tests the label value is returned when the UI components
      * have the correct layout.
@@ -101,14 +101,16 @@ public class TableUtilsTest {
     public void getFilenameFromGridCorrectFormatTest() {
         Grid grid = new Grid();
         Div parent = new Div();
+        parent.appendChild(grid);
+
         Popup grandParent = new Popup();
+        grandParent.appendChild(parent);
+
         Hlayout greatGrandParent = new Hlayout();
         Label fileLabel = new Label("getFilenameFromGridCorrectFormatTest");
 
         greatGrandParent.appendChild(grandParent);
         greatGrandParent.appendChild(fileLabel);
-        grandParent.appendChild(parent);
-        parent.appendChild(grid);
 
         Assert.assertEquals(TableUtils.getFilenameFromGrid(grid),
                 "getFilenameFromGridCorrectFormatTest");
