@@ -5,6 +5,7 @@ import java.io.*;
 import org.apromore.plugin.PluginConfig;
 import org.apromore.plugin.services.FileHandlerService;
 import org.easymock.EasyMockSupport;
+import org.easymock.internal.matchers.LessThan;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -165,35 +166,4 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
 
         verifyAll();
     }
-
-    /**
-     * Test if uploading more than 10 files is not allowed.
-     */
-    @Test
-    public void write11FilesTest() throws IOException {
-        bufferedInputStream = createMockBuilder(BufferedInputStream.class)
-                .withConstructor(InputStream.class)
-                .withArgs(inputStream)
-                .createMock();
-
-        for (int i = 0; i < 11; i++) {
-            expect(medias11[i].getName()).andReturn("file" + i + ".parquet");
-            expect(medias11[i].isBinary()).andReturn(true);
-            expect(medias11[i].getStreamData()).andReturn(inputStream);
-        }
-
-        bufferedInputStream.close();
-        expectLastCall();
-
-        replayAll();
-
-        try {
-            service.writeFiles(medias11);
-        } catch (IOException | IllegalFileTypeException e) {
-            e.printStackTrace();
-        }
-
-        verifyAll();
-    }
-
 }

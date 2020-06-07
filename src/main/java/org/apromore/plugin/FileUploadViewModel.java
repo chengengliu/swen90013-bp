@@ -36,6 +36,7 @@ import org.zkoss.zul.*;
 public class FileUploadViewModel {
     private static final String NULL_UPLOAD_MESSAGE = "No file is selected";
     private static final String ERROR = "Error";
+    private static final Integer MAX_FILES_NUMBER = 10;
     private String textTable;
     private List<String> filenames = new ArrayList<>();
 
@@ -88,9 +89,9 @@ public class FileUploadViewModel {
      */
     @Command("onFileUpload")
     public void onFileUpload() {
-        Media[] medias = Fileupload.get(10);
+        Media[] medias = Fileupload.get(MAX_FILES_NUMBER);
 
-        if (medias != null && medias.length > 0) {
+        if (medias != null && medias.length > 0 && medias.length <= 10) {
             String returnMessage;
 
             try {
