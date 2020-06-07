@@ -85,7 +85,8 @@ public class FileUploadViewModel {
      */
     @Command("onFileUpload")
     public void onFileUpload() {
-        Media[] medias = Fileupload.get(-1);
+        Media[] medias = Fileupload.get(10);
+
         if (medias != null && medias.length > 0) {
             String returnMessage;
 

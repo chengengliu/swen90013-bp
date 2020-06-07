@@ -55,9 +55,10 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
         expect(media.getStringData()).andReturn(mockString);
 
         replayAll();
+        Media[] medias = { media };
 
         try {
-            Assert.assertEquals(service.writeFiles(media), UPLOAD_SUCCESS);
+            Assert.assertEquals(service.writeFiles(medias), UPLOAD_SUCCESS);
         } catch (IOException | IllegalFileTypeException e) {
             e.printStackTrace();
         }
@@ -83,9 +84,10 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
         expectLastCall();
 
         replayAll();
+        Media[] medias = { media };
 
         try {
-            Assert.assertEquals(service.writeFiles(media), UPLOAD_SUCCESS);
+            Assert.assertEquals(service.writeFiles(medias), UPLOAD_SUCCESS);
         } catch (IllegalFileTypeException e) {
             e.printStackTrace();
         }
@@ -108,9 +110,10 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
         expect(media.getStreamData()).andReturn(null);
 
         replayAll();
-
+        Media[] medias = { media };
+        
         try {
-            service.writeFiles(media);
+            service.writeFiles(medias);
         } catch (IOException | IllegalFileTypeException e) {
             e.printStackTrace();
         }
