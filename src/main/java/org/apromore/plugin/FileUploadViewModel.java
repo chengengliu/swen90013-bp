@@ -36,6 +36,7 @@ import org.zkoss.zul.*;
 public class FileUploadViewModel {
     private static final String NULL_UPLOAD_MESSAGE = "No file is selected";
     private static final String ERROR = "Error";
+    private static final Integer MAX_FILES_NUMBER = 10;
     private String textTable;
     private List<String> filenames = new ArrayList<>();
 
@@ -88,39 +89,45 @@ public class FileUploadViewModel {
      */
     @Command("onFileUpload")
     public void onFileUpload() {
-        Media media = Fileupload.get();
-        if (media != null) {
+        Media[] medias = Fileupload.get(MAX_FILES_NUMBER);
+
+        if (medias != null && medias.length > 0 && medias.length <= 10) {
             String returnMessage;
 
             try {
-                returnMessage = fileHandlerService.writeFiles(media);
+                returnMessage = fileHandlerService.writeFiles(medias);
 
                 // If the file was written then load in impala and get snippet
                 if (returnMessage.equals("Upload Success")) {
                     List<List<String>> resultsList = null;
 
-                    try {
+                    for (int i = 0; i < medias.length; i++) {
+                        Media media = medias[i];
+                        try {
 
-                        transactionService.addTable(media.getName());
-                        resultsList = transactionService
-                                .getSnippet(media.getName(), 50);
+                            transactionService.addTable(media.getName());
+                            resultsList = transactionService
+                                    .getSnippet(media.getName(), 50);
 
-                        // Create result String
-                        textTable = createTableOutput(resultsList);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                            // Create result String
+                            textTable = createTableOutput(resultsList);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
 
-                    // Prevent the same file from appearing in the list twice
-                    if (!filenames.contains(media.getName())) {
-                        filenames.add(media.getName());
+                        // Prevent the same file from appearing
+                        // in the list twice
+                        if (!filenames.contains(media.getName())) {
+                            filenames.add(media.getName());
 
-                        Map<String,Object> args = new HashMap<String,Object>();
-                        args.put("filenames", this.filenames);
-                        BindUtils.postGlobalCommand(null, null,
-                                "newFileUpload", args);
+                            Map<String,Object> args =
+                                new HashMap<String,Object>();
+                            args.put("filenames", this.filenames);
+                            BindUtils.postGlobalCommand(null, null,
+                                    "newFileUpload", args);
 
-                        addFileToUIList(media.getName(), resultsList);
+                            addFileToUIList(media.getName(), resultsList);
+                        }
                     }
                 }
 

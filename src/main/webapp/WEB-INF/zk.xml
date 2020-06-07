@@ -3,6 +3,7 @@
 <zk>
 	<system-config>
 		<disable-event-thread>false</disable-event-thread>
+		<max-upload-size>-1</max-upload-size>
 	</system-config>
 	<!-- [Optional]
 	Uncomment if you want to defines the application's name 
