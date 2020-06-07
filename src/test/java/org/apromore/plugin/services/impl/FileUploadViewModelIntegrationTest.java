@@ -1,4 +1,8 @@
-package org.apromore.plugin;
+package org.apromore.plugin.services.impl;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -8,8 +12,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -50,16 +52,17 @@ public class FileUploadViewModelIntegrationTest {
      */
     @Test
     public void findEyeIcon() {
-        String path = System.getProperty("user.dir")+"/src/test/resources";
+        String path = System.getProperty("user.dir") + "/src/test/resources";
         System.out.println("PATH : "+path);
         driver.get("http://localhost:8080/preprocessing-plugin/");
 
         WebElement uploadButton = null;
-        if (driver.findElement(By.cssSelector("button")).getText().equals("Upload")) {
+        if (driver.findElement(By.cssSelector("button")).getText().
+                equals("Upload")) {
             uploadButton = driver.findElement(By.cssSelector("button"));
         }
         uploadButton.click();
-        driver.findElement(By.name("file")).sendKeys(path+
+        driver.findElement(By.name("file")).sendKeys(path +
                 "/userdata1.parquet");
         List<WebElement> list = driver.findElements(By.className("z-button"));
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
