@@ -13,7 +13,7 @@ public interface Transaction {
      *
      * @param fileName File Name
      * @param limit    Limit of the rows
-     * @return return the snippet of the table.
+     * @return return the snippet of the table
      * @throws SQLException if unable to execute statement
      * @throws IOException  if unable to read file
      */
@@ -34,9 +34,20 @@ public interface Transaction {
      *
      * @param fileName File Name
      * @param limit    Limit the rows
-     * @return return the snippet of the table.
+     * @return return the snippet of the table
      * @throws SQLException if unable to execute statement
      */
     List<List<String>> getSnippet(String fileName, int limit)
+            throws SQLException;
+
+    /**
+     * Join mutiple tables with different keys.
+     *
+     * @param joinTables List of table pairs to join
+     * @param limit number of rows to return after join
+     * @return result List
+     * @throws SQLException If unable to execute sql query
+     */
+    List<List<String>> join(List<List<String>> joinTables, int limit)
             throws SQLException;
 }
