@@ -42,11 +42,15 @@ public class EyeIconDiv extends Div {
      * @return a grid which shows snippets.
      */
     private Grid getGridFromEyeIcon(EyeIconDiv eyeIcon) {
+
+        String filename = eyeIcon.getId().substring(4, eyeIcon.getId().length() - 7);
+
         for (Component child: eyeIcon.getParent().getChildren()) {
             if (child instanceof Popup) {
-                Component component = child.getFirstChild().getFirstChild();
-                if (component instanceof Grid) {
-                    return (Grid)component;
+                for (Component popupChild: child.getChildren()) {
+                    if (popupChild.getId().equals("scrollArea" + filename)) {
+                        return (Grid)popupChild.getFirstChild();
+                    }
                 }
             }
         }

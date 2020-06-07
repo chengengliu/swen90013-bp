@@ -1,5 +1,16 @@
 <?link rel="stylesheet" type="text/css" href="/css/multi-event-log-plugin.css"?>
 <zk>
+
+    <window closable="true" onClose="self.visible = false; event.stopPropagation();" visible="false" id="expandedWindow"
+        hflex="1" vflex="1" sclass="expand-window" position="center" mode="highlighted"
+        contentStyle="overflow:auto;" apply="org.zkoss.bind.BindComposer"
+        viewModel="@id('vm_inputExpandExcerpt') @init('org.apromore.plugin.InputExpandedExcerptViewModel')">
+
+        <grid id='inputExcerpt' vflex="1" sclass="consolidated-excerpt-grid">
+
+        </grid>
+    </window>
+
     <vlayout sclass="main-window" hflex="1" vflex="1" spacing="0.7em">
         <!-- Apromore banner -->
         <div sclass="banner-header" hflex="1">

@@ -69,10 +69,16 @@
 .input-table-scroll-area{
 	width: 700px;
 	height: 300px;
-	border: 1px solid black;
 	overflow: auto;
 }
 
 .consolidated-excerpt-grid{
 	border: none;
+}
+
+.expand-window{
+	width: 90%;
+	height: 90%;
+	margin: auto;
+	position: relative;
 }

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apromore.plugin.eventHandlers.ExpandIconDiv;
 import org.apromore.plugin.eventHandlers.EyeIconDiv;
 import org.apromore.plugin.services.FileHandlerService;
 import org.apromore.plugin.services.Transaction;
@@ -102,7 +103,7 @@ public class FileUploadViewModel {
 
                         transactionService.addTable(media.getName());
                         resultsList = transactionService
-                                .getSnippet(media.getName(), 10);
+                                .getSnippet(media.getName(), 50);
 
                         // Create result String
                         textTable = createTableOutput(resultsList);
@@ -179,8 +180,17 @@ public class FileUploadViewModel {
         popupBox.setId(filename + "Snippet");
         fileListRow.appendChild(popupBox);
 
+        ExpandIconDiv expandButton = new ExpandIconDiv(resultsList);
+        expandButton.setId("expand" + filename + "Snippet");
+        popupBox.appendChild(expandButton);
+
+        HtmlNativeComponent expandIcon = new HtmlNativeComponent("i");
+        expandIcon.setDynamicProperty("class", "z-icon-external-link-square");
+        expandButton.appendChild(expandIcon);
+
         Div scrollArea = new Div();
         scrollArea.setSclass("input-table-scroll-area");
+        scrollArea.setId("scrollArea" + filename);
         popupBox.appendChild(scrollArea);
 
         Grid inputGrid = new Grid();
