@@ -24,7 +24,7 @@ public class JoinTable {
     public JoinTable(String tableName, String joinKey, String forwardTable) {
         joinKeys = new HashMap<>();
         this.tableName = tableName;
-        this.joinKeys.put(forwardTable, tableName + "." + joinKey);
+        addKey(forwardTable, joinKey);
     }
 
     /**
