@@ -12,7 +12,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -53,12 +52,12 @@ public class FileUploadViewModelIntegrationTest {
     @Test
     public void findEyeIcon() {
         String path = System.getProperty("user.dir") + "/src/test/resources";
-        System.out.println("PATH : "+path);
+        System.out.println("PATH : " + path);
         driver.get("http://localhost:8080/preprocessing-plugin/");
 
         WebElement uploadButton = null;
-        if (driver.findElement(By.cssSelector("button")).getText().
-                equals("Upload")) {
+        if (driver.findElement(By.cssSelector("button")).getText()
+                .equals("Upload")) {
             uploadButton = driver.findElement(By.cssSelector("button"));
         }
         uploadButton.click();
