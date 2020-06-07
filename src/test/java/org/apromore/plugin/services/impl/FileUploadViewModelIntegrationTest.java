@@ -25,6 +25,7 @@ public class FileUploadViewModelIntegrationTest {
     @BeforeClass
     public static void setup() {
         ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
         options.addArguments("start-maximized");
         options.addArguments("enable-automation");
         options.addArguments("--no-sandbox");
