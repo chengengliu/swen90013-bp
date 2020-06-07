@@ -7,12 +7,12 @@
 		<div>
 			<grid model="@load(vm.joinQueryModels)">
 				<columns>
-					<column>Table A</column>
-					<column>Table B</column>
-					<column>Join Type</column>
-					<column>Key A</column>
-					<column>Key B</column>
-					<column>Submit</column>
+					<column hflex="5">Table A</column>
+					<column hflex="5">Table B</column>
+					<column hflex="5">Join Type</column>
+					<column hflex="5">Key A</column>
+					<column hflex="5">Key B</column>
+					<column hflex="1"> </column>
 				</columns>
 				<rows >
 					
@@ -59,16 +59,19 @@
 										<comboitem label="@load(keyB)" />
 									</template>
 								</combobox>
-
-								<button id="btnSubmitQuery"
-									label="+" onClick="@command('submitQuery', index=forEachStatus.index)" />
-
+						                       
+                                
+                                <button label="-" onClick="@command('removeJoinQuery', index=forEachStatus.index)" />
+	                                                      
+                                
 							</row>
-
+										
 						</template>
-					
+			   
 				</rows>
 			</grid>
+			<button label="+" onClick="@command('addJoinQuery')" />  
+			<button label="Submit" onClick="@command('submitQuery')"/>   
 		</div>
 	</window>
 </zk>
