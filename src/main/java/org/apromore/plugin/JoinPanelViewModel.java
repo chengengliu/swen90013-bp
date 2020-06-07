@@ -95,28 +95,50 @@ public class JoinPanelViewModel {
     /**
      * Submit join query.
      *
-     * @param index Index of join query model
      */
     @Command("submitQuery")
-    public void submitQuery(@BindingParam("index") int index) {
+    public void submitQuery() {
 
-        List<String> joinTableInfo = joinQueryModels.get(index).submit();
-        List<List<String>> joinInfo = new ArrayList<>();
+        List<List<String>> totalJoinQuery = new ArrayList<>();
 
-        joinInfo.add(joinTableInfo);
+        for (JoinQueryModel j: joinQueryModels) {
+            List<String> joinQueryAttributes = j.submit();
+            totalJoinQuery.add(joinQueryAttributes);
+            System.out.println(j);
+        }
 
         List<List<String>> resultsList = null;
-        try {
 
-            resultsList = transactionService.join(joinInfo, 50);
+        try {
+            resultsList = transactionService.join(totalJoinQuery, 50);
             Map<String,Object> args = new HashMap<String,Object>();
             args.put("resultsList", resultsList);
             BindUtils.postGlobalCommand(null, null, "onTableClick", args);
-
         } catch (SQLException e) {
-
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Add a new joinQueryModel.
+     *
+     */
+    @Command("addJoinQuery")
+    @NotifyChange("joinQueryModels")
+    public void addJoinQuery() {
+        joinQueryModels.add(new JoinQueryModel());
+    }
+
+
+    /**
+     * Remove the specified joinQueryModel.
+     *
+     * @param index Index of joinQueryModel in joniQueryModels to remove
+     */
+    @Command("removeJoinQuery")
+    @NotifyChange("joinQueryModels")
+    public void removeJoinQuery(@BindingParam("index") int index) {
+        joinQueryModels.remove(index);
     }
 
     /**

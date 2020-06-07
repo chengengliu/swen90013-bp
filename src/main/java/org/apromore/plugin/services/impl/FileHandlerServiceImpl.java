@@ -127,7 +127,7 @@ public class FileHandlerServiceImpl implements FileHandlerService {
                 new ByteArrayInputStream(media.getStringData().getBytes()));
             OutputStream fOut = new FileOutputStream(file, false);
             BufferedInputStream in = new BufferedInputStream(fIn);
-            BufferedOutputStream out = new BufferedOutputStream(fOut);
+            BufferedOutputStream out = new BufferedOutputStream(fOut)
         ) {
             byte buffer[] = new byte[BUFFER_SIZE];
             int len;

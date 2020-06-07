@@ -6,19 +6,16 @@
 
 .banner-header{
 	background-image:url('https://apromore.org/wp-content/uploads/2019/10/cropped-main-banner-img.png');
-	/*min-height: 113px;*/
 }
 
 .banner-footer{
 	background-image:url('https://apromore.org/wp-content/uploads/2019/10/cropped-main-banner-img.png');
-	height: 2em;
+	height: 1.5em;
 }
 
 .banner-logo{
 	height: 3%;
 	width: 12%;
-	/*height: 100px;*/
-	/*width: 420px;*/
 	padding: 10px;
 }
 
