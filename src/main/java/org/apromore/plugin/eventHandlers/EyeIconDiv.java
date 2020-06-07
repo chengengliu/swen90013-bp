@@ -43,7 +43,8 @@ public class EyeIconDiv extends Div {
      */
     private Grid getGridFromEyeIcon(EyeIconDiv eyeIcon) {
 
-        String filename = eyeIcon.getId().substring(4, eyeIcon.getId().length() - 7);
+        String filename = eyeIcon.getId().substring(4,
+                eyeIcon.getId().length() - 7);
 
         for (Component child: eyeIcon.getParent().getChildren()) {
             if (child instanceof Popup) {

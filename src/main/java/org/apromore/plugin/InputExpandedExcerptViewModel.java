@@ -1,5 +1,7 @@
 package org.apromore.plugin;
 
+import java.util.List;
+
 import org.apromore.plugin.utils.TableUtils;
 import org.zkoss.bind.annotation.*;
 import org.zkoss.zk.ui.Component;
@@ -9,8 +11,9 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Window;
 
-import java.util.List;
-
+/**
+ * Model for the expand window.
+ */
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class InputExpandedExcerptViewModel {
 
@@ -36,6 +39,7 @@ public class InputExpandedExcerptViewModel {
      * When the table clicks.
      *
      * @param resultsList Results results that is join result
+     * @param filename name of the file displayed
      */
     @GlobalCommand
     public void onExpandClick(@BindingParam("resultsList")

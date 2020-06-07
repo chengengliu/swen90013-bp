@@ -1,15 +1,17 @@
 package org.apromore.plugin.eventHandlers;
 
-import org.apromore.plugin.utils.TableUtils;
-import org.zkoss.bind.BindUtils;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zul.Div;
-import org.zkoss.zul.Grid;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.zkoss.bind.BindUtils;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zul.Div;
+
+/**
+ * This class provides additional methods to handle
+ * events for an EventIconDiv.
+ */
 public class ExpandIconDiv extends Div {
     private List<List<String>> resultsList = null;
 
