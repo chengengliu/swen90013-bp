@@ -182,7 +182,10 @@ public class Join {
         ArrayList<JoinTable> joinSequence = calculateJoinSequenceBfs();
 
         // Get the first table to join with
-        joinString += joinSequence.get(0).getTableName() + " ";
+        joinString += String.format(
+                    "`%s` ",
+                    joinSequence.get(0).getTableName()
+        );
 
         // Create the Join tables query string
         for (int i = 1; i < joinSequence.size() ; i ++) {
@@ -190,7 +193,7 @@ public class Join {
             JoinTable leftTable = getPrecedingTable(rightTable);
 
             joinString += String.format(
-                    "%s %s ON %s=%s ",
+                    "%s `%s` ON %s=%s ",
                     rightTable.getJoinType(),
                     rightTable.getTableName(),
                     leftTable.getJoinKey(rightTable),

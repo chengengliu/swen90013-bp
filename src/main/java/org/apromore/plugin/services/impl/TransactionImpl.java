@@ -22,7 +22,7 @@ public class TransactionImpl implements Transaction {
     private Join joinTable;
 
     @Autowired
-    ImpalaTable impalaTable;
+    private ImpalaTable impalaTable;
 
     /**
      * Add the file to the Impala and get a snippet.
@@ -83,7 +83,6 @@ public class TransactionImpl implements Transaction {
             impalaTable.createParquetTable(tableName, fileName);
         }
     }
-
 
     /**
     * Join mutiple tables with different keys.
