@@ -54,6 +54,7 @@ public class TableUtilsTest {
         int rows = 11;
         int cols = 5;
         Grid grid = new Grid();
+        //Add +1 to row for header
         TableUtils.populateGrid(grid, getRandomGridList(rows+1, cols));
 
         int gridcells = 0;
@@ -61,8 +62,10 @@ public class TableUtilsTest {
 
         for (Component child: grid.getChildren()) {
             if (child instanceof Columns) {
+                //Headers
                 Assert.assertEquals(child.getChildren().size(), cols);
             } else {
+                //Cell contents
                 Assert.assertEquals(child.getChildren().size(), rows);
                 for (Component row: child.getChildren()) {
                     Assert.assertEquals(row.getClass(), Row.class);
@@ -76,7 +79,7 @@ public class TableUtilsTest {
     }
 
     /**
-     * Tests contents of grid when list is null
+     * Tests grid contains only a single cell when list is null.
      */
     @Test
     public void populateGridNullListTest() {
@@ -91,8 +94,8 @@ public class TableUtilsTest {
     }
     
     /**
-     * Tests the correct filename is returned when the grid 
-     * has the correct format.
+     * Tests the label value is returned when the UI components
+     * have the correct layout.
      */
     @Test
     public void getFilenameFromGridCorrectFormatTest() {
