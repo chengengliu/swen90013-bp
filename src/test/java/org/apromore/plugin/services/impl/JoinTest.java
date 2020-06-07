@@ -48,10 +48,10 @@ public class JoinTest {
      */
     @Test
     public void joinTwoTables() {
-        String[] testInput1 =  {"Table1,key1,Table2,key2,INNER JOIN"};
-        String[] testInput2 =  {"Table1,key1,Table2,key2,LEFT JOIN"};
-        String[] testInput3 =  {"Table1,key1,Table2,key2,RIGHT JOIN"};
-        String[] testInput4 =  {"Table1,key1,Table2,key2,FULL OUTER JOIN"};
+        String [] testInput1 =  {"Table1,key1,Table2,key2,INNER JOIN"};
+        String [] testInput2 =  {"Table1,key1,Table2,key2,LEFT JOIN"};
+        String [] testInput3 =  {"Table1,key1,Table2,key2,RIGHT JOIN"};
+        String [] testInput4 =  {"Table1,key1,Table2,key2,FULL OUTER JOIN"};
         String expectedTest1 = "`Table1` INNER JOIN `Table2` ON " +
                 "`Table1`.`key1`=`Table2`.`key2` ";
         String expectedTest2 = "`Table1` LEFT JOIN `Table2` ON " +
@@ -87,33 +87,27 @@ public class JoinTest {
      */
     @Test
     public void joinThreeTables() {
-        String[] testInput1 = {
+        String [] testInput1 = {
                 "Table1,key1,Table2,key2,INNER JOIN",
                 "Table2,key22,Table3,key3,INNER JOIN"};
-        String[] testInput2 = {
+        String [] testInput2 = {
                 "Table1,key1,Table2,key2,LEFT JOIN",
                 "Table2,key22,Table3,key3,RIGHT JOIN"};
-
-        String[] testInput3 = {
+        String [] testInput3 = {
                 "Table1,key1,Table2,key2,FULL OUTER JOIN",
                 "Table2,key22,Table3,key3,LEFT JOIN"};
-
-        String[] testInput4 = {
+        String [] testInput4 = {
                 "Table1,key1,Table2,key2,INNER JOIN",
                 "Table2,key22,Table3,key3,LEFT JOIN"};
-
         String expectedTest1 = "`Table1` INNER JOIN `Table2` ON " +
                 "`Table1`.`key1`=`Table2`.`key2` " +
                 "INNER JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` ";
-
         String expectedTest2 = "`Table1` LEFT JOIN `Table2` ON " +
-                "`Table1`.`key1`=`Table2`.`key2` "+
+                "`Table1`.`key1`=`Table2`.`key2` " +
                 "RIGHT JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` ";
-
         String expectedTest3 = "`Table1` FULL OUTER JOIN `Table2` ON " +
-                "`Table1`.`key1`=`Table2`.`key2` "+
+                "`Table1`.`key1`=`Table2`.`key2` " +
                 "LEFT JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` ";
-
         String expectedTest4 = "`Table1` INNER JOIN `Table2` ON " +
                 "`Table1`.`key1`=`Table2`.`key2` "+
                 "LEFT JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` ";
@@ -139,18 +133,16 @@ public class JoinTest {
         );
     }
 
-
     /**
      * Join 4 tables for different types of joins.
      */
     @Test
     public void joinFourTables() {
-        String[] testInput1 = {
+        String [] testInput1 = {
                 "Table1,key1,Table2,key2,LEFT JOIN",
                 "Table2,key22,Table3,key3,INNER JOIN",
                 "Table3,key32,Table4,key4,RIGHT JOIN"
         };
-
         String expectedTest1 = "`Table1` LEFT JOIN `Table2` ON " +
                 "`Table1`.`key1`=`Table2`.`key2` " +
                 "INNER JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` " +
