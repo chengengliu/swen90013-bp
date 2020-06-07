@@ -108,7 +108,7 @@ public class JoinPanelViewModel {
         List<List<String>> resultsList = null;
         try {
 
-            resultsList = transactionService.join(joinInfo, 10);
+            resultsList = transactionService.join(joinInfo, 50);
             Map<String,Object> args = new HashMap<String,Object>();
             args.put("resultsList", resultsList);
             BindUtils.postGlobalCommand(null, null, "onTableClick", args);

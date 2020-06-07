@@ -67,7 +67,18 @@
 }
 
 .input-table-scroll-area{
-	max-width: 80%;
-	max-height: 80%;
+	width: 700px;
+	height: 300px;
 	overflow: auto;
+}
+
+.consolidated-excerpt-grid{
+	border: none;
+}
+
+.expand-window{
+	width: 90%;
+	height: 90%;
+	margin: auto;
+	position: relative;
 }
