@@ -1,17 +1,21 @@
 @charset "ISO-8859-1";
 
 .main-window{
-	background: #F3F3F3;
+	background: #e6e6e6;
 }
 
-.banner{
+.banner-header{
 	background-image:url('https://apromore.org/wp-content/uploads/2019/10/cropped-main-banner-img.png');
-	height: 113px;
+}
+
+.banner-footer{
+	background-image:url('https://apromore.org/wp-content/uploads/2019/10/cropped-main-banner-img.png');
+	height: 1.5em;
 }
 
 .banner-logo{
-	height: 100px;
-	width: 420px;
+	height: 3%;
+	width: 12%;
 	padding: 10px;
 }
 
@@ -19,18 +23,21 @@
 	background: white;
 	box-shadow: 0 3px 7px 1px rgba(0,0,0,0.05);
 	border-radius: 7px;
+	width: 99%;
+	margin: auto;
 	padding: 10px;
 	position: relative;
 }
 
 .left-panel{
-	background:#D7D7D7;
-	padding: 10px;
-	height: 100%;
+	background: #acacac;
 	text-align: center;
 	box-shadow: 0 3px 7px 1px rgba(0,0,0,0.05);
 	border-radius: 7px;
-	border: 1px solid #8c8c8c;
+	width: 99%;
+	height: 100%;
+	margin: auto;
+	padding: 10px;
 	position: relative;
 }
 
@@ -59,6 +66,16 @@
 .input-table-scroll-area{
 	width: 700px;
 	height: 300px;
-	border: 1px solid black;
 	overflow: auto;
+}
+
+.consolidated-excerpt-grid{
+	border: none;
+}
+
+.expand-window{
+	width: 90%;
+	height: 90%;
+	margin: auto;
+	position: relative;
 }
