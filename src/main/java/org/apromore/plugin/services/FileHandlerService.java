@@ -17,7 +17,8 @@ public interface FileHandlerService {
      * @return return the message to show on client side.
      * @throws IllegalFileTypeException if the file type is unsupported
      */
-    String writeFiles(Media[] medias) throws IOException, IllegalFileTypeException;
+    String writeFiles(Media[] medias)
+                    throws IOException, IllegalFileTypeException;
 
     /**
      * Output the file.

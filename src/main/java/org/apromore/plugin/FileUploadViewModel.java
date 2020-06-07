@@ -99,7 +99,6 @@ public class FileUploadViewModel {
 
                     for (int i = 0; i < medias.length; i++) {
                         Media media = medias[i];
-                    
                         try {
                             transactionService.addTable(media.getName());
                             resultsList = transactionService
@@ -110,8 +109,8 @@ public class FileUploadViewModel {
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
-
-                        // Prevent the same file from appearing in the list twice
+                        // Prevent the same file from
+                        // appearing in the list twice
                         if (!filenames.contains(media.getName())) {
                             filenames.add(media.getName());
                             addFileToUIList(media.getName(), resultsList);

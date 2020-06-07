@@ -63,7 +63,6 @@ public class FileHandlerServiceImpl implements FileHandlerService {
      * @throws IllegalFileTypeException if file type is not supported
      */
     public String writeFiles(Media[] medias) throws IllegalFileTypeException {
-        
         for (int i = 0; i < medias.length; i++) {
             Media media = medias[i];
             String fileName = media.getName();
@@ -83,7 +82,8 @@ public class FileHandlerServiceImpl implements FileHandlerService {
                 fileName.endsWith("dat") ||
                 fileName.endsWith(".parq") ||
                 fileName.endsWith(".parquet"))) {
-                throw new IllegalFileTypeException("File must be csv or parquet.");
+                throw new
+                IllegalFileTypeException("File must be csv or parquet.");
             }
 
             try {
@@ -94,7 +94,8 @@ public class FileHandlerServiceImpl implements FileHandlerService {
                 }
 
                 generateDirectory(
-                    this.tempDir + "/" + FilenameUtils.removeExtension(fileName));
+                    this.tempDir + "/" +
+                    FilenameUtils.removeExtension(fileName));
             } catch (IOException e) {
                 e.printStackTrace();
                 return UPLOAD_FAILED;
