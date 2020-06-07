@@ -11,6 +11,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Unit Test for the Join Tables.
+ */
 @ContextConfiguration(classes = PluginConfig.class)
 @RunWith(SpringRunner.class)
 public class JoinTest {
@@ -45,37 +48,37 @@ public class JoinTest {
      */
     @Test
     public void joinTwoTables() {
-        String[] TestInput1 =  {"Table1,key1,Table2,key2,INNER JOIN"};
-        String[] TestInput2 =  {"Table1,key1,Table2,key2,LEFT JOIN"};
-        String[] TestInput3 =  {"Table1,key1,Table2,key2,RIGHT JOIN"};
-        String[] TestInput4 =  {"Table1,key1,Table2,key2,FULL OUTER JOIN"};
-        String ExpectedTest1 = "`Table1` INNER JOIN `Table2` ON " +
+        String[] testInput1 =  {"Table1,key1,Table2,key2,INNER JOIN"};
+        String[] testInput2 =  {"Table1,key1,Table2,key2,LEFT JOIN"};
+        String[] testInput3 =  {"Table1,key1,Table2,key2,RIGHT JOIN"};
+        String[] testInput4 =  {"Table1,key1,Table2,key2,FULL OUTER JOIN"};
+        String expectedTest1 = "`Table1` INNER JOIN `Table2` ON " +
                 "`Table1`.`key1`=`Table2`.`key2` ";
-        String ExpectedTest2 = "`Table1` LEFT JOIN `Table2` ON " +
+        String expectedTest2 = "`Table1` LEFT JOIN `Table2` ON " +
                 "`Table1`.`key1`=`Table2`.`key2` ";
-        String ExpectedTest3 = "`Table1` RIGHT JOIN `Table2` ON " +
+        String expectedTest3 = "`Table1` RIGHT JOIN `Table2` ON " +
                 "`Table1`.`key1`=`Table2`.`key2` ";
-        String ExpectedTest4 = "`Table1` FULL OUTER JOIN `Table2` ON " +
+        String expectedTest4 = "`Table1` FULL OUTER JOIN `Table2` ON " +
                 "`Table1`.`key1`=`Table2`.`key2` ";
 
         Assert.assertEquals(
-                ExpectedTest1,
-                joinTable.getJoinString(createInput(TestInput1))
+                expectedTest1,
+                joinTable.getJoinString(createInput(testInput1))
         );
 
         Assert.assertEquals(
-                ExpectedTest2,
-                joinTable.getJoinString(createInput(TestInput2))
+                expectedTest2,
+                joinTable.getJoinString(createInput(testInput2))
         );
 
         Assert.assertEquals(
-                ExpectedTest3,
-                joinTable.getJoinString(createInput(TestInput3))
+                expectedTest3,
+                joinTable.getJoinString(createInput(testInput3))
         );
 
         Assert.assertEquals(
-                ExpectedTest4,
-                joinTable.getJoinString(createInput(TestInput4))
+                expectedTest4,
+                joinTable.getJoinString(createInput(testInput4))
         );
     }
 
@@ -84,55 +87,55 @@ public class JoinTest {
      */
     @Test
     public void joinThreeTables() {
-        String[] TestInput1 = {
+        String[] testInput1 = {
                 "Table1,key1,Table2,key2,INNER JOIN",
                 "Table2,key22,Table3,key3,INNER JOIN"};
-        String[] TestInput2 = {
+        String[] testInput2 = {
                 "Table1,key1,Table2,key2,LEFT JOIN",
                 "Table2,key22,Table3,key3,RIGHT JOIN"};
 
-        String[] TestInput3 = {
+        String[] testInput3 = {
                 "Table1,key1,Table2,key2,FULL OUTER JOIN",
                 "Table2,key22,Table3,key3,LEFT JOIN"};
 
-        String[] TestInput4 = {
+        String[] testInput4 = {
                 "Table1,key1,Table2,key2,INNER JOIN",
                 "Table2,key22,Table3,key3,LEFT JOIN"};
 
-        String ExpectedTest1 = "`Table1` INNER JOIN `Table2` ON " +
+        String expectedTest1 = "`Table1` INNER JOIN `Table2` ON " +
                 "`Table1`.`key1`=`Table2`.`key2` " +
                 "INNER JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` ";
 
-        String ExpectedTest2 = "`Table1` LEFT JOIN `Table2` ON " +
+        String expectedTest2 = "`Table1` LEFT JOIN `Table2` ON " +
                 "`Table1`.`key1`=`Table2`.`key2` "+
                 "RIGHT JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` ";
 
-        String ExpectedTest3 = "`Table1` FULL OUTER JOIN `Table2` ON " +
+        String expectedTest3 = "`Table1` FULL OUTER JOIN `Table2` ON " +
                 "`Table1`.`key1`=`Table2`.`key2` "+
                 "LEFT JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` ";
 
-        String ExpectedTest4 = "`Table1` INNER JOIN `Table2` ON " +
+        String expectedTest4 = "`Table1` INNER JOIN `Table2` ON " +
                 "`Table1`.`key1`=`Table2`.`key2` "+
                 "LEFT JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` ";
 
         Assert.assertEquals(
-                ExpectedTest1,
-                joinTable.getJoinString(createInput(TestInput1))
+                expectedTest1,
+                joinTable.getJoinString(createInput(testInput1))
         );
 
         Assert.assertEquals(
-                ExpectedTest2,
-                joinTable.getJoinString(createInput(TestInput2))
+                expectedTest2,
+                joinTable.getJoinString(createInput(testInput2))
         );
 
         Assert.assertEquals(
-                ExpectedTest3,
-                joinTable.getJoinString(createInput(TestInput3))
+                expectedTest3,
+                joinTable.getJoinString(createInput(testInput3))
         );
 
         Assert.assertEquals(
-                ExpectedTest4,
-                joinTable.getJoinString(createInput(TestInput4))
+                expectedTest4,
+                joinTable.getJoinString(createInput(testInput4))
         );
     }
 
@@ -142,20 +145,20 @@ public class JoinTest {
      */
     @Test
     public void joinFourTables() {
-        String[] TestInput1 = {
+        String[] testInput1 = {
                 "Table1,key1,Table2,key2,LEFT JOIN",
                 "Table2,key22,Table3,key3,INNER JOIN",
                 "Table3,key32,Table4,key4,RIGHT JOIN"
         };
 
-        String ExpectedTest1 = "`Table1` LEFT JOIN `Table2` ON " +
+        String expectedTest1 = "`Table1` LEFT JOIN `Table2` ON " +
                 "`Table1`.`key1`=`Table2`.`key2` " +
                 "INNER JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` " +
                 "RIGHT JOIN `Table4` ON `Table3`.`key32`=`Table4`.`key4` ";
 
         Assert.assertEquals(
-                ExpectedTest1,
-                joinTable.getJoinString(createInput(TestInput1))
+                expectedTest1,
+                joinTable.getJoinString(createInput(testInput1))
         );
     }
 }
