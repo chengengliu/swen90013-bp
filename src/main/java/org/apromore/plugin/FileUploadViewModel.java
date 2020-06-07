@@ -163,7 +163,13 @@ public class FileUploadViewModel {
             String filename,
             List<List<String>> resultsList) {
 
+        Space initialSpace = new Space();
+        initialSpace.setSpacing("3px");
+        initialSpace.setSclass("initial-space");
+        inputFileList.appendChild(initialSpace);
+
         Hlayout fileListRow = new Hlayout();
+        fileListRow.setHflex("1");
         inputFileList.appendChild(fileListRow);
 
         // Show in joined excerpt
@@ -171,8 +177,14 @@ public class FileUploadViewModel {
         tableIcon.setDynamicProperty("class", "z-icon-table");
         fileListRow.appendChild(tableIcon);
 
+        Space afterTableSpace = new Space();
+        afterTableSpace.setSpacing("3px");
+        inputFileList.appendChild(afterTableSpace);
+
         // Create the label
         Label fileLabel = new Label(filename);
+        fileLabel.setHflex("1");
+        fileLabel.setSclass("file-label");
         fileListRow.appendChild(fileLabel);
 
         // Construct the popup box and contents
@@ -205,6 +217,7 @@ public class FileUploadViewModel {
         // Construct eye icon
         EyeIconDiv eyeButton = new EyeIconDiv(resultsList);
         eyeButton.setId("view" + filename + "Snippet");
+        eyeButton.setSclass("eye-button");
         eyeButton.setPopupAttributes(popupBox, null, null, null, "toggle");
         fileListRow.appendChild(eyeButton);
 

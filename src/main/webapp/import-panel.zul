@@ -16,7 +16,7 @@
         <label sclass="heading" value="Tables"/>
         <!-- Add list of input tables here -->
 
-		<div id="inputFileList">
+		<div id="inputFileList" sclass="file-list-div" hflex="1">
 			<!-- List of input files will be generated here -->
         </div>
     </vlayout>

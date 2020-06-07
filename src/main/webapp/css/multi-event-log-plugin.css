@@ -30,7 +30,7 @@
 }
 
 .left-panel{
-	background: #acacac;
+	background: #b2b2b2;
 	text-align: center;
 	box-shadow: 0 3px 7px 1px rgba(0,0,0,0.05);
 	border-radius: 7px;
@@ -78,4 +78,21 @@
 	height: 90%;
 	margin: auto;
 	position: relative;
+}
+
+.file-list-div{
+	text-align: left;
+}
+
+.initial-space{
+	height: 0px;
+}
+
+.file-label{
+	padding-left: 4px;
+	font-weight: bold;
+}
+
+.eye-button{
+	padding-right: 12%
 }
