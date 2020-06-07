@@ -30,6 +30,8 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
     FileHandlerService service;
 
     Media media;
+    Media media1, media2;
+    Media[] medias11;
     InputStream inputStream;
     BufferedInputStream bufferedInputStream;
     ByteArrayInputStream byteArrayInputStream;
@@ -41,6 +43,15 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
     public void setup() {
         media = createMock(Media.class);
         inputStream = new ByteArrayInputStream("data".getBytes());
+
+        media1 = createMock(Media.class);
+        media2 = createMock(Media.class);
+
+        medias11 = new Media[11];
+        for (int i = 0; i < 11; i++) {
+            Media temp = createMock(Media.class);
+            medias11[i] = temp;
+        }
     }
 
     /**
@@ -120,4 +131,68 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
 
         verifyAll();
     }
+
+    /**
+     * Test if 2 files are successfully saved.
+     */
+    @Test
+    public void write2FilesTest() throws IOException {
+        bufferedInputStream = createMockBuilder(BufferedInputStream.class)
+                .withConstructor(InputStream.class)
+                .withArgs(inputStream)
+                .createMock();
+
+        expect(media1.getName()).andReturn("file1.parquet");
+        expect(media1.isBinary()).andReturn(true);
+        expect(media1.getStreamData()).andReturn(inputStream);
+
+        expect(media2.getName()).andReturn("file2.csv");
+        expect(media2.isBinary()).andReturn(true);
+        expect(media2.getStreamData()).andReturn(inputStream);
+
+        bufferedInputStream.close();
+        expectLastCall();
+
+        replayAll();
+        Media[] medias = { media1, media2 };
+
+        try {
+            Assert.assertEquals(service.writeFiles(medias), UPLOAD_SUCCESS);
+        } catch (IllegalFileTypeException e) {
+            e.printStackTrace();
+        }
+
+        verifyAll();
+    }
+
+    /**
+     * Test if uploading more than 10 files is not allowed.
+     */
+    @Test
+    public void write11FilesTest() throws IOException {
+        bufferedInputStream = createMockBuilder(BufferedInputStream.class)
+                .withConstructor(InputStream.class)
+                .withArgs(inputStream)
+                .createMock();
+
+        for (int i = 0; i < 11; i++) {
+            expect(medias11[i].getName()).andReturn("file" + i + ".parquet");
+            expect(medias11[i].isBinary()).andReturn(true);
+            expect(medias11[i].getStreamData()).andReturn(inputStream);
+        }
+        
+        bufferedInputStream.close();
+        expectLastCall();
+
+        replayAll();
+
+        try {
+            service.writeFiles(medias11);
+        } catch (IOException | IllegalFileTypeException e) {
+            e.printStackTrace();
+        }
+
+        verifyAll();
+    }
+
 }
