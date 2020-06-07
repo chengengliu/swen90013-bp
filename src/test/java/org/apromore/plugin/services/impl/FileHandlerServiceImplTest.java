@@ -30,7 +30,8 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
     FileHandlerService service;
 
     Media media;
-    Media media1, media2;
+    Media media1;
+    Media media2;
     Media[] medias11;
     InputStream inputStream;
     BufferedInputStream bufferedInputStream;
@@ -122,7 +123,7 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
 
         replayAll();
         Media[] medias = { media };
-        
+
         try {
             service.writeFiles(medias);
         } catch (IOException | IllegalFileTypeException e) {
@@ -180,7 +181,7 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
             expect(medias11[i].isBinary()).andReturn(true);
             expect(medias11[i].getStreamData()).andReturn(inputStream);
         }
-        
+
         bufferedInputStream.close();
         expectLastCall();
 

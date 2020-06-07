@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apromore.plugin.services.FileHandlerService;
@@ -39,11 +41,11 @@ public class FileHandlerServiceImpl implements FileHandlerService {
     }
 
     /**
-     * Output the files to the user who request download.
+     * Output a file to the user who request download.
      *
      * @return a file
      */
-    public File outputFiles() {
+    public File outputFile() {
         File dir = new File(this.tempDir);
         File[] directoryListing = dir.listFiles();
         if (directoryListing != null) {
@@ -56,7 +58,26 @@ public class FileHandlerServiceImpl implements FileHandlerService {
     }
 
     /**
-     * Writes the input files to an output buffer.
+     * Outputs all files.
+     *
+     * @return returns a list of files.
+     */
+    public ArrayList<File> outputFiles() {
+        ArrayList<File> files = new ArrayList<File>();
+        File dir = new File(this.tempDir);
+        File[] directoryListing = dir.listFiles();
+        if (directoryListing != null) {
+
+            for (File f : directoryListing) {
+                files.add(f);
+            }
+            return files;
+        }
+        return null;
+    }
+
+    /**
+     * Writes the input file to an output buffer.
      *
      * @param medias the input files.
      * @return return the message to show on client side.
@@ -83,7 +104,7 @@ public class FileHandlerServiceImpl implements FileHandlerService {
                 fileName.endsWith(".parq") ||
                 fileName.endsWith(".parquet"))) {
                 throw new
-                IllegalFileTypeException("File must be csv or parquet.");
+                    IllegalFileTypeException("File must be csv or parquet.");
             }
 
             try {
@@ -110,7 +131,7 @@ public class FileHandlerServiceImpl implements FileHandlerService {
                     new ByteArrayInputStream(media.getStringData().getBytes()));
                 OutputStream fOut = new FileOutputStream(file, false);
                 BufferedInputStream in = new BufferedInputStream(fIn);
-                BufferedOutputStream out = new BufferedOutputStream(fOut);
+                BufferedOutputStream out = new BufferedOutputStream(fOut)
             ) {
                 byte buffer[] = new byte[BUFFER_SIZE];
                 int len;

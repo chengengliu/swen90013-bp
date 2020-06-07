@@ -5,12 +5,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apromore.plugin.eventHandlers.ExpandIconDiv;
 import org.apromore.plugin.eventHandlers.EyeIconDiv;
 import org.apromore.plugin.services.FileHandlerService;
 import org.apromore.plugin.services.Transaction;
 import org.apromore.plugin.services.impl.IllegalFileTypeException;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
@@ -37,6 +41,7 @@ public class FileUploadViewModel {
 
     @WireVariable
     private FileHandlerService fileHandlerService;
+
     @Wire("#inputFileList")
     private Div inputFileList;
 
@@ -65,8 +70,6 @@ public class FileUploadViewModel {
             text += "\n";
         }
 
-        System.out.println(text);
-
         return text;
     }
 
@@ -93,26 +96,35 @@ public class FileUploadViewModel {
             try {
                 returnMessage = fileHandlerService.writeFiles(medias);
 
-                // If the files were written then load in impala and get snippet
+                // If the file was written then load in impala and get snippet
                 if (returnMessage.equals("Upload Success")) {
                     List<List<String>> resultsList = null;
 
                     for (int i = 0; i < medias.length; i++) {
                         Media media = medias[i];
                         try {
+
                             transactionService.addTable(media.getName());
                             resultsList = transactionService
-                                    .getSnippet(media.getName(), 10);
+                                    .getSnippet(media.getName(), 50);
 
                             // Create result String
                             textTable = createTableOutput(resultsList);
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
-                        // Prevent the same file from
-                        // appearing in the list twice
+
+                        // Prevent the same file from appearing
+                        // in the list twice
                         if (!filenames.contains(media.getName())) {
                             filenames.add(media.getName());
+
+                            Map<String,Object> args =
+                                new HashMap<String,Object>();
+                            args.put("filenames", this.filenames);
+                            BindUtils.postGlobalCommand(null, null,
+                                    "newFileUpload", args);
+
                             addFileToUIList(media.getName(), resultsList);
                         }
                     }
@@ -139,7 +151,7 @@ public class FileUploadViewModel {
      */
     @Command("onFileDownload")
     public void onFileDownload() {
-        File file = fileHandlerService.outputFiles();
+        File file = fileHandlerService.outputFile();
         try {
             Filedownload.save(file, null);
         } catch (FileNotFoundException e) {
@@ -160,7 +172,7 @@ public class FileUploadViewModel {
         Hlayout fileListRow = new Hlayout();
         inputFileList.appendChild(fileListRow);
 
-        // Create table icon
+        // Show in joined excerpt
         HtmlNativeComponent tableIcon = new HtmlNativeComponent("i");
         tableIcon.setDynamicProperty("class", "z-icon-table");
         fileListRow.appendChild(tableIcon);
@@ -174,8 +186,17 @@ public class FileUploadViewModel {
         popupBox.setId(filename + "Snippet");
         fileListRow.appendChild(popupBox);
 
+        ExpandIconDiv expandButton = new ExpandIconDiv(resultsList);
+        expandButton.setId("expand" + filename + "Snippet");
+        popupBox.appendChild(expandButton);
+
+        HtmlNativeComponent expandIcon = new HtmlNativeComponent("i");
+        expandIcon.setDynamicProperty("class", "z-icon-external-link-square");
+        expandButton.appendChild(expandIcon);
+
         Div scrollArea = new Div();
         scrollArea.setSclass("input-table-scroll-area");
+        scrollArea.setId("scrollArea" + filename);
         popupBox.appendChild(scrollArea);
 
         Grid inputGrid = new Grid();
@@ -196,5 +217,14 @@ public class FileUploadViewModel {
         HtmlNativeComponent eyeIcon = new HtmlNativeComponent("i");
         eyeIcon.setDynamicProperty("class", "z-icon-eye");
         eyeButton.appendChild(eyeIcon);
+    }
+
+    /**
+     * Get filenames.
+     *
+     * @return filenames
+     */
+    public List<String> getFilenames() {
+        return filenames;
     }
 }
