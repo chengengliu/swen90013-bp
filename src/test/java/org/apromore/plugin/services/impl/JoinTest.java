@@ -1,5 +1,8 @@
 package org.apromore.plugin.services.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apromore.plugin.PluginConfig;
 import org.junit.Assert;
 import org.junit.Test;
@@ -7,9 +10,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Unit Test for the Join Tables.
@@ -88,29 +88,33 @@ public class JoinTest {
     @Test
     public void joinThreeTables() {
         String [] testInput1 = {
-                "Table1,key1,Table2,key2,INNER JOIN",
-                "Table2,key22,Table3,key3,INNER JOIN"};
+            "Table1,key1,Table2,key2,INNER JOIN",
+            "Table2,key22,Table3,key3,INNER JOIN"
+        };
         String [] testInput2 = {
-                "Table1,key1,Table2,key2,LEFT JOIN",
-                "Table2,key22,Table3,key3,RIGHT JOIN"};
+            "Table1,key1,Table2,key2,LEFT JOIN",
+            "Table2,key22,Table3,key3,RIGHT JOIN"
+        };
         String [] testInput3 = {
-                "Table1,key1,Table2,key2,FULL OUTER JOIN",
-                "Table2,key22,Table3,key3,LEFT JOIN"};
+            "Table1,key1,Table2,key2,FULL OUTER JOIN",
+            "Table2,key22,Table3,key3,LEFT JOIN"
+        };
         String [] testInput4 = {
-                "Table1,key1,Table2,key2,INNER JOIN",
-                "Table2,key22,Table3,key3,LEFT JOIN"};
+            "Table1,key1,Table2,key2,INNER JOIN",
+            "Table2,key22,Table3,key3,LEFT JOIN"
+        };
         String expectedTest1 = "`Table1` INNER JOIN `Table2` ON " +
-                "`Table1`.`key1`=`Table2`.`key2` " +
-                "INNER JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` ";
+            "`Table1`.`key1`=`Table2`.`key2` " +
+            "INNER JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` ";
         String expectedTest2 = "`Table1` LEFT JOIN `Table2` ON " +
-                "`Table1`.`key1`=`Table2`.`key2` " +
-                "RIGHT JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` ";
+            "`Table1`.`key1`=`Table2`.`key2` " +
+            "RIGHT JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` ";
         String expectedTest3 = "`Table1` FULL OUTER JOIN `Table2` ON " +
-                "`Table1`.`key1`=`Table2`.`key2` " +
-                "LEFT JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` ";
+            "`Table1`.`key1`=`Table2`.`key2` " +
+            "LEFT JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` ";
         String expectedTest4 = "`Table1` INNER JOIN `Table2` ON " +
-                "`Table1`.`key1`=`Table2`.`key2` "+
-                "LEFT JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` ";
+            "`Table1`.`key1`=`Table2`.`key2` "+
+            "LEFT JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` ";
 
         Assert.assertEquals(
                 expectedTest1,
@@ -139,14 +143,14 @@ public class JoinTest {
     @Test
     public void joinFourTables() {
         String [] testInput1 = {
-                "Table1,key1,Table2,key2,LEFT JOIN",
-                "Table2,key22,Table3,key3,INNER JOIN",
-                "Table3,key32,Table4,key4,RIGHT JOIN"
+            "Table1,key1,Table2,key2,LEFT JOIN",
+            "Table2,key22,Table3,key3,INNER JOIN",
+            "Table3,key32,Table4,key4,RIGHT JOIN"
         };
         String expectedTest1 = "`Table1` LEFT JOIN `Table2` ON " +
-                "`Table1`.`key1`=`Table2`.`key2` " +
-                "INNER JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` " +
-                "RIGHT JOIN `Table4` ON `Table3`.`key32`=`Table4`.`key4` ";
+            "`Table1`.`key1`=`Table2`.`key2` " +
+            "INNER JOIN `Table3` ON `Table2`.`key22`=`Table3`.`key3` " +
+            "RIGHT JOIN `Table4` ON `Table3`.`key32`=`Table4`.`key4` ";
 
         Assert.assertEquals(
                 expectedTest1,
