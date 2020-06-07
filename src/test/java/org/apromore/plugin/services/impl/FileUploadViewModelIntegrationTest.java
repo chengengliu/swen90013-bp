@@ -60,8 +60,8 @@ public class FileUploadViewModelIntegrationTest {
                 "/userdata1.parquet");
         List<WebElement> list = driver.findElements(By.className("z-button"));
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        // The fourth button is Upload the file.
-        list.get(3).click();
+        // The seventh button is Upload the file.
+        list.get(6).click();
         WebElement eyeIcon = driver.findElement(By.className("z-icon-eye"));
 
         assertNotNull(eyeIcon);
