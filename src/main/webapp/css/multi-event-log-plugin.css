@@ -15,8 +15,8 @@
 }
 
 .banner-logo{
-	height: 4%;
-	width: 16%;
+	height: 3%;
+	width: 12%;
 	/*height: 100px;*/
 	/*width: 420px;*/
 	padding: 10px;
@@ -67,8 +67,7 @@
 }
 
 .input-table-scroll-area{
-	width: 700px;
-	height: 300px;
-	border: 1px solid black;
+	max-width: 80%;
+	max-height: 80%;
 	overflow: auto;
 }

@@ -34,7 +34,13 @@ public class JoinTable {
      * @param key The column field that is connected to the forward table
      */
     public void addKey(String forwardTable, String key) {
-        joinKeys.put(forwardTable, tableName + "." + key);
+        String joinKey = String.format(
+                            "`%s`.`%s`",
+                            tableName,
+                            key
+        );
+
+        joinKeys.put(forwardTable, joinKey);
     }
 
     /**

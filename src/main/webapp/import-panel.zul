@@ -6,7 +6,7 @@
 
         <!-- Upload and Download buttons -->
         <hlayout sclass="button-area" >
-            <button id="btnUpload" label="Upload"
+            <button id="btnUpload" label="Add Logs"
                     onClick="@command('onFileUpload')"
                     mold="trendy" />
             <button id="btnDownload" label="Download"
