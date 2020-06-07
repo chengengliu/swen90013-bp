@@ -11,13 +11,13 @@ import org.zkoss.util.media.Media;
  */
 public interface FileHandlerService {
     /**
-     * Writes the input file to an output stream.
+     * Writes the input files to an output stream.
      *
-     * @param media the input file.
+     * @param medias the input files.
      * @return return the message to show on client side.
      * @throws IllegalFileTypeException if the file type is unsupported
      */
-    String writeFiles(Media media) throws IOException, IllegalFileTypeException;
+    String writeFiles(Media[] medias) throws IOException, IllegalFileTypeException;
 
     /**
      * Output the file.

@@ -85,34 +85,34 @@ public class FileUploadViewModel {
      */
     @Command("onFileUpload")
     public void onFileUpload() {
-        Media media = Fileupload.get();
-        if (media != null) {
+        Media[] medias = Fileupload.get(-1);
+        if (medias.length > 0) {
             String returnMessage;
 
             try {
-                returnMessage = fileHandlerService.writeFiles(media);
+                returnMessage = fileHandlerService.writeFiles(medias);
 
-                // If the file was written then load in impala and get snippet
-                if (returnMessage.equals("Upload Success")) {
-                    List<List<String>> resultsList = null;
+                // If the files were written then load in impala and get snippet
+                // if (returnMessage.equals("Upload Success")) {
+                //     List<List<String>> resultsList = null;
 
-                    try {
-                        transactionService.addTable(media.getName());
-                        resultsList = transactionService
-                                .getSnippet(media.getName(), 10);
+                //     try {
+                //         transactionService.addTable(media.getName());
+                //         resultsList = transactionService
+                //                 .getSnippet(media.getName(), 10);
 
-                        // Create result String
-                        textTable = createTableOutput(resultsList);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                //         // Create result String
+                //         textTable = createTableOutput(resultsList);
+                //     } catch (SQLException e) {
+                //         e.printStackTrace();
+                //     }
 
-                    // Prevent the same file from appearing in the list twice
-                    if (!filenames.contains(media.getName())) {
-                        filenames.add(media.getName());
-                        addFileToUIList(media.getName(), resultsList);
-                    }
-                }
+                //     // Prevent the same file from appearing in the list twice
+                //     if (!filenames.contains(media.getName())) {
+                //         filenames.add(media.getName());
+                //         addFileToUIList(media.getName(), resultsList);
+                //     }
+                // }
 
                 Messagebox.show(returnMessage);
             } catch (IOException e) {
