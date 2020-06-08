@@ -34,7 +34,6 @@
 	text-align: center;
 	box-shadow: 0 3px 7px 1px rgba(0,0,0,0.05);
 	border-radius: 3px;
-	width: 99%;
 	height: 100%;
 	margin: auto;
 	padding: 10px;
@@ -133,4 +132,74 @@
 	border-style: none;
 	font-weight: bold;
 	background-color: #3f666c;
+}
+
+.z-tab {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 13px;
+	display: block;
+	border-bottom: 2px solid transparent;
+	margin: auto;
+	line-height: 30px;
+	background: #636363;
+	text-align: center;
+	position: relative;
+	cursor: pointer;
+	float: left;
+	padding: 10px 16px;
+}
+
+.z-tabs-content {
+	display: flex;
+	min-height: 48px;
+	border-collapse: separate;
+	border-spacing: 0;
+	background: #636363;
+	margin: auto;
+	padding-left: 0;
+	padding-top: 0;
+	list-style: none outside none;
+	zoom: 1;
+	clear: both;
+}
+
+.z-tab-selected {
+	background: #6f6f6f;
+}
+
+.z-tab-selected:hover {
+	background: #6f6f6f;
+}
+
+.z-tab:hover {
+	background: #6f6f6f;
+}
+
+.z-tab-selected .z-tab-text {
+	color: #ffffff;
+}
+
+.z-tab-selected .z-tab-text:hover {
+	color: #ffffff;
+}
+
+.z-tab-text:hover {
+	color: #ffffff;
+}
+
+.z-tab-text {
+	font-style: normal;
+	color: #ffffff;
+	display: block;
+	line-height: 24px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.z-tabpanel {
+	border-top: 1px solid #D9D9D9;
+	padding: 10px 0;
+	zoom: 1;
+	color: rgba(0,0,0,0.9);
 }

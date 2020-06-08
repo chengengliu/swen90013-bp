@@ -1,22 +1,37 @@
 <?link rel="stylesheet" type="text/css" href="/css/multi-event-log-plugin.css"?>
 <zk>
-    <vlayout sclass="left-panel" apply="org.zkoss.bind.BindComposer"
-            viewModel="@id('vm') @init('org.apromore.plugin.FileUploadViewModel')">
-        <!-- Left panel section -->
+    <tabbox height="100%">
+        <tabs id="joinTabs" width="100%">
+            <tab label="Data Join" width="50%"/>
+            <tab label="Data Transfer" width="50%"/>
+        </tabs>
+        <tabpanels id="joinPanels" sclass="left-panel">
+            <tabpanel >
+                <vlayout apply="org.zkoss.bind.BindComposer"
+                            viewModel="@id('vm') @init('org.apromore.plugin.FileUploadViewModel')">
+                    <!-- Left panel section -->
 
-        <button id="btnUpload" label="Upload"
-            onClick="@command('onFileUpload')"
-            mold="trendy" hflex="1"
-        />
+                    <button id="btnUpload" label="Upload"
+                        onClick="@command('onFileUpload')"
+                        mold="trendy" hflex="1"
+                    />
 
-        <space/>
+                    <space/>
 
-        <label sclass="heading" value="Tables"/>
-        <space/>
-        <!-- Add list of input tables here -->
+                    <label sclass="heading" value="Tables"/>
+                    <space/>
+                    <!-- Add list of input tables here -->
 
-		<div id="inputFileList" sclass="file-list-div" hflex="1">
-			<!-- List of input files will be generated here -->
-        </div>
-    </vlayout>
+                    <div id="inputFileList" sclass="file-list-div" hflex="1">
+                        <!-- List of input files will be generated here -->
+                    </div>
+                </vlayout>
+            </tabpanel>
+            <tabpanel>
+                <div>
+                    <label sclass="heading" value="Coming Soon!"/>
+                </div>
+            </tabpanel>
+        </tabpanels>
+    </tabbox>
 </zk>
