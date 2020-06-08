@@ -59,7 +59,7 @@
 }
 
 .heading{
-	font-size:18pt;
+	font-size: 18pt;
 }
 
 .input-table-scroll-area{
@@ -70,11 +70,16 @@
 
 .consolidated-excerpt-grid{
 	border: 1px solid black;
+	overflow: auto;
+}
+
+.input-excerpt-grid{
+	border: 1px solid black;
 }
 
 .expand-window{
-	width: 90%;
-	height: 90%;
+	max-width: 90%;
+	max-height: 90%;
 	margin: auto;
 	position: relative;
 }
@@ -99,6 +104,10 @@
 .columns-class{
 	background-color: #3f666c;
 	border: 1px solid black;
+	font-weight: bold;
+}
+
+.no-files-label .z-label{
 	font-weight: bold;
 }
 

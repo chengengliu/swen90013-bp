@@ -46,6 +46,9 @@ public class FileUploadViewModel {
     @Wire("#inputFileList")
     private Div inputFileList;
 
+    @Wire("#noFilesValue")
+    private Label noFilesValue;
+
     @WireVariable
     private Transaction transactionService;
 
@@ -126,6 +129,7 @@ public class FileUploadViewModel {
                             BindUtils.postGlobalCommand(null, null,
                                     "newFileUpload", args);
 
+                            noFilesValue.detach();
                             addFileToUIList(media.getName(), resultsList);
                         }
                     }

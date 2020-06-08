@@ -22,6 +22,9 @@
                     <space/>
                     <!-- Add list of input tables here -->
 
+                    <label id="noFilesValue" sclass="no-files-label"
+                        value="No Files Uploaded!"/>
+
                     <div id="inputFileList" sclass="file-list-div" hflex="1">
                         <!-- List of input files will be generated here -->
                     </div>

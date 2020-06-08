@@ -2,11 +2,11 @@
 <zk>
 
     <window closable="true" onClose="self.visible = false; event.stopPropagation();" visible="false" id="expandedWindow"
-        hflex="1" vflex="1" sclass="expand-window" position="center" mode="highlighted"
+        hflex="min" vflex="1" sclass="expand-window" position="center" mode="highlighted"
         contentStyle="overflow:auto;" apply="org.zkoss.bind.BindComposer"
         viewModel="@id('vm_inputExpandExcerpt') @init('org.apromore.plugin.InputExpandedExcerptViewModel')">
 
-        <grid id='inputExcerpt' vflex="1" hflex="min" sclass="consolidated-excerpt-grid">
+        <grid id='inputExcerpt' vflex="1" hflex="min" sclass="input-excerpt-grid">
 
         </grid>
     </window>
