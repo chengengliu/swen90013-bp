@@ -18,21 +18,24 @@ import static org.powermock.api.easymock.PowerMock.*;
  * Test class for TransactionImpl.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ ImpalaJdbcAdaptor.class })
+@PrepareForTest({ ImpalaJdbcAdaptor.class, ImpalaTable.class })
 public class TransactionImplTest {
     private TransactionImpl transaction;
     private ImpalaJdbcAdaptor impalaJdbc;
+    private ImpalaTable impalaTable;
 
     /**
      * Setup for tests.
-     * Initialize transaction, mock an impalaJbdc instance
-     * and inject mock impalaJbdc into the transaction
+     * Initialize transaction, mock ImpalaJbdc and ImpalaTable instances
+     * and inject mock instances into the transaction
      */
     @Before
     public void setup() {
         transaction = new TransactionImpl();
         impalaJdbc = createMock(ImpalaJdbcAdaptor.class);
+        impalaTable = createMock(ImpalaTable.class);
         Whitebox.setInternalState(transaction, "impalaJdbc", impalaJdbc);
+        Whitebox.setInternalState(transaction, "impalaTable", impalaTable);
     }
 
     /**
@@ -43,7 +46,7 @@ public class TransactionImplTest {
         String tableName = "testFile";
         String fileName = tableName + ".parquet";
 
-        impalaJdbc.createParquetTable(tableName, fileName);
+        impalaTable.createParquetTable(tableName, fileName);
         expectLastCall();
 
         replayAll();
@@ -59,7 +62,7 @@ public class TransactionImplTest {
         String tableName = "testFile";
         String fileName = tableName + ".csv";
 
-        impalaJdbc.createCsvTable(tableName, fileName);
+        impalaTable.createCsvTable(tableName, fileName);
         expectLastCall();
 
         replayAll();
@@ -96,7 +99,7 @@ public class TransactionImplTest {
         int limit = 2147483647;
         List<List<String>> snippet = null;
 
-        impalaJdbc.createParquetTable(tableName, fileName);
+        impalaTable.createParquetTable(tableName, fileName);
         expectLastCall();
 
         expect(impalaJdbc.executeQuery(

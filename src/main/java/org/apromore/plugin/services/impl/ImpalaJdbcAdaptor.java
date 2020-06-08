@@ -16,6 +16,24 @@ public class ImpalaJdbcAdaptor {
     private final String jdbcDriverName = "com.cloudera.impala.jdbc41.Driver";
 
     /**
+     * Establish the connection and return a statement instance.
+     *
+     * @return the sql statement instance
+     * @throws ClassNotFoundException if unable to find jdbc driver class
+     * @throws SQLException Sql failure
+     */
+    private Statement getStatement()
+        throws ClassNotFoundException, SQLException {
+        Class.forName(jdbcDriverName);
+        try (
+            Connection connection = DriverManager.getConnection(connectionUrl);
+            Statement statement = connection.createStatement();
+        ) {
+            return statement;
+        }
+    }
+
+    /**
      * Execute the raw query commands in the Impala.
      *
      * @param query statement
@@ -23,14 +41,8 @@ public class ImpalaJdbcAdaptor {
      */
     public void execute(String query) throws SQLException {
         try {
-            Class.forName(jdbcDriverName);
-            try (
-                    Connection connection = DriverManager
-                            .getConnection(connectionUrl);
-                    Statement statement = connection.createStatement();
-            ) {
-                statement.execute(query);
-            }
+            Statement statement = getStatement();
+            statement.execute(query);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -48,16 +60,10 @@ public class ImpalaJdbcAdaptor {
         String drop = "DROP TABLE IF EXISTS " + tableName;
 
         try {
-            Class.forName(jdbcDriverName);
-            try (
-                Connection connection = DriverManager
-                    .getConnection(connectionUrl);
-                Statement statement = connection.createStatement();
-            ) {
-                // Import table
-                statement.execute(drop);
-                statement.execute(create);
-            }
+            // Import table
+            Statement statement = getStatement();
+            statement.execute(drop);
+            statement.execute(create);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -75,38 +81,32 @@ public class ImpalaJdbcAdaptor {
         List<List<String>> resultList = new ArrayList<>();
 
         try {
-            Class.forName(jdbcDriverName);
-            try (
-                Connection connection = DriverManager
-                    .getConnection(connectionUrl);
-                Statement statement = connection.createStatement();
-            ) {
-                ResultSet resultSet = statement.executeQuery(sqlStatement);
-                ResultSetMetaData rsmd = resultSet.getMetaData();
-                int columnsNumber = rsmd.getColumnCount();
-                List<String> header = new ArrayList<>();
+            Statement statement = getStatement();
+            ResultSet resultSet = statement.executeQuery(sqlStatement);
+            ResultSetMetaData rsmd = resultSet.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            List<String> header = new ArrayList<>();
 
-                // Header
-                for (int i = 1; i <= columnsNumber; i++) {
-                    header.add(rsmd.getColumnName(i));
-                }
-
-                // Add the header
-                resultList.add(header);
-
-                // Parsing the returned result
-                while (resultSet.next()) {
-                    List<String> rowList = new ArrayList<>();
-
-                    for (int i = 1; i <= columnsNumber; i++) {
-                        rowList.add(resultSet.getString(i));
-                    }
-
-                    resultList.add(rowList);
-                }
-
-                System.out.println("Executed: " + sqlStatement);
+            // Header
+            for (int i = 1; i <= columnsNumber; i++) {
+                header.add(rsmd.getColumnName(i));
             }
+
+            // Add the header
+            resultList.add(header);
+
+            // Parsing the returned result
+            while (resultSet.next()) {
+                List<String> rowList = new ArrayList<>();
+
+                for (int i = 1; i <= columnsNumber; i++) {
+                    rowList.add(resultSet.getString(i));
+                }
+
+                resultList.add(rowList);
+            }
+
+            System.out.println("Executed: " + sqlStatement);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
