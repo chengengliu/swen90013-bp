@@ -6,7 +6,7 @@
 
         <button id="btnUpload" label="Upload"
             onClick="@command('onFileUpload')"
-            mold="trendy" hflex="1" sclass="upload-button"
+            mold="trendy" hflex="1"
         />
 
         <space/>

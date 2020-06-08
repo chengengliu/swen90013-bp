@@ -4,8 +4,8 @@
             viewModel="@id('vm') @init('org.apromore.plugin.JoinPanelViewModel')"
            	contentStyle="overflow:auto;">
 		<!-- Top panel section -->
-		<div>
-			<grid model="@load(vm.joinQueryModels)">
+		<vlayout vflex="1" hflex="1">
+			<grid model="@load(vm.joinQueryModels)" vflex="80">
 				<columns sclass="join-panel-columns">
 					<column hflex="5" sclass="join-panel-column-list" align="center">Table A</column>
 					<column hflex="5" sclass="join-panel-column-list" align="center">Table B</column>
@@ -70,8 +70,10 @@
 			   
 				</rows>
 			</grid>
-			<button label="+" onClick="@command('addJoinQuery')" />  
-			<button label="Submit" onClick="@command('submitQuery')"/>   
-		</div>
+			<hlayout vflex="20">
+                <button label="+" onClick="@command('addJoinQuery')"/>
+                <button label="Submit" onClick="@command('submitQuery')"/>
+            </hlayout>
+        </vlayout>
 	</window>
 </zk>

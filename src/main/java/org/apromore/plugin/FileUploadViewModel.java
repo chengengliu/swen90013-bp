@@ -168,14 +168,7 @@ public class FileUploadViewModel {
         fileListRow.appendChild(tableIcon);
 
         // Create the label
-
-        String labelName;
-        if (filename.endsWith("csv")) {
-            labelName = filename.substring(0, filename.length() - 4);
-        } else {
-            labelName = filename.substring(0, filename.length() - 8);
-        }
-        Label fileLabel = new Label(labelName);
+        Label fileLabel = new Label(filename);
         fileLabel.setHflex("1");
         fileLabel.setSclass("file-label");
         fileListRow.appendChild(fileLabel);

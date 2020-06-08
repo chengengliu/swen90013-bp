@@ -107,8 +107,21 @@
 	border: 1px solid black;
 }
 
-.upload-button{
-	width: 50px;
+.z-button{
+	background-color: #6c453f;
+	font-weight: bold;
+}
+
+.z-button:hover {
+	color: #FFFFFF;
+	border-color: transparent;
+	background-color: #7a5752;
+}
+
+.z-button:focus {
+	color: #FFFFFF;
+	border-color: #FFA516;
+	background-color: #7a5752;
 }
 
 .join-panel-columns{
