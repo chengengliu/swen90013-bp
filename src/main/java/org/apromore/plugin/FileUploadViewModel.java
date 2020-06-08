@@ -170,11 +170,10 @@ public class FileUploadViewModel {
         // Create the label
 
         String labelName;
-        if(filename.endsWith("csv")) {
-            labelName = filename.substring(0, filename.length()-4);
-        }
-        else {
-            labelName = filename.substring(0, filename.length()-8);
+        if (filename.endsWith("csv")) {
+            labelName = filename.substring(0, filename.length() - 4);
+        } else {
+            labelName = filename.substring(0, filename.length() - 8);
         }
         Label fileLabel = new Label(labelName);
         fileLabel.setHflex("1");
