@@ -148,19 +148,6 @@ public class FileUploadViewModel {
     }
 
     /**
-     * Describes the actions taken when a file is downloaded.
-     */
-    @Command("onFileDownload")
-    public void onFileDownload() {
-        File file = fileHandlerService.outputFile();
-        try {
-            Filedownload.save(file, null);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Adds a file to the list in UI.
      *
      * @param filename    the name of the file to add to the UI.

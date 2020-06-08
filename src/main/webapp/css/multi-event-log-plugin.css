@@ -100,8 +100,24 @@
 .columns-class{
 	background-color: #3f666c;
 	border: 1px solid black;
+	font-weight: bold;
 }
 
 .row-cell{
 	border: 1px solid black;
+}
+
+.upload-button{
+	width: 50px;
+}
+
+.join-panel-columns{
+	border-style: none;
+	font-weight: bold;
+}
+
+.join-panel-column-list{
+	border-style: none;
+	font-weight: bold;
+	background-color: #3f666c;
 }

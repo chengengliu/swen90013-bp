@@ -4,14 +4,12 @@
             viewModel="@id('vm') @init('org.apromore.plugin.FileUploadViewModel')">
         <!-- Left panel section -->
 
-        <!-- Upload and Download buttons -->
-        <hlayout sclass="button-area" >
-            <button id="btnUpload" label="Upload"
-                    onClick="@command('onFileUpload')"
-                    mold="trendy" />
-            <button id="btnDownload" label="Download"
-                    onClick="@command('onFileDownload')"/>
-        </hlayout>
+        <button id="btnUpload" label="Upload"
+            onClick="@command('onFileUpload')"
+            mold="trendy" hflex="1" sclass="upload-button"
+        />
+
+        <space/>
 
         <label sclass="heading" value="Tables"/>
         <space/>

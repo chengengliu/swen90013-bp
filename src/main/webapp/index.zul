@@ -19,8 +19,8 @@
         </div>
 
         <hlayout spacing="0.3em" hflex="1" vflex="1">
-            <include src="/import-panel.zul" vflex="1"/>
-            <vlayout spacing="1em" hflex="1" vflex="1">
+            <include src="/import-panel.zul" vflex="1" hflex="12"/>
+            <vlayout spacing="1em" hflex="88" vflex="1">
 
                 <include src="/join-panel.zul" vflex="4"/>
 

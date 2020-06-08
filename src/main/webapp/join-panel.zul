@@ -6,13 +6,13 @@
 		<!-- Top panel section -->
 		<div>
 			<grid model="@load(vm.joinQueryModels)">
-				<columns>
-					<column hflex="5" sclass="columns-class">Table A</column>
-					<column hflex="5" sclass="columns-class">Table B</column>
-					<column hflex="5" sclass="columns-class">Join Type</column>
-					<column hflex="5" sclass="columns-class">Key A</column>
-					<column hflex="5" sclass="columns-class">Key B</column>
-					<column hflex="1" sclass="columns-class"> </column>
+				<columns sclass="join-panel-columns">
+					<column hflex="5" sclass="join-panel-column-list" align="center">Table A</column>
+					<column hflex="5" sclass="join-panel-column-list" align="center">Table B</column>
+					<column hflex="5" sclass="join-panel-column-list" align="center">Join Type</column>
+					<column hflex="5" sclass="join-panel-column-list" align="center">Key A</column>
+					<column hflex="5" sclass="join-panel-column-list" align="center">Key B</column>
+					<column hflex="1" sclass="join-panel-column-list" align="center"> </column>
 				</columns>
 				<rows >
 					
