@@ -42,6 +42,8 @@ public class TableUtils {
                 // populate columns with headers
                 for (String cell: row) {
                     Column col = new Column(cell);
+                    col.setSclass("columns-class");
+                    col.setAlign("center");
                     cols.appendChild(col);
                 }
 
@@ -56,6 +58,7 @@ public class TableUtils {
                 for (String cell: row) {
 
                     Cell rowCell = new Cell();
+                    rowCell.setSclass("row-cell");
                     rowCell.appendChild(new Label(cell));
                     tableRow.appendChild(rowCell);
 

@@ -7,12 +7,12 @@
 		<div>
 			<grid model="@load(vm.joinQueryModels)">
 				<columns>
-					<column hflex="5">Table A</column>
-					<column hflex="5">Table B</column>
-					<column hflex="5">Join Type</column>
-					<column hflex="5">Key A</column>
-					<column hflex="5">Key B</column>
-					<column hflex="1"> </column>
+					<column hflex="5" sclass="columns-class">Table A</column>
+					<column hflex="5" sclass="columns-class">Table B</column>
+					<column hflex="5" sclass="columns-class">Join Type</column>
+					<column hflex="5" sclass="columns-class">Key A</column>
+					<column hflex="5" sclass="columns-class">Key B</column>
+					<column hflex="1" sclass="columns-class"> </column>
 				</columns>
 				<rows >
 					

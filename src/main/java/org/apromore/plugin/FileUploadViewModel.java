@@ -214,6 +214,8 @@ public class FileUploadViewModel {
 
         Grid inputGrid = new Grid();
         inputGrid.setId(filename + "Grid");
+        inputGrid.setSclass("consolidated-excerpt-grid");
+        inputGrid.setHflex("min");
         scrollArea.appendChild(inputGrid);
 
         // Add some spacing

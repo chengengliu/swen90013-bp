@@ -6,7 +6,7 @@
         contentStyle="overflow:auto;" apply="org.zkoss.bind.BindComposer"
         viewModel="@id('vm_inputExpandExcerpt') @init('org.apromore.plugin.InputExpandedExcerptViewModel')">
 
-        <grid id='inputExcerpt' vflex="1" sclass="consolidated-excerpt-grid">
+        <grid id='inputExcerpt' vflex="1" hflex="min" sclass="consolidated-excerpt-grid">
 
         </grid>
     </window>

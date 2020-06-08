@@ -70,7 +70,7 @@
 }
 
 .consolidated-excerpt-grid{
-	border: none;
+	border: 1px solid black;
 }
 
 .expand-window{
@@ -95,4 +95,13 @@
 
 .eye-button{
 	padding-right: 20%
+}
+
+.columns-class{
+	background-color: #3f666c;
+	border: 1px solid black;
+}
+
+.row-cell{
+	border: 1px solid black;
 }
