@@ -1,31 +1,33 @@
 <?link rel="stylesheet" type="text/css" href="/css/multi-event-log-plugin.css"?>
 <zk>
-    <vlayout sclass="main-window" hflex="1" vflex="1">
+
+    <window closable="true" onClose="self.visible = false; event.stopPropagation();" visible="false" id="expandedWindow"
+        hflex="1" vflex="1" sclass="expand-window" position="center" mode="highlighted"
+        contentStyle="overflow:auto;" apply="org.zkoss.bind.BindComposer"
+        viewModel="@id('vm_inputExpandExcerpt') @init('org.apromore.plugin.InputExpandedExcerptViewModel')">
+
+        <grid id='inputExcerpt' vflex="1" sclass="consolidated-excerpt-grid">
+
+        </grid>
+    </window>
+
+    <vlayout sclass="main-window" hflex="1" vflex="1" spacing="0.7em">
         <!-- Apromore banner -->
-        <div sclass="banner" hflex="1">
+        <div sclass="banner-header" hflex="1">
             <image src="https://apromore.org/wp-content/uploads/2019/10/Logo-white@2x.png"
                 sclass = "banner-logo"/>
         </div>
 
-        <hlayout spacing="0.4em" hflex="1" vflex="1">
+        <hlayout spacing="0.3em" hflex="1" vflex="1">
             <include src="/import-panel.zul" vflex="1"/>
-            <vlayout spacing="0.4em" hflex="1" vflex="1">
+            <vlayout spacing="1em" hflex="1" vflex="1">
 
-                <window sclass="card" border="normal" vflex="3">
-                    <!-- Top panel section -->
-                    <div sclass="top-right-panel-center">
-                        Add input tables to join here
-                    </div>
-                </window>
+                <include src="/join-panel.zul" vflex="4"/>
 
-                <window sclass="card" border="normal" vflex="7">
-                    <!-- Bottom panel section -->
-                    <div sclass="bottom-right-panel-center">
-                        Insert Join Table here
-                    </div>
-                </window>
-
+                <include src="/join-excerpt.zul" vflex="6"/>
             </vlayout>
+            
         </hlayout>
+        <div sclass="banner-footer" hflex="1"></div>
     </vlayout>
 </zk>

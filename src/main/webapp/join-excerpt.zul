@@ -1,0 +1,14 @@
+<?link rel="stylesheet" type="text/css" href="/css/multi-event-log-plugin.css"?>
+<zk>
+
+    <window sclass="card" vflex="7" apply="org.zkoss.bind.BindComposer"
+        viewModel="@id('vm_excerpt') @init('org.apromore.plugin.JoinExcerptViewModel')"
+        contentStyle="overflow:auto;">
+
+        <grid id='excerpt' vflex="1" sclass="consolidated-excerpt-grid">
+            <!-- Output excerpt grid will be displayed here -->
+        </grid>
+
+    </window>
+
+</zk>
