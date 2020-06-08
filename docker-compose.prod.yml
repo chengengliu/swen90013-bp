@@ -2,6 +2,8 @@ version: "3.7"
 
 services:
   apromore-preprocessing:
+    environment:
+      - JAVA_OPTIONS=-XX:MaxRAMFraction=2
     restart: always
 
   impala:
