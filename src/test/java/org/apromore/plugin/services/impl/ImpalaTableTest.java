@@ -57,7 +57,7 @@ public class ImpalaTableTest {
             testTableName);
 
         replayAll();
-           impalaTable.createParquetTable(testTableName, testFileName);
+        impalaTable.createParquetTable(testTableName, testFileName);
         verifyAll();
     }
 
@@ -122,7 +122,7 @@ public class ImpalaTableTest {
 
         String testFileName = testTableName + ".csv";
         replayAll();
-           impalaTable.createCsvTable(testTableName, testFileName);
+        impalaTable.createCsvTable(testTableName, testFileName);
         verifyAll();
     }
 }

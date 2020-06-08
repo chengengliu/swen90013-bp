@@ -24,11 +24,10 @@ public class ImpalaTable {
     private final String dataPath = System.getProperty("java.io.tmpdir") +
             System.getenv("DATA_STORE");
 
-
     private String getColumnsFrom(File file) throws IOException {
         try (
-                FileReader fileReader = new FileReader(file);
-                BufferedReader br = new BufferedReader(fileReader);
+            FileReader fileReader = new FileReader(file);
+            BufferedReader br = new BufferedReader(fileReader);
         ) {
             String columns = "";
 
@@ -36,7 +35,7 @@ public class ImpalaTable {
             List<String> firstRow = Arrays.asList(br.readLine().split(","));
 
             for (int i = 0; i < headers.size(); i++) {
-            columns += String.format(
+                columns += String.format(
                     "`%s` %s, ",
                     headers.get(i),
                     StringUtils.getColumnType(firstRow.get(i)));
