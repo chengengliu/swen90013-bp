@@ -27,6 +27,7 @@ public class FileHandlerServiceImpl implements FileHandlerService {
     private static final int BUFFER_SIZE = 1024;
     private static final String UPLOAD_FAILED = "Upload Failed";
     private static final String UPLOAD_SUCCESS = "Upload Success";
+    private static final String UPLOAD_DUPLICATE = "File Duplicate";
     private String tempDir = System.getProperty("java.io.tmpdir") +
         System.getenv("DATA_STORE");
 
@@ -82,7 +83,7 @@ public class FileHandlerServiceImpl implements FileHandlerService {
      * @param fileName the name of the file.
      * @return  true implies no conflict, false implies conflict file name.
      */
-    boolean checkConflictFileName(String fileName) {
+    private boolean checkConflictFileName(String fileName) {
         if (uploadedNameList.contains(fileName)) {
             return false;
         } else {
@@ -105,7 +106,7 @@ public class FileHandlerServiceImpl implements FileHandlerService {
             String path;
 
             if (!checkConflictFileName(fileName)) {
-                return UPLOAD_FAILED;
+                return UPLOAD_DUPLICATE;
             }
 
             if (fileName.endsWith(".csv")) {

@@ -26,11 +26,10 @@ import static org.easymock.EasyMock.*;
 public class FileHandlerServiceImplTest extends EasyMockSupport {
     private static final String UPLOAD_FAILED = "Upload Failed";
     private static final String UPLOAD_SUCCESS = "Upload Success";
+    private static final String UPLOAD_DUPLICATE = "File Duplicate";
 
-    // Inject dependencies managed by Spring.
-    @Autowired
-    FileHandlerService service;
 
+    FileHandlerServiceImpl service;
     Media media;
     Media media1;
     Media media2;
@@ -44,6 +43,7 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
      */
     @Before
     public void setup() {
+        service = new FileHandlerServiceImpl();
         media = createMock(Media.class);
         inputStream = new ByteArrayInputStream("data".getBytes());
 
@@ -61,7 +61,7 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
      * Test if string file is successfully saved.
      */
     @Test
-    public void writeStringFilesTest() throws IOException {
+    public void writeStringFilesTest() {
         String mockString = "test";
 
         expect(media.getName()).andReturn("file.parquet");
@@ -73,7 +73,7 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
 
         try {
             Assert.assertEquals(service.writeFiles(medias), UPLOAD_SUCCESS);
-        } catch (IOException | IllegalFileTypeException e) {
+        } catch (IllegalFileTypeException e) {
             e.printStackTrace();
         }
 
@@ -84,7 +84,7 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
      * Test if stream file is successfully saved.
      */
     @Test
-    public void writeStreamFilesTest() throws IOException {
+    public void writeStreamFilesTest() throws Exception {
         bufferedInputStream = createMockBuilder(BufferedInputStream.class)
                 .withConstructor(InputStream.class)
                 .withArgs(inputStream)
@@ -132,7 +132,7 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
 
         try {
             service.writeFiles(medias);
-        } catch (IOException | IllegalFileTypeException e) {
+        } catch (IllegalFileTypeException e) {
             e.printStackTrace();
         }
 
