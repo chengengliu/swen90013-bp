@@ -1,6 +1,7 @@
 package org.apromore.plugin.services.impl;
 
 import java.io.*;
+import java.util.ArrayList;
 
 import org.apromore.plugin.PluginConfig;
 import org.apromore.plugin.services.FileHandlerService;
@@ -88,10 +89,12 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
                 .withConstructor(InputStream.class)
                 .withArgs(inputStream)
                 .createMock();
+        final ArrayList<String> mockList = new ArrayList<String>();
 
         expect(media.getName()).andReturn("file.parquet");
         expect(media.isBinary()).andReturn(true);
         expect(media.getStreamData()).andReturn(inputStream);
+        service.setUploadedNameList(mockList);
 
         bufferedInputStream.close();
         expectLastCall();
@@ -117,10 +120,12 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
                 .withConstructor(InputStream.class)
                 .withArgs(null)
                 .createMock();
+        final ArrayList<String> mockList = new ArrayList<String>();
 
         expect(media.getName()).andReturn("file.parquet");
         expect(media.isBinary()).andReturn(true);
         expect(media.getStreamData()).andReturn(null);
+        service.setUploadedNameList(mockList);
 
         replayAll();
         Media[] medias = { media };

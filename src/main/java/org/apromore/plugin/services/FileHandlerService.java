@@ -35,4 +35,10 @@ public interface FileHandlerService {
      */
     ArrayList<File> outputFiles();
 
+    /**
+     * Update the uploadedNameList.
+     * @param list the list to update.
+     */
+    void setUploadedNameList(ArrayList<String> list);
+
 }

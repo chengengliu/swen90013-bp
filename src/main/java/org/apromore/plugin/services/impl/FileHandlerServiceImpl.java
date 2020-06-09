@@ -78,6 +78,20 @@ public class FileHandlerServiceImpl implements FileHandlerService {
     }
 
     /**
+     * Check if the files uploaded have conflict names.
+     * @param fileName the name of the file.
+     * @return  true implies no conflict, false implies conflict file name.
+     */
+    boolean checkConflictFileName(String fileName) {
+        if (uploadedNameList.contains(fileName)) {
+            return false;
+        } else {
+            uploadedNameList.add(fileName);
+            return true;
+        }
+    }
+
+    /**
      * Writes the input file to an output buffer.
      *
      * @param medias the input files.
@@ -90,10 +104,8 @@ public class FileHandlerServiceImpl implements FileHandlerService {
             String fileName = media.getName();
             String path;
 
-            if (uploadedNameList.contains(fileName)) {
+            if (!checkConflictFileName(fileName)) {
                 return UPLOAD_FAILED;
-            } else {
-                uploadedNameList.add(fileName);
             }
 
             if (fileName.endsWith(".csv")) {
@@ -179,5 +191,13 @@ public class FileHandlerServiceImpl implements FileHandlerService {
         } else {
             System.out.println("File does not exist");
         }
+    }
+
+    /**
+     * Setter for uploadedNameList.
+     * @param list the list to update.
+     */
+    public void setUploadedNameList(ArrayList<String> list) {
+        this.uploadedNameList = list;
     }
 }
