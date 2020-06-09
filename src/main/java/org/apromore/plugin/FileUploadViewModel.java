@@ -93,7 +93,7 @@ public class FileUploadViewModel {
     @Command("onFileUpload")
     public void onFileUpload() {
         Media[] medias = Fileupload.get(MAX_FILES_NUMBER);
-
+	System.out.println("");
         if (medias != null && medias.length > 0 && medias.length <= 10) {
             String returnMessage;
 
