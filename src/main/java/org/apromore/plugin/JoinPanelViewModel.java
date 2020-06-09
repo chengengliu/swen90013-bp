@@ -18,6 +18,7 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.Messagebox;
 
 
 /**
@@ -102,10 +103,19 @@ public class JoinPanelViewModel {
 
         List<List<String>> totalJoinQuery = new ArrayList<>();
 
-        for (JoinQueryModel j: joinQueryModels) {
+        for (int i = 0; i < joinQueryModels.size(); i++) {
+            JoinQueryModel j = joinQueryModels.get(i);
             List<String> joinQueryAttributes = j.submit();
             totalJoinQuery.add(joinQueryAttributes);
             System.out.println(j);
+
+            //Handle empty row
+            if (!j.isComplete()) {
+                Messagebox.show("Row " + (i + 1) +
+                    "is incomplete.", "Error",
+                    Messagebox.OK, Messagebox.ERROR);
+                return;
+            }
         }
 
         List<List<String>> resultsList = null;
@@ -116,6 +126,12 @@ public class JoinPanelViewModel {
             args.put("resultsList", resultsList);
             BindUtils.postGlobalCommand(null, null, "onTableClick", args);
         } catch (SQLException e) {
+            Messagebox.show("Most likely incompatible key types", "Error",
+                Messagebox.OK, Messagebox.ERROR);
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            Messagebox.show("An error occurred with selected tables", "Error",
+                Messagebox.OK, Messagebox.ERROR);
             e.printStackTrace();
         }
     }
@@ -139,7 +155,9 @@ public class JoinPanelViewModel {
     @Command("removeJoinQuery")
     @NotifyChange("joinQueryModels")
     public void removeJoinQuery(@BindingParam("index") int index) {
-        joinQueryModels.remove(index);
+        if (joinQueryModels.size() > 1) {
+            joinQueryModels.remove(index);
+        }
     }
 
     /**
