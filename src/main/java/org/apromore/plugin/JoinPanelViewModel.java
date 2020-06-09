@@ -103,15 +103,15 @@ public class JoinPanelViewModel {
         List<List<String>> totalJoinQuery = new ArrayList<>();
 
         for (int i = 0; i < joinQueryModels.size(); i++) {
-        	JoinQueryModel j = joinQueryModels.get(i);
+            JoinQueryModel j = joinQueryModels.get(i);
             List<String> joinQueryAttributes = j.submit();
             totalJoinQuery.add(joinQueryAttributes);
             System.out.println(j);
             
             //Handle empty row
             if (!j.isComplete()) {
-            	Messagebox.show("Row " + (i+1) + " is incomplete.", "Error", Messagebox.OK, Messagebox.ERROR);
-            	return;
+                Messagebox.show("Row " + (i+1) + " is incomplete.", "Error", Messagebox.OK, Messagebox.ERROR);
+                return;
             }
         }
 
@@ -123,10 +123,10 @@ public class JoinPanelViewModel {
             args.put("resultsList", resultsList);
             BindUtils.postGlobalCommand(null, null, "onTableClick", args);
         } catch (SQLException e) {
-        	Messagebox.show("SQL Error", "Error", Messagebox.OK, Messagebox.ERROR);
+            Messagebox.show("Most likely incompatible key types", "Error", Messagebox.OK, Messagebox.ERROR);
             e.printStackTrace();
         } catch (NullPointerException e) {
-        	Messagebox.show("Null Error", "Error", Messagebox.OK, Messagebox.ERROR);
+            Messagebox.show("An error occurred with selected tables", "Error", Messagebox.OK, Messagebox.ERROR);
             e.printStackTrace();
         }
     }
@@ -151,8 +151,8 @@ public class JoinPanelViewModel {
     @NotifyChange("joinQueryModels")
     public void removeJoinQuery(@BindingParam("index") int index) {
         if(joinQueryModels.size()>1) {
-        	joinQueryModels.remove(index);
-        } 	
+            joinQueryModels.remove(index);
+        }   
     }
 
     /**

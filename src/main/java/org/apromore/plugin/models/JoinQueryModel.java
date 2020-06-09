@@ -48,15 +48,15 @@ public class JoinQueryModel {
      * @return True if all fields have been assigned and false if not.
      */
     public Boolean isComplete() {
-    	Boolean isComplete;  	
-    	if(selectedTableA == null || selectedTableB == null ||
-    			selectedJoin == null || selectedKeyA == null ||
-    			selectedKeyB == null) {
-    		isComplete = false;  		
-    	} else {
-    		isComplete = true;
-    	}	
-    	return isComplete;
+        Boolean isComplete;     
+        if(selectedTableA == null || selectedTableB == null ||
+                selectedJoin == null || selectedKeyA == null ||
+                selectedKeyB == null) {
+            isComplete = false;         
+        } else {
+            isComplete = true;
+        }   
+        return isComplete;
     }
 
     /**
