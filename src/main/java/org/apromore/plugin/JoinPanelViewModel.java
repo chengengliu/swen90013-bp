@@ -17,6 +17,7 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.Messagebox;
 
 
 /**
@@ -115,6 +116,10 @@ public class JoinPanelViewModel {
             args.put("resultsList", resultsList);
             BindUtils.postGlobalCommand(null, null, "onTableClick", args);
         } catch (SQLException e) {
+        	Messagebox.show("SQL Error", "Error", Messagebox.OK, Messagebox.ERROR);
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+        	Messagebox.show("Null Error", "Error", Messagebox.OK, Messagebox.ERROR);
             e.printStackTrace();
         }
     }
