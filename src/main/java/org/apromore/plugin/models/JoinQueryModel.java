@@ -41,21 +41,21 @@ public class JoinQueryModel {
 
         return tableQuery;
     }
-    
+
     /**
-     * Have all fields been assigned?
-     * 
+     * Have all fields been assigned? True or false.
+     *
      * @return True if all fields have been assigned and false if not.
      */
     public Boolean isComplete() {
-        Boolean isComplete;     
-        if(selectedTableA == null || selectedTableB == null ||
+        Boolean isComplete;
+        if (selectedTableA == null || selectedTableB == null ||
                 selectedJoin == null || selectedKeyA == null ||
                 selectedKeyB == null) {
-            isComplete = false;         
+            isComplete = false;
         } else {
             isComplete = true;
-        }   
+        }
         return isComplete;
     }
 
