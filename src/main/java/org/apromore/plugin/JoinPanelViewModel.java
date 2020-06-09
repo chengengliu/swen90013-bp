@@ -102,10 +102,17 @@ public class JoinPanelViewModel {
 
         List<List<String>> totalJoinQuery = new ArrayList<>();
 
-        for (JoinQueryModel j: joinQueryModels) {
+        for (int i = 0; i < joinQueryModels.size(); i++) {
+        	JoinQueryModel j = joinQueryModels.get(i);
             List<String> joinQueryAttributes = j.submit();
             totalJoinQuery.add(joinQueryAttributes);
             System.out.println(j);
+            
+            //Handle empty row
+            if (!j.isComplete()) {
+            	Messagebox.show("Row " + (i+1) + " is incomplete.", "Error", Messagebox.OK, Messagebox.ERROR);
+            	return;
+            }
         }
 
         List<List<String>> resultsList = null;
