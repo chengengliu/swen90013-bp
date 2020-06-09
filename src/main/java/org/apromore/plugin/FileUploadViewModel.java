@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apromore.plugin.eventHandlers.ExpandIconDiv;
 import org.apromore.plugin.eventHandlers.EyeIconDiv;
 import org.apromore.plugin.services.FileHandlerService;
@@ -93,7 +94,7 @@ public class FileUploadViewModel {
     @Command("onFileUpload")
     public void onFileUpload() {
         Media[] medias = Fileupload.get(MAX_FILES_NUMBER);
-	System.out.println("");
+
         if (medias != null && medias.length > 0 && medias.length <= 10) {
             String returnMessage;
 
@@ -130,7 +131,9 @@ public class FileUploadViewModel {
                                     "newFileUpload", args);
 
                             noFilesValue.detach();
-                            addFileToUIList(media.getName(), resultsList);
+                            addFileToUIList(
+                                FilenameUtils.removeExtension(media.getName()),
+                                resultsList);
                         }
                     }
                 }
@@ -197,8 +200,7 @@ public class FileUploadViewModel {
 
         Grid inputGrid = new Grid();
         inputGrid.setId(filename + "Grid");
-        inputGrid.setSclass("consolidated-excerpt-grid");
-        inputGrid.setHflex("min");
+        inputGrid.setSclass("input-excerpt-grid-new");
         scrollArea.appendChild(inputGrid);
 
         // Add some spacing

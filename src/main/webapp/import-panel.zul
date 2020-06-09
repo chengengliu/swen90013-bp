@@ -3,7 +3,7 @@
     <tabbox height="100%">
         <tabs id="joinTabs" width="100%">
             <tab label="Data Join" width="50%"/>
-            <tab label="Data Transfer" width="50%"/>
+            <tab label="Transform" width="50%"/>
         </tabs>
         <tabpanels id="joinPanels" sclass="left-panel">
             <tabpanel >
