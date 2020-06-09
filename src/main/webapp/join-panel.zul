@@ -70,7 +70,8 @@
 			   
 				</rows>
 			</grid>
-			<hlayout vflex="20">
+			<space/>
+			<hlayout sclass="right-align" vflex="20">
                 <button label="+" onClick="@command('addJoinQuery')"/>
                 <button label="Submit" onClick="@command('submitQuery')"/>
             </hlayout>

@@ -115,6 +115,10 @@
 	border: 1px solid black;
 }
 
+.right-align{
+	float: right;
+}
+
 .z-button{
 	background-color: #6c453f;
 	font-weight: bold;
