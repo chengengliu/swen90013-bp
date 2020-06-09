@@ -138,7 +138,9 @@ public class JoinPanelViewModel {
     @Command("removeJoinQuery")
     @NotifyChange("joinQueryModels")
     public void removeJoinQuery(@BindingParam("index") int index) {
-        joinQueryModels.remove(index);
+        if(joinQueryModels.size()>1) {
+        	joinQueryModels.remove(index);
+        } 	
     }
 
     /**
