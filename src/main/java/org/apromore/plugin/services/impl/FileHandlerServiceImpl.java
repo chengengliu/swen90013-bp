@@ -23,6 +23,7 @@ import org.zkoss.util.media.Media;
  */
 @Service("fileHandlerService")
 public class FileHandlerServiceImpl implements FileHandlerService {
+    private ArrayList<String> uploadedNameList = new ArrayList<String>();
     private static final int BUFFER_SIZE = 1024;
     private static final String UPLOAD_FAILED = "Upload Failed";
     private static final String UPLOAD_SUCCESS = "Upload Success";
@@ -88,6 +89,12 @@ public class FileHandlerServiceImpl implements FileHandlerService {
             Media media = medias[i];
             String fileName = media.getName();
             String path;
+
+            if (uploadedNameList.contains(fileName)) {
+                return UPLOAD_FAILED;
+            } else {
+                uploadedNameList.add(fileName);
+            }
 
             if (fileName.endsWith(".csv")) {
                 path = this.tempDir + "/" +
