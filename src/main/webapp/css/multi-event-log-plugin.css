@@ -106,7 +106,7 @@
 
 .columns-class{
 	background-color: #6D878A;
-	border: 0px solid black;
+	border: 0;
 	font-weight: bold;
 }
 
@@ -116,7 +116,7 @@
 }
 
 .row-cell{
-	border: 0px solid black;
+	border: 0;
 }
 
 .right-align{
@@ -231,18 +231,14 @@
 
 .z-columns-bar {
 	background-color: #6D878A;
-	border-left: 0px;
-	border-bottom: 0px;
+	border-left: 0;
+	border-bottom: 0;
 }
 
 .z-grid-header-border {
 	border-bottom: 1px solid #54696c;
 	margin-top: -1px;
 	position: relative;
-}
-
-.z-grid-header-border {
-	border-bottom: 0px;
 }
 
 .z-loading-indicator {
