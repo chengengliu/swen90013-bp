@@ -5,7 +5,6 @@ import java.io.*;
 import org.apromore.plugin.PluginConfig;
 import org.apromore.plugin.services.FileHandlerService;
 import org.easymock.EasyMockSupport;
-import org.easymock.internal.matchers.LessThan;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,29 +56,6 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
     }
 
     /**
-     * Test if string file is successfully saved.
-     */
-    @Test
-    public void writeStringFilesTest() throws IOException {
-        String mockString = "test";
-
-        expect(media.getName()).andReturn("file.parquet");
-        expect(media.isBinary()).andReturn(false);
-        expect(media.getStringData()).andReturn(mockString);
-
-        replayAll();
-        Media[] medias = { media };
-
-        try {
-            Assert.assertEquals(service.writeFiles(medias), UPLOAD_SUCCESS);
-        } catch (IOException | IllegalFileTypeException e) {
-            e.printStackTrace();
-        }
-
-        verifyAll();
-    }
-
-    /**
      * Test if stream file is successfully saved.
      */
     @Test
@@ -90,7 +66,6 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
                 .createMock();
 
         expect(media.getName()).andReturn("file.parquet");
-        expect(media.isBinary()).andReturn(true);
         expect(media.getStreamData()).andReturn(inputStream);
 
         bufferedInputStream.close();
@@ -119,7 +94,6 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
                 .createMock();
 
         expect(media.getName()).andReturn("file.parquet");
-        expect(media.isBinary()).andReturn(true);
         expect(media.getStreamData()).andReturn(null);
 
         replayAll();
@@ -145,11 +119,9 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
                 .createMock();
 
         expect(media1.getName()).andReturn("file1.parquet");
-        expect(media1.isBinary()).andReturn(true);
         expect(media1.getStreamData()).andReturn(inputStream);
 
         expect(media2.getName()).andReturn("file2.csv");
-        expect(media2.isBinary()).andReturn(true);
         expect(media2.getStreamData()).andReturn(inputStream);
 
         bufferedInputStream.close();
