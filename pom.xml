@@ -6,7 +6,7 @@
     <version>1.0</version>
     <properties>
         <zk.version>9.0.0.1</zk.version>
-        <spring.version>5.2.6.RELEASE</spring.version>
+        <spring.version>5.2.7.RELEASE</spring.version>
         <commons-io>2.7</commons-io>
         <easymock.version>3.2</easymock.version>
         <powermock.version>2.0.7</powermock.version>
