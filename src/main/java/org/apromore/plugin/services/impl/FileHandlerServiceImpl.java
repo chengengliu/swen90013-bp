@@ -2,6 +2,7 @@ package org.apromore.plugin.services.impl;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.io.OutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apromore.plugin.services.FileHandlerService;
@@ -123,7 +125,10 @@ public class FileHandlerServiceImpl implements FileHandlerService {
             File file = new File(path);
 
             try (
-                InputStream fIn = media.getStreamData();
+                InputStream fIn = (
+                    media.isBinary() ?
+                    media.getStreamData() :
+                    new ByteArrayInputStream(media.getStringData().getBytes()));
                 OutputStream fOut = new FileOutputStream(file, false);
                 BufferedInputStream in = new BufferedInputStream(fIn);
                 BufferedOutputStream out = new BufferedOutputStream(fOut)
