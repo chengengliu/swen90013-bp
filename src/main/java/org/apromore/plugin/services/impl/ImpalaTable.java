@@ -62,9 +62,9 @@ public class ImpalaTable {
         String dir = dataPath + "/" + FilenameUtils.removeExtension(fileName);
 
         String create = "CREATE EXTERNAL TABLE `%s` " +
-                "LIKE PARQUET '%s' " +
-                "STORED AS PARQUET " +
-                "LOCATION '%s'";
+            "LIKE PARQUET '%s' " +
+            "STORED AS PARQUET " +
+            "LOCATION '%s'";
 
         create = String.format(create, tableName, dir + "/" + fileName, dir);
 
@@ -89,11 +89,11 @@ public class ImpalaTable {
 
         // Create Table in CSV/Textfile format
         String create = "CREATE EXTERNAL TABLE `%s` (%s) " +
-                        "ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' " +
-                        "LINES TERMINATED BY '\n' " +
-                        "STORED AS TEXTFILE " +
-                        "LOCATION '%s' " +
-                        "TBLPROPERTIES('skip.header.line.count'='1')";
+            "ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' " +
+            "LINES TERMINATED BY '\n' " +
+            "STORED AS TEXTFILE " +
+            "LOCATION '%s' " +
+            "TBLPROPERTIES('skip.header.line.count'='1')";
 
         create = String.format(
             create,
