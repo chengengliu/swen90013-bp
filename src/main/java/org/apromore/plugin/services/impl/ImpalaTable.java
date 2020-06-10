@@ -2,8 +2,10 @@ package org.apromore.plugin.services.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
@@ -22,12 +24,15 @@ public class ImpalaTable {
 
     // Impala connection info
     private final String dataPath = System.getProperty("java.io.tmpdir") +
-            System.getenv("DATA_STORE");
+        System.getenv("DATA_STORE");
 
     private String getColumnsFrom(File file) throws IOException {
         try (
-            FileReader fileReader = new FileReader(file);
-            BufferedReader br = new BufferedReader(fileReader);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            InputStreamReader inputStreamReader = new InputStreamReader(
+                fileInputStream,
+                StandardCharsets.UTF_8);
+            BufferedReader br = new BufferedReader(inputStreamReader);
         ) {
             String columns = "";
 
@@ -77,7 +82,7 @@ public class ImpalaTable {
     public void createCsvTable(String tableName, String fileName)
             throws IOException, SQLException {
         String dir = dataPath + "/" + FilenameUtils.removeExtension(fileName) +
-                "_csv";
+            "_csv";
         File file = new File(dir + "/" + fileName);
 
         String columns = getColumnsFrom(file);
@@ -91,37 +96,34 @@ public class ImpalaTable {
                         "TBLPROPERTIES('skip.header.line.count'='1')";
 
         create = String.format(
-                        create,
-                tableName + "_csv",
-                        columns.substring(0, columns.length() - 2),
-                        dir);
+            create,
+            tableName + "_csv",
+            columns.substring(0, columns.length() - 2),
+            dir);
 
         impalaJdbcAdaptor.createTable(create, tableName + "_csv");
 
         // Create File in Parquet format
         String query = "CREATE EXTERNAL TABLE `%s` " +
-                        "LIKE `%s` " +
-                        "STORED AS PARQUET " +
-                        "LOCATION '%s'";
+            "LIKE `%s` " +
+            "STORED AS PARQUET " +
+            "LOCATION '%s'";
 
         query = String.format(
-                        query,
-                tableName,
-                        tableName + "_csv",
-                        dataPath + "/" + tableName);
+            query,
+            tableName,
+            tableName + "_csv",
+            dataPath + "/" + tableName);
 
         impalaJdbcAdaptor.createTable(query, tableName);
 
-        impalaJdbcAdaptor.execute(String.format(
-                    "INSERT OVERWRITE TABLE `%s` SELECT * FROM `%s`",
+        impalaJdbcAdaptor.execute(
+            String.format(
+                "INSERT OVERWRITE TABLE `%s` SELECT * FROM `%s`",
                 tableName,
-                        tableName + "_csv")
-        );
+                tableName + "_csv"));
 
         impalaJdbcAdaptor.execute(
-                String.format(
-                        "DROP TABLE IF EXISTS `%s`",
-                        tableName + "_csv"));
-
+            String.format("DROP TABLE IF EXISTS `%s`", tableName + "_csv"));
     }
 }

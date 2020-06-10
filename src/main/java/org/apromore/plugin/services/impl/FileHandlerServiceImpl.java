@@ -7,11 +7,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.io.input.ReaderInputStream;
 import org.apromore.plugin.services.FileHandlerService;
 import org.springframework.stereotype.Service;
@@ -66,7 +68,6 @@ public class FileHandlerServiceImpl implements FileHandlerService {
         File dir = new File(this.tempDir);
         File[] directoryListing = dir.listFiles();
         if (directoryListing != null) {
-
             for (File f : directoryListing) {
                 files.add(f);
             }
@@ -127,9 +128,12 @@ public class FileHandlerServiceImpl implements FileHandlerService {
                 InputStream fIn = (
                     media.isBinary() ?
                     media.getStreamData() :
-                    new ReaderInputStream(media.getReaderData(), "US-ASCII"));
+                    new ReaderInputStream(
+                        media.getReaderData(),
+                        StandardCharsets.UTF_8));
                 OutputStream fOut = new FileOutputStream(file, false);
-                BufferedInputStream in = new BufferedInputStream(fIn);
+                BufferedInputStream in = new BufferedInputStream(
+                    new BOMInputStream(fIn));
                 BufferedOutputStream out = new BufferedOutputStream(fOut)
             ) {
                 byte buffer[] = new byte[BUFFER_SIZE];
@@ -166,7 +170,7 @@ public class FileHandlerServiceImpl implements FileHandlerService {
             System.out.println("set write permission: " + bwval);
             if (file.isDirectory()) {
                 boolean bxval = file.setExecutable(true, false);
-                System.out.println("Set execute permissions" + bxval);
+                System.out.println("Set execute permissions: " + bxval);
             }
         } else {
             System.out.println("File does not exist");
