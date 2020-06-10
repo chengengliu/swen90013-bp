@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.input.ReaderInputStream;
 import org.apromore.plugin.services.FileHandlerService;
 import org.springframework.stereotype.Service;
 import org.zkoss.util.media.Media;
@@ -123,7 +124,10 @@ public class FileHandlerServiceImpl implements FileHandlerService {
             File file = new File(path);
 
             try (
-                InputStream fIn = media.getStreamData();
+                InputStream fIn = (
+                    media.isBinary() ?
+                    media.getStreamData() :
+                    new ReaderInputStream(media.getReaderData(), "US-ASCII"));
                 OutputStream fOut = new FileOutputStream(file, false);
                 BufferedInputStream in = new BufferedInputStream(fIn);
                 BufferedOutputStream out = new BufferedOutputStream(fOut)
