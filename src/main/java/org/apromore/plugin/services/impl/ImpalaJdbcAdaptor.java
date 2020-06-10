@@ -99,7 +99,11 @@ public class ImpalaJdbcAdaptor {
                     List<String> rowList = new ArrayList<>();
 
                     for (int i = 1; i <= columnsNumber; i++) {
-                        rowList.add(resultSet.getString(i));
+                        if (resultSet.getString(i) != null) {
+                            rowList.add(resultSet.getString(i));
+                        } else {
+                            rowList.add("null");
+                        }
                     }
 
                     resultList.add(rowList);

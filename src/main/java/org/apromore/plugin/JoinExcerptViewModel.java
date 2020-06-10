@@ -27,6 +27,7 @@ public class JoinExcerptViewModel {
     @AfterCompose
     public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);
+        excerpt.setVisible(false);
     }
 
     /**
@@ -37,6 +38,7 @@ public class JoinExcerptViewModel {
     @GlobalCommand
     public void onTableClick(@BindingParam("resultsList")
                                          List<List<String>> resultsList) {
+        excerpt.setVisible(true);
         TableUtils.populateGrid(excerpt, resultsList);
     }
 

@@ -10,19 +10,19 @@
 
 .banner-footer{
 	background-image:url('https://apromore.org/wp-content/uploads/2019/10/cropped-main-banner-img.png');
-	height: 1.5em;
+	height: 1em;
 }
 
 .banner-logo{
-	height: 3%;
-	width: 12%;
+	height: 2%;
+	width: 8%;
 	padding: 10px;
 }
 
 .card{
 	background: white;
 	box-shadow: 0 3px 7px 1px rgba(0,0,0,0.05);
-	border-radius: 7px;
+	border-radius: 3px;
 	width: 99%;
 	margin: auto;
 	padding: 10px;
@@ -30,11 +30,10 @@
 }
 
 .left-panel{
-	background: #acacac;
+	background: #b2b2b2;
 	text-align: center;
 	box-shadow: 0 3px 7px 1px rgba(0,0,0,0.05);
-	border-radius: 7px;
-	width: 99%;
+	border-radius: 3px;
 	height: 100%;
 	margin: auto;
 	padding: 10px;
@@ -60,22 +59,189 @@
 }
 
 .heading{
-	font-size:18pt;
+	font-size: 18pt;
 }
 
 .input-table-scroll-area{
-	width: 700px;
-	height: 300px;
+	height: 350px;
+	max-width: 900px;
+	overflow: auto;
+}
+
+.input-excerpt-grid-new {
 	overflow: auto;
 }
 
 .consolidated-excerpt-grid{
-	border: none;
+	overflow: visible;
+}
+
+.input-excerpt-grid{
+	border: 1px solid black;
+	overflow: visible;
 }
 
 .expand-window{
-	width: 90%;
-	height: 90%;
+	max-width: 90%;
+	max-height: 90%;
 	margin: auto;
 	position: relative;
+}
+
+.file-list-div{
+	text-align: left;
+}
+
+.file-list-row{
+	padding-bottom: 7px;
+}
+
+.file-label{
+	padding-left: 4px;
+}
+
+.eye-button{
+	padding-right: 20%
+}
+
+.columns-class{
+	background-color: #6D878A;
+	border: 0;
+	font-weight: bold;
+}
+
+.no-files-label {
+	font-weight: bold;
+	color: #6f6f6f;
+}
+
+.row-cell{
+	border: 0;
+}
+
+.right-align{
+	float: right;
+}
+
+.z-button{
+	background-color: #416581;
+}
+
+.z-button:hover {
+	color: #FFFFFF;
+	border-color: transparent;
+	background-color: #35595f;
+}
+
+.z-button:focus {
+	color: #FFFFFF;
+	border-color: #FFA516;
+	background-color: #416581;
+}
+
+.join-panel-columns{
+	border-style: none;
+	font-weight: bold;
+	background-color: #6D878A;
+}
+
+.join-panel-column-list{
+	border-style: none;
+	font-weight: bold;
+	background-color: #6D878A;
+}
+
+.z-tab {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 12px;
+	display: block;
+	border-bottom: 4px solid transparent;
+	margin: auto;
+	line-height: 30px;
+	background: #4a5e63;
+	text-align: center;
+	position: relative;
+	cursor: pointer;
+	float: left;
+	padding: 10px 16px;
+}
+
+.z-tabs-content {
+	display: flex;
+	min-height: 48px;
+	border-collapse: separate;
+	border-spacing: 0;
+	background: #636363;
+	margin: auto;
+	padding-left: 0;
+	padding-top: 0;
+	list-style: none outside none;
+	zoom: 1;
+	clear: both;
+}
+
+.z-tab-selected {
+	background: #919191;
+}
+
+.z-tab-selected:hover {
+	background: #919191;
+}
+
+.z-tab:hover {
+	background: #7f7f7f;
+}
+
+.z-tab-selected .z-tab-text {
+	color: #ffffff;
+}
+
+.z-tab-selected .z-tab-text:hover {
+	color: #ffffff;
+}
+
+.z-tab-text:hover {
+	color: #ffffff;
+}
+
+.z-tab-text {
+	font-style: normal;
+	color: #ffffff;
+	display: block;
+	line-height: 24px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.z-tabpanel {
+	border-top: 1px solid #D9D9D9;
+	padding: 10px 0;
+	zoom: 1;
+	color: rgba(0,0,0,0.9);
+}
+
+.join-grid-wrapper {
+	background-color: #6D878A;
+}
+
+.z-grid-header {
+	background-color: #6D878A;
+}
+
+.z-columns-bar {
+	background-color: #6D878A;
+	border-left: 0;
+	border-bottom: 0;
+}
+
+.z-grid-header-border {
+	border-bottom: 1px solid #54696c;
+	margin-top: -1px;
+	position: relative;
+}
+
+.z-loading-indicator {
+	padding: 24px 16px;
+	text-align: center;
 }

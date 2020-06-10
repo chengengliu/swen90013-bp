@@ -5,9 +5,9 @@
         viewModel="@id('vm_excerpt') @init('org.apromore.plugin.JoinExcerptViewModel')"
         contentStyle="overflow:auto;">
 
-        <grid id='excerpt' vflex="1" sclass="consolidated-excerpt-grid">
-            <!-- Output excerpt grid will be displayed here -->
-        </grid>
+            <grid id='excerpt' vflex="1" hflex="1" sclass="consolidated-excerpt-grid">
+                <!-- Output excerpt grid will be displayed here -->
+            </grid>
 
     </window>
 

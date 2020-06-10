@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apromore.plugin.eventHandlers.ExpandIconDiv;
 import org.apromore.plugin.eventHandlers.EyeIconDiv;
 import org.apromore.plugin.services.FileHandlerService;
@@ -45,6 +46,9 @@ public class FileUploadViewModel {
 
     @Wire("#inputFileList")
     private Div inputFileList;
+
+    @Wire("#noFilesValue")
+    private Label noFilesValue;
 
     @WireVariable
     private Transaction transactionService;
@@ -126,7 +130,10 @@ public class FileUploadViewModel {
                             BindUtils.postGlobalCommand(null, null,
                                     "newFileUpload", args);
 
-                            addFileToUIList(media.getName(), resultsList);
+                            noFilesValue.detach();
+                            addFileToUIList(
+                                FilenameUtils.removeExtension(media.getName()),
+                                resultsList);
                         }
                     }
                 }
@@ -148,19 +155,6 @@ public class FileUploadViewModel {
     }
 
     /**
-     * Describes the actions taken when a file is downloaded.
-     */
-    @Command("onFileDownload")
-    public void onFileDownload() {
-        File file = fileHandlerService.outputFile();
-        try {
-            Filedownload.save(file, null);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Adds a file to the list in UI.
      *
      * @param filename    the name of the file to add to the UI.
@@ -171,6 +165,8 @@ public class FileUploadViewModel {
             List<List<String>> resultsList) {
 
         Hlayout fileListRow = new Hlayout();
+        fileListRow.setHflex("1");
+        fileListRow.setSclass("file-list-row");
         inputFileList.appendChild(fileListRow);
 
         // Show in joined excerpt
@@ -180,6 +176,8 @@ public class FileUploadViewModel {
 
         // Create the label
         Label fileLabel = new Label(filename);
+        fileLabel.setHflex("1");
+        fileLabel.setSclass("file-label");
         fileListRow.appendChild(fileLabel);
 
         // Construct the popup box and contents
@@ -202,6 +200,7 @@ public class FileUploadViewModel {
 
         Grid inputGrid = new Grid();
         inputGrid.setId(filename + "Grid");
+        inputGrid.setSclass("input-excerpt-grid-new");
         scrollArea.appendChild(inputGrid);
 
         // Add some spacing
@@ -212,6 +211,7 @@ public class FileUploadViewModel {
         // Construct eye icon
         EyeIconDiv eyeButton = new EyeIconDiv(resultsList);
         eyeButton.setId("view" + filename + "Snippet");
+        eyeButton.setSclass("eye-button");
         eyeButton.setPopupAttributes(popupBox, null, null, null, "toggle");
         fileListRow.appendChild(eyeButton);
 

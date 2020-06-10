@@ -4,74 +4,65 @@
             viewModel="@id('vm') @init('org.apromore.plugin.JoinPanelViewModel')"
            	contentStyle="overflow:auto;">
 		<!-- Top panel section -->
-		<div>
-			<grid model="@load(vm.joinQueryModels)">
-				<columns>
-					<column hflex="5">Table A</column>
-					<column hflex="5">Table B</column>
-					<column hflex="5">Join Type</column>
-					<column hflex="5">Key A</column>
-					<column hflex="5">Key B</column>
-					<column hflex="1"> </column>
+		<vlayout vflex="1" hflex="10">
+			<grid model="@load(vm.joinQueryModels)" vflex="100">
+				<columns sclass="join-panel-columns">
+					<column hflex="5" sclass="join-panel-column-list" align="center">Table A</column>
+					<column hflex="5" sclass="join-panel-column-list" align="center">Table B</column>
+					<column hflex="5" sclass="join-panel-column-list" align="center">Join Type</column>
+					<column hflex="5" sclass="join-panel-column-list" align="center">Key A</column>
+					<column hflex="5" sclass="join-panel-column-list" align="center">Key B</column>
+					<column hflex="1" sclass="join-panel-column-list" align="center"> </column>
 				</columns>
 				<rows >
-					
-						<template name="model">
-							<row>
-								<combobox model="@load(vm.filenames)"
-									selectedItem="@bind(each.selectedTableA)"
-									onSelect="@command('onTableASelected', index=forEachStatus.index)">
-									
-									<template name="model" var="file">
-										<comboitem label="@load(file)" />
-									</template>
-								</combobox>
+					<template name="model">
+						<row>
+							<combobox model="@load(vm.filenames)"
+								selectedItem="@bind(each.selectedTableA)"
+								onSelect="@command('onTableASelected', index=forEachStatus.index)">
+								<template name="model" var="file">
+									<comboitem label="@load(file)" />
+								</template>
+							</combobox>
+							<combobox model="@load(vm.filenames)"
+								selectedItem="@bind(each.selectedTableB)"
+								onSelect="@command('onTableBSelected', index=forEachStatus.index)">
 
-								<combobox model="@load(vm.filenames)"
-									selectedItem="@bind(each.selectedTableB)"
-									onSelect="@command('onTableBSelected', index=forEachStatus.index)">
+								<template name="model" var="file">
+									<comboitem label="@load(file)" />
+								</template>
+							</combobox>
+							<combobox model="@load(vm.joins)"
+								selectedItem="@bind(each.selectedJoin)">
 
-									<template name="model" var="file">
-										<comboitem label="@load(file)" />
-									</template>
-								</combobox>
+								<template name="model" var="join">
+									<comboitem label="@load(join)" />
+								</template>
+							</combobox>
+							<combobox model="@load(each.tableAKeys)"
+								selectedItem="@bind(each.selectedKeyA)">
 
-								<combobox model="@load(vm.joins)"
-									selectedItem="@bind(each.selectedJoin)">
-
-									<template name="model" var="join">
-										<comboitem label="@load(join)" />
-									</template>
-								</combobox>
-
-								<combobox model="@load(each.tableAKeys)"
-									selectedItem="@bind(each.selectedKeyA)">
-
-									<template name="model" var="keyA">
-										<comboitem label="@load(keyA)" />
-									</template>
-								</combobox>
-
-								<combobox model="@load(each.tableBKeys)"
-									selectedItem="@bind(each.selectedKeyB)">
-
-									<template name="model" var="keyB">
-										<comboitem label="@load(keyB)" />
-									</template>
-								</combobox>
-						                       
-                                
-                                <button label="-" onClick="@command('removeJoinQuery', index=forEachStatus.index)" />
-	                                                      
-                                
-							</row>
-										
-						</template>
+								<template name="model" var="keyA">
+									<comboitem label="@load(keyA)" />
+								</template>
+							</combobox>
+							<combobox model="@load(each.tableBKeys)"
+								selectedItem="@bind(each.selectedKeyB)">
+								<template name="model" var="keyB">
+									<comboitem label="@load(keyB)" />
+								</template>
+							</combobox>
+							<button label="-" onClick="@command('removeJoinQuery', index=forEachStatus.index)" />
+						</row>
+					</template>
 			   
 				</rows>
 			</grid>
-			<button label="+" onClick="@command('addJoinQuery')" />  
-			<button label="Submit" onClick="@command('submitQuery')"/>   
-		</div>
+			<space/>
+			<hlayout sclass="right-align" vflex="20">
+				<button label="Submit" onClick="@command('submitQuery')"/>
+				<button label="+" onClick="@command('addJoinQuery')"/>
+            </hlayout>
+        </vlayout>
 	</window>
 </zk>

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apromore.plugin.models.JoinQueryModel;
 import org.apromore.plugin.services.FileHandlerService;
 import org.apromore.plugin.services.Transaction;
@@ -168,7 +169,10 @@ public class JoinPanelViewModel {
     @NotifyChange("filenames")
     public void newFileUpload(@BindingParam("filenames")
         List<String> filenames) {
-        this.filenames = filenames;
+        this.filenames.clear();
+        for (String file: filenames) {
+            this.filenames.add(FilenameUtils.removeExtension(file));
+        }
     }
 
     /**
