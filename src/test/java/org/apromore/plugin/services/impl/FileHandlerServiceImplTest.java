@@ -65,7 +65,7 @@ public class FileHandlerServiceImplTest extends EasyMockSupport {
 
         expect(media.getName()).andReturn("file.parquet");
         expect(media.isBinary()).andReturn(false);
-        expect(media.getStringData()).andReturn(mockString);
+        expect(media.getReaderData()).andReturn(new StringReader(mockString));
 
         replayAll();
         Media[] medias = { media };
