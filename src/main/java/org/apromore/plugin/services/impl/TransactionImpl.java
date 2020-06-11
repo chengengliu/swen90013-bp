@@ -6,8 +6,15 @@ import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apromore.plugin.services.Transaction;
+import org.jooq.Record1;
+import org.jooq.SelectJoinStep;
+import org.jooq.SelectOnStep;
+import org.jooq.conf.ParamType;
+import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import static org.jooq.impl.DSL.field;
+import static org.jooq.impl.DSL.table;
 
 /**
  * Transaction service for executing statements for impala.
@@ -17,9 +24,6 @@ public class TransactionImpl implements Transaction {
 
     @Autowired
     private ImpalaJdbcAdaptor impalaJdbc;
-
-    @Autowired
-    private Join joinTable;
 
     @Autowired
     private ImpalaTable impalaTable;
@@ -85,7 +89,7 @@ public class TransactionImpl implements Transaction {
     }
 
     /**
-    * Join mutiple tables with different keys.
+    * Join multiple tables with different keys.
     *
     * @param joinTables List of table pairs to join
     * @param limit number of rows to return after join
@@ -95,12 +99,37 @@ public class TransactionImpl implements Transaction {
     @Override
     public List<List<String>> join(List<List<String>> joinTables, int limit)
             throws SQLException {
-        String query = "SELECT * FROM %s" +
-                        "LIMIT %d;";
+        SelectJoinStep<Record1<Object>> myQuery = DSL
+            .select(field("*"))
+            .from(table(String.format("`%s`", joinTables.get(0).get(0))));
 
-        String joinString = joinTable.getJoinString(joinTables);
+        for (List<String> join : joinTables) {
+            String table1 = String.format("`%s`", join.get(0));
+            String key1 = String.format("`%s`", join.get(1));
+            String table2 = String.format("`%s`", join.get(2));
+            String key2 = String.format("`%s`", join.get(3));
+            String joinType = join.get(4);
 
-        query = String.format(query, joinString, limit);
+            SelectOnStep<Record1<Object>> onStep = null;
+
+            if (joinType.equals("INNER JOIN")) {
+                onStep = myQuery.innerJoin(table(table2));
+            } else if (joinType.equals("RIGHT JOIN")) {
+                onStep = myQuery.rightJoin(table(table2));
+            } else if (joinType.equals("LEFT JOIN")) {
+                onStep = myQuery.leftJoin(table(table2));
+            } else if (joinType.equals("FULL OUTER JOIN")) {
+                onStep = myQuery.fullOuterJoin(table(table2));
+            }
+
+            if (onStep != null) {
+                myQuery = onStep
+                    .on(field(String.format("%s.%s", table1, key1))
+                        .eq(field(String.format("%s.%s", table2, key2))));
+            }
+        }
+
+        String query = myQuery.limit(limit).getSQL(ParamType.INLINED);
 
         return impalaJdbc.executeQuery(query);
     }

@@ -41,7 +41,7 @@ public interface Transaction {
             throws SQLException;
 
     /**
-     * Join mutiple tables with different keys.
+     * Join multiple tables with different keys.
      *
      * @param joinTables List of table pairs to join
      * @param limit number of rows to return after join

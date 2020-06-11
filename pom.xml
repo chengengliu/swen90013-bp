@@ -10,6 +10,7 @@
         <commons-io>2.7</commons-io>
         <easymock.version>3.2</easymock.version>
         <powermock.version>2.0.7</powermock.version>
+        <jooq.version>3.13.2</jooq.version>
         <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
         <packname>-${project.version}-FL-${maven.build.timestamp}</packname>
     </properties>
@@ -144,7 +145,7 @@
             <artifactId>powermock-api-easymock</artifactId>
             <version>${powermock.version}</version>
             <scope>test</scope>
-        </dependency>  
+        </dependency>
 
         <!-- JUnit Testing dependencies -->
         <dependency>
@@ -225,6 +226,23 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.30</version>
         </dependency>
+
+        <!-- jooq dependencies -->
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq</artifactId>
+            <version>${jooq.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-meta</artifactId>
+            <version>${jooq.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-codegen</artifactId>
+            <version>${jooq.version}</version>
+          </dependency>
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>
